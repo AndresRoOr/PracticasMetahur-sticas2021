@@ -1,7 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @file    Archivo.java
+ * @author Andrés Rojas Ortega
+ * @author David Díaz Jiménez
+ * @version 1.0
+ * @date 27/09/2020
  */
 package es.meta.pr1;
 
@@ -15,47 +17,62 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- *
- * @author David
+ * @brief Clase que almacena toda la información que se encuentra dentro de un
+ * archivo
+ * @class Archivo
+ * @author Andrés Roja Ortega
+ * @author David Díaz Jiménez
+ * @date 27/09/2020
  */
 public class Archivo {
 
-    String _nombre;//> Nombre del problema
-    String _ruta;//> Ruta completa del archivo de datos
-    Integer _tama_Matriz;//>Tamaño de la matriz de datos
-    Integer _tama_Solucion;//>Tamaño de la solución
-    Random _aleatorioSemilla;//>Número aleatorio***************************************************************************
-    long _semilla;//> Semilla para que sea repetible el algoritmo
-    int _num_Mejoras;
-    double[][] _matriz;//>Matriz que almacena los datos del archivo
+    ///Atributos de la clase:
+    String _nombre;///<Nombre del objeto                                        //No se utiliza
+    String _ruta;///<Ruta completa del archivo de datos
+    Integer _tama_Matriz;///<Tamaño de la matriz de datos
+    Integer _tama_Solucion;///<Tamaño de la solución
+    Random _aleatorioSemilla;///<Número aleatorio                               //¿Borrar? Se utiliza la de Configurador
+    long _semilla;///<Semilla para que sea repetible el algoritmo               //¿Borrar? Se utiliza la de Configurador
+    double[][] _matriz;///<Matriz que almacena los datos del archivo
 
-    ArrayList<ArrayList<Integer>> _memorias;
+    ArrayList<ArrayList<Integer>> _memorias;                                    //No se utiliza, por ahora
+    Map<Integer, Double> _valores;                                              //No se utiliza, por ahora
+    int _num_Mejoras;                                                           //No se utiliza, por ahora
 
-    Map<Integer, Double> _valores;
+    /**
+     * @brief Constructor parametrizado de la clase Archivo
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 27/09/2020
+     * @param nombre String Nombre del objeto de la clase Archivo
+     * @param ruta String Ruta completa del archivo que contiene los datos
+     * @param semilla long Semilla para generar números aleatorios
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    Archivo(String nombre, String ruta, long semilla)
+            throws FileNotFoundException, IOException {
 
-    Archivo(String nombre, String ruta, long semilla) throws FileNotFoundException, IOException {
         _nombre = nombre;
         _ruta = ruta;
         _semilla = semilla;
         _aleatorioSemilla = new Random(_semilla);
         _tama_Matriz = 0;
         _tama_Solucion = 0;
-        /* _solucion = new ArrayList<>();
-        _memorias = new ArrayList<>();
-        _suma_Resultado = 0.0;
-        
-        _valores = new HashMap<>();
-        
-        _num_Mejoras = 0;*/
 
+        /*                                                                      //Comentado hasta hacer uso de ello
+        _memorias = new ArrayList<>();
+        _valores = new HashMap<>();
+        _num_Mejoras = 0;
+         */
         try {
             BufferedReader br = new BufferedReader(new FileReader(_ruta));
             String currentRecord = br.readLine();
             int num_linea = 0;
-            //Double indice = 0.0;
+
             while (currentRecord != null) {
                 if (!currentRecord.isEmpty()) {
-                    //System.out.println(currentRecord);
+
                     String[] linea = currentRecord.split(" ");
 
                     if (num_linea == 0) {
@@ -85,40 +102,101 @@ public class Archivo {
         }
     }
 
+    /**
+     * @brief Método getter para el parámetro _nombre
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 27/09/2020
+     * @return _nombre String
+     */
     public String getNombre() {
         return _nombre;
     }
 
+    /**
+     * @brief Método getter para el parámetro _ruta
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 27/09/2020
+     * @return _ruta String
+     */
     public String getRuta() {
         return _ruta;
     }
 
+    /**
+     * @brief Método getter para el parámetro _tama_Matriz
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 27/09/2020
+     * @return _tama_Matriz Integer
+     */
     public Integer getTama_Matriz() {
         return _tama_Matriz;
     }
 
+    /**
+     * @brief Método getter para el parámetro _tama_Solucion
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 27/09/2020
+     * @return _tama_Solucion Integer
+     */
     public Integer getTama_Solucion() {
         return _tama_Solucion;
     }
 
+    /**
+     * @brief Método getter para el parámetro _aleatorioSemilla
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 27/09/2020
+     * @return _aleatorioSemilla Random
+     */
     public Random getAleatorioSemilla() {
         return _aleatorioSemilla;
     }
 
+    /**
+     * @brief Método getter para el parámetro _semilla
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 27/09/2020
+     * @return _semilla long
+     */
     public long getSemilla() {
         return _semilla;
     }
 
-    public double[][] getMatriz(){ //Mirar paso por referencia
+    /**
+     * @brief Método getter para el parámetro _matriz
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 27/09/2020
+     * @return _matriz double[][]
+     */
+    public double[][] getMatriz() {                                             //Mirar paso por referencia
         return _matriz;
     }
 
+    /**
+     * @brief Método setter para el parámetro _matriz
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 27/09/2020
+     * @param _matriz double[][] Nuevo valor de _matriz
+     */
     public void setMatriz(double[][] _matriz) {
         this._matriz = _matriz;
     }
-    
-    
 
+    /**
+     * @brief Muestra por pantalla los datos del Archivo y el contenido de
+     * _matriz
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 27/09/2020
+     */
     void presentarDatos() {
         System.out.println(_nombre);
         System.out.println("Datos matriz");
