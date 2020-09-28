@@ -53,7 +53,7 @@ public class Greedy {
 
         Integer candidato;
 
-        while (_solucion.size() < _archivoDatos.getTama_Solucion()) {
+        while (!FuncionSolucion()) {
 
             candidato = FuncionSeleccion();
 
@@ -91,6 +91,18 @@ public class Greedy {
         }
 
         return candidato;
+    }
+
+    /**
+     * @brief Función solución empleada para determinar si el algoritmo Greedy
+     * ha encontrado la solución válida.
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 28/09/2020
+     * @return
+     */
+    boolean FuncionSolucion() {
+        return !(_solucion.size() < _archivoDatos.getTama_Solucion());
     }
 
     /**
