@@ -57,7 +57,7 @@ public class Greedy {
 
             candidato = FuncionSeleccion();
 
-            if (candidato != -1) {
+            if (FuncionFactible(candidato)) {
                 _solucion.add(candidato);
                 _suma_Resultado = calculoSolucionParcial();
             }
@@ -103,6 +103,19 @@ public class Greedy {
      */
     boolean FuncionSolucion() {
         return !(_solucion.size() < _archivoDatos.getTama_Solucion());
+    }
+
+    /**
+     * @brief Función de factibilidad empleada por el algoritmo Greedy para
+     * comprobar si un candidato es factible como parte de la solución
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 28/09/2020
+     * @param candidato Integer Candidato sobre el que hacer la comprobación
+     * @return true Si el candidato es factible, false en caso contrario
+     */
+    boolean FuncionFactible(Integer candidato) {
+        return (candidato != -1);
     }
 
     /**
