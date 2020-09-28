@@ -46,35 +46,88 @@ public class Greedy {
     void greedy(Random aleatorioSemilla) {
 
         //Generación del primer elemento
-        _solucion.clear();
-        Integer sol_Inicial
-                = aleatorioSemilla.nextInt(_archivoDatos.getTama_Matriz());
-        _solucion.add(sol_Inicial);
+        GenSolucionIni(aleatorioSemilla);
 
-        while (_solucion.size() < _archivoDatos.getTama_Solucion()) {
+        Integer candidato;
 
-            Double max = 0.0;
-            Integer candidato = -1;
+        while (!FuncionSolucion()) {
 
-            for (int i = 0; i < _archivoDatos.getTama_Matriz(); i++) {
-                if (!_solucion.contains(i)) {
-                    _solucion.add(i);
-                    Double valor = calculoSolucionParcial();
-                    if (valor > max) {
-                        max = valor;
-                        candidato = i;
-                    }
-                    _solucion.remove(_solucion.size() - 1);
-                }
-            }
+            candidato = FuncionSeleccion();
 
-            if (candidato != -1) {
+            if (FuncionFactible(candidato)) {
                 _solucion.add(candidato);
-                _suma_Resultado = max;
+                _suma_Resultado = calculoSolucionParcial();
             }
 
         }
 
+    }
+
+    /**
+     * @brief Función selección empleada para elegir el candidato más prometedor
+     * por el algoritmo Greedy.
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 28/09/2020
+     * @return candidato Integer El candidato más prometedor
+     */
+    Integer FuncionSeleccion() {
+        Double max = 0.0;
+        Integer candidato = -1;
+
+        for (int i = 0; i < _archivoDatos.getTama_Matriz(); i++) {
+            if (!_solucion.contains(i)) {
+                _solucion.add(i);
+                Double valor = calculoSolucionParcial();
+                if (valor > max) {
+                    max = valor;
+                    candidato = i;
+                }
+                _solucion.remove(_solucion.size() - 1);
+            }
+        }
+
+        return candidato;
+    }
+
+    /**
+     * @brief Función solución empleada para determinar si el algoritmo Greedy
+     * ha encontrado la solución válida.
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 28/09/2020
+     * @return
+     */
+    boolean FuncionSolucion() {
+        return !(_solucion.size() < _archivoDatos.getTama_Solucion());
+    }
+
+    /**
+     * @brief Función de factibilidad empleada por el algoritmo Greedy para
+     * comprobar si un candidato es factible como parte de la solución
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 28/09/2020
+     * @param candidato Integer Candidato sobre el que hacer la comprobación
+     * @return true Si el candidato es factible, false en caso contrario
+     */
+    boolean FuncionFactible(Integer candidato) {
+        return (candidato != -1);
+    }
+
+    /**
+     * @brief Genera una solución inicial que contiene un elemento elegido
+     * aleatoriamente
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 28/09/2020
+     * @param aleatorioSemilla Random Utilizado para generar un número aleatorio
+     */
+    void GenSolucionIni(Random aleatorioSemilla) {
+        _solucion.clear();
+        Integer sol_Inicial
+                = aleatorioSemilla.nextInt(_archivoDatos.getTama_Matriz());
+        _solucion.add(sol_Inicial);
     }
 
     /**
