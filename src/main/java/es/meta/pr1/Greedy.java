@@ -46,10 +46,7 @@ public class Greedy {
     void greedy(Random aleatorioSemilla) {
 
         //Generación del primer elemento
-        _solucion.clear();
-        Integer sol_Inicial
-                = aleatorioSemilla.nextInt(_archivoDatos.getTama_Matriz());
-        _solucion.add(sol_Inicial);
+        GenSolucionIni(aleatorioSemilla);
 
         Integer candidato;
 
@@ -116,6 +113,21 @@ public class Greedy {
      */
     boolean FuncionFactible(Integer candidato) {
         return (candidato != -1);
+    }
+
+    /**
+     * @brief Genera una solución inicial que contiene un elemento elegido
+     * aleatoriamente
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 28/09/2020
+     * @param aleatorioSemilla Random Utilizado para generar un número aleatorio
+     */
+    void GenSolucionIni(Random aleatorioSemilla) {
+        _solucion.clear();
+        Integer sol_Inicial
+                = aleatorioSemilla.nextInt(_archivoDatos.getTama_Matriz());
+        _solucion.add(sol_Inicial);
     }
 
     /**
