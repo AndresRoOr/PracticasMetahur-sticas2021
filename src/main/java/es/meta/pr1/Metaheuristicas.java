@@ -62,5 +62,25 @@ public class Metaheuristicas {
 
         }
     }
+    
+    void busquedaLocal(){
+        
+        for (Archivo ar : _archivos) {
+
+            long inicio = System.currentTimeMillis();
+            //ar.greedy();
+            BusquedaLocal b = new BusquedaLocal(ar);
+            b.busquedaLocal(new Random(_config.getSemilla()));
+            long fin = System.currentTimeMillis();
+            double tiempo = (double) ((fin - inicio));
+            System.out.println("Datos de la solución al problema: " + ar._nombre);
+            System.out.println("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
+            //ar.PresentarResultados();
+            b.PresentarResultados();
+
+        }
+        
+        
+    }
 
 }
