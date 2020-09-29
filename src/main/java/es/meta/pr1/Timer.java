@@ -11,22 +11,22 @@ package es.meta.pr1;
  */
 public class Timer {
 
-    private long inicio;
-    private long fin;
+    private long _inicio;
+    private long _fin;
     
     public Timer() {
         
-        this.fin =0;
-        this.inicio = 0;      
+        this._fin =0;
+        this._inicio = 0;      
     }
     
     void startTimer(){
-        this.inicio = System.currentTimeMillis();
+        this._inicio = System.currentTimeMillis();
     }
     
     double stopTimer(){
-        this.fin = System.currentTimeMillis();
-        double tiempo = (double) ((fin - inicio));
+        this._fin = System.currentTimeMillis();
+        double tiempo = (double) ((_fin - _inicio));
         
         return tiempo;
     }

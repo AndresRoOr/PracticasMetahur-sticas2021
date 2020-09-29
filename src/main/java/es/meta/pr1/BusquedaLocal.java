@@ -41,6 +41,10 @@ public class BusquedaLocal {
             return _contribucion;
         }
         
+        public void setContribucion(double cont){
+            this._contribucion = cont;
+        }
+        
         public String toString() {
         return "Key: " + getId() + ", Value: " + getContribucion();
     }
@@ -52,11 +56,17 @@ public class BusquedaLocal {
     Map<Integer,Vecino> _Vecindario;
     Double _suma_Resultado;
     
-    public BusquedaLocal(Archivo archivoDatos){
+    
+    Integer _evaluciones; //Número de evaluaciones máximas
+    Integer _numEvaluciones; //Número de evaluaciones actuales
+    
+    public BusquedaLocal(Archivo archivoDatos, Integer evaluaciones){
         _archivoDatos=archivoDatos;
         _solucion=new ArrayList<>();
         _Vecindario = new HashMap<>();
         _suma_Resultado=0.0;
+        _evaluciones = evaluaciones;
+        _numEvaluciones = 0;
     }
     
     
@@ -69,11 +79,37 @@ public class BusquedaLocal {
         }
         
         List<Vecino> VecinosByCont = new ArrayList<>(_Vecindario.values());
-
-
 	Collections.sort(VecinosByCont);
-        
         System.out.print(VecinosByCont);
+        
+        int intentosReeemplazo = 0;
+        
+        int candidato = 0;
+        
+        int maxPosi = _archivoDatos.getTama_Matriz() -_archivoDatos.getTama_Solucion();
+        
+        while( _numEvaluciones < _evaluciones ){
+            
+            Integer reemplazar = VecinosByCont.get(0).getId();
+            
+            boolean exito = false;
+            if (!_solucion.contains(candidato)){
+                
+                
+                ArrayList<Integer> p = _solucion;
+
+                exito = Intercambio(p, reemplazar, candidato);
+                
+            }
+            
+            candidato ++;
+            
+            if( exito == false && candidato == maxPosi){
+                _Vecindario.remove(reemplazar);
+                VecinosByCont.remove(0);
+                candidato = 0;
+            }
+        }     
         
     }
     
@@ -87,9 +123,8 @@ public class BusquedaLocal {
         
         }
         
-       // System.out.println(_solucion);
-        
     }
+   
     
     void calcularContribucion(int vecino){
         
@@ -98,14 +133,51 @@ public class BusquedaLocal {
         int pos = _solucion.indexOf(vecino);
         
         for (int i = 0; i < _solucion.size() - 1; i++) {
-            
-           // System.out.print(pos+" , ");
             if(i != pos) suma += _archivoDatos.getMatriz()[_solucion.get(i)][_solucion.get(pos)];
             
         }
 
         _Vecindario.put(vecino, new Vecino(vecino, suma));
         
+    }
+    
+    boolean Intercambio(ArrayList<Integer> S, Integer i, Integer j){
+        
+        double Acoste = 0.0;
+        double Icoste = 0.0;
+        double JCoste = 0.0;
+        int pos = 0;
+        int p = 0;
+        
+        System.out.println("Evaluando: "+ i + " " +j);
+        
+        for( Integer sel : S){
+            
+            if(sel!= i){
+                Icoste+=_archivoDatos.getMatriz()[sel][i];
+                JCoste+=_archivoDatos.getMatriz()[sel][j];
+                pos++;
+            }else{
+                p = pos;
+            }
+            
+        }
+        
+        Acoste = JCoste-Icoste;
+        
+        _numEvaluciones++;
+        
+        if(Acoste>0.0){
+            
+            S.set(pos, j);
+            _suma_Resultado+=Acoste;
+            _solucion = S;
+            return true;
+        }
+        
+        
+        
+        return false;
     }
     
     void PresentarResultados() {

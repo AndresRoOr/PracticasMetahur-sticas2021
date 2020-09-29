@@ -70,7 +70,7 @@ public class Metaheuristicas {
         for (Archivo ar : _archivos) {
 
             Timer t = new Timer();
-            BusquedaLocal b = new BusquedaLocal(ar);
+            BusquedaLocal b = new BusquedaLocal(ar,_config.getIntentos());
             
             t.startTimer();
             b.busquedaLocal(new Random(_config.getSemilla()));
