@@ -49,12 +49,14 @@ public class Metaheuristicas {
     void greedy() {
         for (Archivo ar : _archivos) {
 
-            long inicio = System.currentTimeMillis();
-            //ar.greedy();
+            
+            Timer t = new Timer();
             Greedy g = new Greedy(ar);
+            
+            t.startTimer();
             g.greedy(new Random(_config.getSemilla()));
-            long fin = System.currentTimeMillis();
-            double tiempo = (double) ((fin - inicio));
+            double tiempo = t.stopTimer();
+            
             System.out.println("Datos de la solución al problema: " + ar._nombre);
             System.out.println("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
             //ar.PresentarResultados();
@@ -67,12 +69,13 @@ public class Metaheuristicas {
         
         for (Archivo ar : _archivos) {
 
-            long inicio = System.currentTimeMillis();
-            //ar.greedy();
+            Timer t = new Timer();
             BusquedaLocal b = new BusquedaLocal(ar);
+            
+            t.startTimer();
             b.busquedaLocal(new Random(_config.getSemilla()));
-            long fin = System.currentTimeMillis();
-            double tiempo = (double) ((fin - inicio));
+            double tiempo = t.stopTimer();
+            
             System.out.println("Datos de la solución al problema: " + ar._nombre);
             System.out.println("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
             //ar.PresentarResultados();
