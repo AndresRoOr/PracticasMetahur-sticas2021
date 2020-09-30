@@ -14,6 +14,11 @@ public class Pair {
     Integer candidato;
     double coste;
 
+    public Pair(Integer candidato, double coste) {
+        this.candidato = candidato;
+        this.coste = coste;
+    }
+
     public Integer getCandidato() {
         return candidato;
     }
