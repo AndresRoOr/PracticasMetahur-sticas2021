@@ -1,5 +1,6 @@
-es\meta\pr1\Metaheuristicas.class
-es\meta\pr1\Main.class
-es\meta\pr1\Archivo.class
-es\meta\pr1\Configurador.class
-es\meta\pr1\Greedy.class
+es/meta/pr1/Pair.class
+es/meta/pr1/Greedy.class
+es/meta/pr1/Metaheuristicas.class
+es/meta/pr1/Main.class
+es/meta/pr1/Archivo.class
+es/meta/pr1/Configurador.class
