@@ -69,7 +69,7 @@ public class BusquedaLocal {
     
     
     Integer _evaluciones; //Número de evaluaciones máximas
-    Integer _numEvaluciones; //Número de evaluaciones actuales
+    long _numEvaluciones; //Número de evaluaciones actuales
     
     public BusquedaLocal(Archivo archivoDatos, Integer evaluaciones){
         _archivoDatos=archivoDatos;
@@ -79,7 +79,7 @@ public class BusquedaLocal {
         _evaluciones = evaluaciones;
         _numEvaluciones = 0;
         _costeActual = 0.0;
-        _listaAportes = new ArrayList<>(_archivoDatos._tama_Solucion);
+        _listaAportes = new ArrayList<>();
 
         _integrantesNoMejoran = new HashSet<>();
     }
@@ -107,7 +107,7 @@ public class BusquedaLocal {
         
         boolean mejora = true;
         
-        while( _numEvaluciones < 1000000000 && mejora ){
+        while( _numEvaluciones < 5000000L && mejora){
             
             mejora = false;
             //calculamos el aporte de todos los elementos de la solución actual
@@ -119,7 +119,7 @@ public class BusquedaLocal {
                 
                 //comprobamos el primer vecino que nos mejore
                 
-                for (int i=0; i<_archivoDatos.getTama_Matriz() && !mejora; i++){
+                for (int i=0; i<_archivoDatos.getTama_Matriz(); i++){
                     if (!_solucion.contains(i)){
                         
                         //calculamos si mejora la solución actual
@@ -127,6 +127,7 @@ public class BusquedaLocal {
                         costeSoluion= CosteFactorizado(eleMenor, i);
                         _numEvaluciones++;
                         
+
                         //Si resulta mejor nos deplazamos a el
                         
                          if (_costeActual < costeSoluion) {
@@ -137,6 +138,11 @@ public class BusquedaLocal {
                             mejora=true;
                             _integrantesNoMejoran.clear();
                             k=0;
+                            break;
+                         }else{
+                             if(i == _archivoDatos.getTama_Matriz()-1){
+                                 _integrantesNoMejoran.add(eleMenor);
+                             }
                          }
                     }            
                 }
@@ -187,12 +193,15 @@ public class BusquedaLocal {
         double aporte = 0.0;
         Iterator<Integer> iterator = _solucion.iterator();
         
-        for(int a = 0; a < _solucion.size(); a++ ){
-            for(int b = 0; b < _solucion.size(); b++ ){
-                aporte+= _archivoDatos.getMatriz()[a][b];
+        for(int a = 0; a < _solucion.size() && iterator.hasNext(); a++ ){
+            Iterator<Integer> iterator2 = _solucion.iterator();
+            int i = iterator.next();
+            for(int b = 0; b < _solucion.size() &&iterator.hasNext() ; b++ ){
+                int j = iterator2.next();
+                aporte+= _archivoDatos.getMatriz()[i][j];
             }
-            Integer s = iterator.next();
-            ElementoSolucion x = new ElementoSolucion(s, aporte);
+            
+            ElementoSolucion x = new ElementoSolucion(i, aporte);
             _listaAportes.add(x);  
             aporte=0.0;
         }
@@ -210,15 +219,17 @@ public class BusquedaLocal {
     int EleMenorAporte(){
         int eleMenor = 0;
         double menor = Double.MAX_VALUE;
-        for (int i=0; i<_listaAportes.size(); i++){
-            if (!_integrantesNoMejoran.contains(i) && _listaAportes.get(i).getContribucion()<menor){
-                menor=_listaAportes.get(i).getContribucion();
-                eleMenor=_listaAportes.get(i).getId();
+        Iterator<ElementoSolucion> iterator = _listaAportes.iterator();
+        while(iterator.hasNext()){
+            ElementoSolucion i = iterator.next();
+            if (!_integrantesNoMejoran.contains(i.getId())){
+                if(i.getContribucion() < menor){
+                    menor = i.getContribucion();
+                    eleMenor = i.getId();
+                }
             }
         }
-        
-        _integrantesNoMejoran.add(eleMenor);
-        
+       
         return eleMenor;
     }
     
