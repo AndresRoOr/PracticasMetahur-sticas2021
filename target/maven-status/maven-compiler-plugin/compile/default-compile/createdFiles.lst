@@ -3,6 +3,6 @@ es\meta\pr1\Main.class
 es\meta\pr1\Archivo.class
 es\meta\pr1\Timer.class
 es\meta\pr1\Greedy.class
-es\meta\pr1\BusquedaLocal$Vecino.class
+es\meta\pr1\BusquedaLocal$ElementoSolucion.class
 es\meta\pr1\BusquedaLocal.class
 es\meta\pr1\Configurador.class
