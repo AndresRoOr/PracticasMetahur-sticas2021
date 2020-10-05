@@ -98,7 +98,7 @@ public class BusquedaLocal {
         
         _costeActual = calcularCoste();
         System.out.println(_costeActual);
-        
+        System.out.println(_solucion);
         int candidato = 0;
         
         int eleMenor =0;
@@ -137,7 +137,6 @@ public class BusquedaLocal {
                             _costeActual = costeSoluion;
                             mejora=true;
                             _integrantesNoMejoran.clear();
-                            k=0;
                             break;
                          }else{
                              if(i == _archivoDatos.getTama_Matriz()-1){
@@ -156,8 +155,6 @@ public class BusquedaLocal {
             
             
         }     
-        
-        _suma_Resultado = _costeActual;
         
     }
     
@@ -193,12 +190,16 @@ public class BusquedaLocal {
         double aporte = 0.0;
         Iterator<Integer> iterator = _solucion.iterator();
         
-        for(int a = 0; a < _solucion.size() && iterator.hasNext(); a++ ){
+        while(iterator.hasNext()){
+            
             Iterator<Integer> iterator2 = _solucion.iterator();
             int i = iterator.next();
-            for(int b = 0; b < _solucion.size() &&iterator.hasNext() ; b++ ){
+            
+            while(iterator2.hasNext()){
+                
                 int j = iterator2.next();
                 aporte+= _archivoDatos.getMatriz()[i][j];
+                
             }
             
             ElementoSolucion x = new ElementoSolucion(i, aporte);
@@ -282,10 +283,12 @@ public class BusquedaLocal {
     
         double coste = 0.0;
         Object[] sol = _solucion.toArray();
-        
+
         for(int i = 0; i < sol.length; i++){
+            int a = (int) sol[i];
              for(int j = i; j < sol.length; j++){
-                 coste+= _archivoDatos.getMatriz()[i][j];
+                 int b = (int) sol[j];
+                 coste+= _archivoDatos.getMatriz()[a][b];
             }
         }
     
@@ -296,6 +299,7 @@ public class BusquedaLocal {
     void PresentarResultados() {
         System.out.println("Vector Solución");
         System.out.println(_solucion);
+        _suma_Resultado = calcularCoste();
         System.out.println("Coste de la solución: " + _suma_Resultado);
 
         _solucion = null;

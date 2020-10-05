@@ -30,6 +30,8 @@ public class Main {
             M1.busquedaLocal();
         }
         //M1.mostrar_Datos();
+        
+        System.exit(0);
 
     }
 }
