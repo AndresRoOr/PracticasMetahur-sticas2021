@@ -49,14 +49,13 @@ public class Metaheuristicas {
     void greedy() {
         for (Archivo ar : _archivos) {
 
-            
             Timer t = new Timer();
             Greedy g = new Greedy(ar);
-            
+
             t.startTimer();
             g.greedy(new Random(_config.getSemilla()));
             double tiempo = t.stopTimer();
-            
+
             System.out.println("Datos de la solución al problema: " + ar._nombre);
             System.out.println("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
             //ar.PresentarResultados();
@@ -64,38 +63,41 @@ public class Metaheuristicas {
 
         }
     }
-    
-    void busquedaLocal(){
-        
+
+    void busquedaLocal() {
+
         for (Archivo ar : _archivos) {
 
             int ite = 1;
-            long sem = _config.getSemilla();
 
-            
-            while(ite<=1){
+            while (ite <= 5) {
                 Timer t = new Timer();
-                BusquedaLocal b = new BusquedaLocal(ar,_config.getIntentos());
+                BusquedaLocal b = new BusquedaLocal(ar, _config.getIntentos());
 
                 t.startTimer();
-                b.busquedaLocal(new Random(sem));
+
+                Random_p sem = new Random_p();
+                sem.Set_random(_config.getSemilla());
+                b.busquedaLocal(sem);
                 double tiempo = t.stopTimer();
 
                 System.out.println("Datos de la solución al problema: " + ar._nombre);
                 System.out.println("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
                 //ar.PresentarResultados();
                 b.PresentarResultados();
-                
-                String semi = ""+sem;
+
+                String semi = "" + sem;
                 semi = "";
-                
+
                 ite++;
-                
+
+                _config.rotarSemilla();
+
             }
 
+            _config.recuperarSemilla();
         }
-        
-        
+
     }
 
 }

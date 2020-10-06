@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.BufferedReader;
+import java.util.Arrays;
 
 /**
  *
@@ -23,6 +24,7 @@ public class Configurador {
     Long semillaTabu;
     Integer intentosTabu;
     Integer iteracionesTabu;
+    Long recuperarSemilla;
 
     public Configurador(String ruta) {
         directoriosDatos = new ArrayList<>();
@@ -43,6 +45,7 @@ public class Configurador {
                         break;
                     case "Semilla":
                         semilla = Long.parseLong(split[1]);
+                        recuperarSemilla = semilla;
                         break;
                     case "Intentos":
                         intentos = Integer.parseInt(split[1]);
@@ -106,5 +109,26 @@ public class Configurador {
         return iteracionesTabu;
     }
 
-}
+    void rotarSemilla() {
+        //-------------------------------------------------
+        long semillaAntigua = semilla;
+        //-------------------------------------------------
 
+        char[] cadenaSemilla = semilla.toString().toCharArray();
+        char[] cadenaRotada = new char[8];
+
+        cadenaRotada[7] = cadenaSemilla[0];
+        
+        for (int i = 0; i < 7; i++) {
+            cadenaRotada[i] = cadenaSemilla[i + 1];
+        }
+
+        semilla = Long.parseLong(String.valueOf(cadenaRotada));
+    }
+    
+    void recuperarSemilla(){
+        semilla=recuperarSemilla;
+    }
+}
+    
+    
