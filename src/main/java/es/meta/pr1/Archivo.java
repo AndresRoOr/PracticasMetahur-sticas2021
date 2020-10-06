@@ -27,7 +27,7 @@ public class Archivo {
     Random _aleatorioSemilla;//>Número aleatorio***************************************************************************
     long _semilla;//> Semilla para que sea repetible el algoritmo
     int _num_Mejoras;
-    double[][] _matriz;//>Matriz que almacena los datos del archivo
+    float[][] _matriz;//>Matriz que almacena los datos del archivo
 
     ArrayList<ArrayList<Integer>> _memorias;
 
@@ -61,7 +61,7 @@ public class Archivo {
                     if (num_linea == 0) {
                         _tama_Matriz = Integer.parseInt(linea[0]);
                         _tama_Solucion = Integer.parseInt(linea[1]);
-                        _matriz = new double[_tama_Matriz][_tama_Matriz];
+                        _matriz = new float[_tama_Matriz][_tama_Matriz];
 
                         System.out.println("Tamanio de Matriz " + _tama_Matriz);
                         System.out.println("Tamanio de la Solucion "
@@ -70,8 +70,8 @@ public class Archivo {
 
                         Integer i = (Integer.parseInt(linea[0]));
                         Integer j = (Integer.parseInt(linea[1]));
-                        _matriz[i][j] = (Double.parseDouble(linea[2]));
-                        _matriz[j][i] = (Double.parseDouble(linea[2]));
+                        _matriz[i][j] = (Float.parseFloat(linea[2]));
+                        _matriz[j][i] = (Float.parseFloat(linea[2]));
 
                     }
                     num_linea++;
@@ -109,11 +109,11 @@ public class Archivo {
         return _semilla;
     }
 
-    public double[][] getMatriz(){ //Mirar paso por referencia
+    public float[][] getMatriz(){ //Mirar paso por referencia
         return _matriz;
     }
 
-    public void setMatriz(double[][] _matriz) {
+    public void setMatriz(float[][] _matriz) {
         this._matriz = _matriz;
     }
     

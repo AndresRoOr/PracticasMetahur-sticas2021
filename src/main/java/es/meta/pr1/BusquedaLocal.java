@@ -24,9 +24,9 @@ public class BusquedaLocal {
     public class ElementoSolucion implements Comparable<ElementoSolucion> {
 
         private Integer id;
-	private Double _contribucion;
+	private Float _contribucion;
         
-        public ElementoSolucion(Integer id, Double _contribucion) {
+        public ElementoSolucion(Integer id, Float _contribucion) {
             this.id = id;
             this._contribucion = _contribucion;
         }
@@ -40,11 +40,11 @@ public class BusquedaLocal {
             return this.id;
         }
         
-        public Double getContribucion() {
+        public Float getContribucion() {
             return _contribucion;
         }
         
-        public void setContribucion(double cont){
+        public void setContribucion(float cont){
             this._contribucion = cont;
         }
         
@@ -57,8 +57,8 @@ public class BusquedaLocal {
     Archivo _archivoDatos;
     Set<Integer> _solucion;
    // Map<Integer,Vecino> _Vecindario;
-    Double _suma_Resultado;
-    Double _costeActual;
+    Float _suma_Resultado;
+    Float _costeActual;
     
     //Contiene el aporte de cada elemento de la solución actual
     ArrayList<ElementoSolucion> _listaAportes;
@@ -75,10 +75,10 @@ public class BusquedaLocal {
         _archivoDatos=archivoDatos;
         _solucion=new HashSet<>();
         //_Vecindario = new HashMap<>();
-        _suma_Resultado=0.0;
+        _suma_Resultado=0.0f;
         _evaluciones = evaluaciones;
         _numEvaluciones = 0;
-        _costeActual = 0.0;
+        _costeActual = 0.0f;
         _listaAportes = new ArrayList<>();
 
         _integrantesNoMejoran = new HashSet<>();
@@ -97,17 +97,14 @@ public class BusquedaLocal {
         generearSolucionAleatoria(aleatorioSemilla);
         
         _costeActual = calcularCoste();
-        System.out.println(_costeActual);
-        System.out.println(_solucion);
-        int candidato = 0;
         
         int eleMenor =0;
         
-        Double costeSoluion = 0.0;
+        Float costeSoluion = 0.0f;
         
         boolean mejora = true;
         
-        while( _numEvaluciones < 5000000L && mejora){
+        while( _numEvaluciones < 500000 && mejora){
             
             mejora = false;
             //calculamos el aporte de todos los elementos de la solución actual
@@ -156,6 +153,9 @@ public class BusquedaLocal {
             
         }     
         
+        _listaAportes = null;
+        _integrantesNoMejoran.clear();
+        _integrantesNoMejoran = null;
     }
     
     /**
@@ -187,7 +187,7 @@ public class BusquedaLocal {
      */
     
     void calcularAportes(){
-        double aporte = 0.0;
+        float aporte = 0.0f;
         Iterator<Integer> iterator = _solucion.iterator();
         
         while(iterator.hasNext()){
@@ -204,7 +204,7 @@ public class BusquedaLocal {
             
             ElementoSolucion x = new ElementoSolucion(i, aporte);
             _listaAportes.add(x);  
-            aporte=0.0;
+            aporte=0.0f;
         }
         
     }
@@ -244,9 +244,9 @@ public class BusquedaLocal {
      * @return Devuelve el coste
      */
     
-    double CosteFactorizado (Integer i, Integer j){
+    float CosteFactorizado (Integer i, Integer j){
         
-        double costeMenos=0.0, costeMas=0.0;
+        float costeMenos=0.0f, costeMas=0.0f;
         
         Iterator<Integer> iterator = _solucion.iterator();
         
@@ -261,7 +261,7 @@ public class BusquedaLocal {
             
         }    
         
-        return _costeActual-costeMenos+costeMas;
+        return (_costeActual-costeMenos+costeMas);
     }
     
     /**
@@ -279,14 +279,14 @@ public class BusquedaLocal {
     
     }
     
-    double calcularCoste(){
+    float calcularCoste(){
     
-        double coste = 0.0;
+        float coste = 0.0f;
         Object[] sol = _solucion.toArray();
 
-        for(int i = 0; i < sol.length; i++){
+        for(int i = 0; i < sol.length - 1; i++){
             int a = (int) sol[i];
-             for(int j = i; j < sol.length; j++){
+             for(int j = i + 1; j < sol.length; j++){
                  int b = (int) sol[j];
                  coste+= _archivoDatos.getMatriz()[a][b];
             }
@@ -302,6 +302,7 @@ public class BusquedaLocal {
         _suma_Resultado = calcularCoste();
         System.out.println("Coste de la solución: " + _suma_Resultado);
 
+        _solucion.clear();
         _solucion = null;
 
         System.out.println("");
