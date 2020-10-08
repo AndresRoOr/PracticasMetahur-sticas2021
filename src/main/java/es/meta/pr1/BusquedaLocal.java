@@ -1,7 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/** @file    BusquedaLocal.java
+ * @author Andrés Rojas Ortega
+ * @author David Díaz Jiménez
+ * @version 1.0
+ * @date 03/10/2020
  */
 package es.meta.pr1;
 
@@ -12,16 +13,36 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- *
- * @author David
+ * @brief Clase que implementa la funcionalidad del algoritmo de Búsqueda Local
+ * @class BusquedaLocal
+ * @author Andrés Rojas Ortega
+ * @author David Díaz Jiménez
+ * @date 03/10/2020
  */
 public class BusquedaLocal {
 
+    /**
+     * @brief Clase auxiliar necesaria para representar toda la información de
+     * cada elemento perteneciente al atributo _listaAportes
+     * @class ElementoSolucion
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 03/10/2020
+     */
     public class ElementoSolucion implements Comparable<ElementoSolucion> {
 
-        private Integer id;
-        private Float _contribucion;
+        ///Atributos de la clase:
+        private Integer id;///<Indica el elemento de la solución que representa
+        private Float _contribucion;///<Coste que aporta a la solución
 
+        /**
+         * @brief Constructor parametrizado de la clase ElementoSolucion
+         * @author Andrés Rojas Ortega
+         * @author David Díaz Jiménez
+         * @date 03/10/2020
+         * @param id Integer
+         * @param _contribucion Float
+         */
         public ElementoSolucion(Integer id, Float _contribucion) {
             this.id = id;
             this._contribucion = _contribucion;
@@ -50,25 +71,26 @@ public class BusquedaLocal {
 
     }
 
-    Archivo _archivoDatos;
-    Set<Integer> _solucion;
-    // Map<Integer,Vecino> _Vecindario;
-    float _suma_Resultado;
-    float _costeActual;
+    Archivo _archivoDatos;///<Contiene los datos del problema
+    Set<Integer> _solucion;///<Almacena el conjunto solución
+    float _suma_Resultado;///<Usado para almacenar el coste de la solución final
+    float _costeActual;///<Almacena el coste de la solucion durante la ejecución
+    ArrayList<ElementoSolucion> _listaAportes;///<Contiene el aporte de cada elemento de la solución actual
+    Set<Integer> _integrantesNoMejoran;///<Elementos de la solución que no mejoran al intercambiarlos por sus vecinos
+    Integer _evaluciones;///<Número de evaluaciones máximas
+    long _numEvaluciones;///<Número de evaluaciones actuales
 
-    //Contiene el aporte de cada elemento de la solución actual
-    ArrayList<ElementoSolucion> _listaAportes;
-
-    //Elementos de la solución que no mejoran al intercambiarlos por sus vecinos
-    Set<Integer> _integrantesNoMejoran;
-
-    Integer _evaluciones; //Número de evaluaciones máximas
-    long _numEvaluciones; //Número de evaluaciones actuales
-
+    /**
+     * @brief Constructor parametrizado de la clase BusquedaLocal
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 03/10/2020
+     * @param archivoDatos Archivo
+     * @param evaluaciones Integer
+     */
     public BusquedaLocal(Archivo archivoDatos, Integer evaluaciones) {
         _archivoDatos = archivoDatos;
         _solucion = new HashSet<>();
-        //_Vecindario = new HashMap<>();
         _suma_Resultado = 0.0f;
         _evaluciones = evaluaciones;
         _numEvaluciones = 0;
@@ -106,28 +128,15 @@ public class BusquedaLocal {
             for (int k = 0; k < _archivoDatos.getTama_Solucion() && !mejora; k++) {
                 //calculamos el elemento de la solución actual que menos aporte
                 eleMenor = EleMenorAporte();
+                if (eleMenor == -1) {
+                    break;
+                }
 
                 //comprobamos el primer vecino que nos mejore
                 for (int i = 0; i < _archivoDatos.getTama_Matriz() && !mejora; i++) {
                     if (!_solucion.contains(i)) {
+                        mejora = EvaluarSolucion(i, costeSolucion, eleMenor);
 
-                        //calculamos si mejora la solución actual
-                        costeSolucion = CosteFactorizado(eleMenor, i);
-                        _numEvaluciones++;
-
-                        //Si resulta mejor nos deplazamos a el
-                        if (_costeActual < costeSolucion) {
-                            Intercambio(eleMenor, i);
-
-                            //actualizamos el coste de la solucion
-                            _costeActual = costeSolucion;
-                            mejora = true;
-                            _integrantesNoMejoran.clear();
-                        } else {
-                            if (i == _archivoDatos.getTama_Matriz() - 1) {
-                                _integrantesNoMejoran.add(eleMenor);
-                            }
-                        }
                     }
                 }
             }
@@ -153,7 +162,7 @@ public class BusquedaLocal {
 
         while (_solucion.size() < _archivoDatos.getTama_Solucion()) {
 
-            Integer candidato = _aleatorioSemilla.Randint(0, _archivoDatos.getTama_Matriz()-1);
+            Integer candidato = _aleatorioSemilla.Randint(0, _archivoDatos.getTama_Matriz() - 1);
 
             if (!_solucion.contains(candidato)) {
                 _solucion.add(candidato);
@@ -170,22 +179,26 @@ public class BusquedaLocal {
      * @date 03/10/2020
      */
     void calcularAportes() {
+
+        float aporte = 0.0f;
         Iterator<Integer> iterator = _solucion.iterator();
 
-        //Inicializamos todos los ElementosSolucion a 0
         while (iterator.hasNext()) {
-            int id = iterator.next();
-            ElementoSolucion x = new ElementoSolucion(id, 0.0f);
-            _listaAportes.add(x);
-        }
 
-        for (int i = 0; i < _solucion.size() - 1; i++) {
-            for (int j = i + 1; j < _solucion.size(); j++) {
-                _listaAportes.get(i).setContribucion(_listaAportes.get(i).getContribucion() + _archivoDatos.getMatriz()[_listaAportes.get(i).getId()][_listaAportes.get(j).getId()]);
-                _listaAportes.get(j).setContribucion(_listaAportes.get(j).getContribucion() + _archivoDatos.getMatriz()[_listaAportes.get(i).getId()][_listaAportes.get(j).getId()]);
+            Iterator<Integer> iterator2 = _solucion.iterator();
+            int i = iterator.next();
+
+            while (iterator2.hasNext()) {
+
+                int j = iterator2.next();
+                aporte += _archivoDatos.getMatriz()[i][j];
+
             }
+
+            ElementoSolucion x = new ElementoSolucion(i, aporte);
+            _listaAportes.add(x);
+            aporte = 0.0f;
         }
-        
         Collections.sort(_listaAportes);
     }
 
@@ -197,17 +210,15 @@ public class BusquedaLocal {
      * @return Integrantre de lasolucón con menor aporte
      */
     int EleMenorAporte() {
-        int eleMenor = 0;
-        float menor = Float.MAX_VALUE;
-        Iterator<ElementoSolucion> iterator = _listaAportes.iterator();
-        while (iterator.hasNext()) {
-            ElementoSolucion i = iterator.next();
-            if ((!_integrantesNoMejoran.contains(i.getId())) && (i.getContribucion() < menor)) {
-                menor = i.getContribucion();
-                eleMenor = i.getId();
+        int eleMenor = -1;
+
+        for (int i = 0; i < _listaAportes.size() - 1; i++) {
+            ElementoSolucion ele = _listaAportes.get(i);
+            if (!_integrantesNoMejoran.contains(ele.getId())) {
+                eleMenor = ele.getId();
+                return eleMenor;
             }
         }
-
         return eleMenor;
     }
 
@@ -255,6 +266,13 @@ public class BusquedaLocal {
 
     }
 
+    /**
+     * @brief Calcula el coste de la solucion.
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 03/10/2020
+     * @return coste Float El coste de la solución.
+     */
     float calcularCoste() {
 
         float coste = 0.0f;
@@ -272,6 +290,46 @@ public class BusquedaLocal {
 
     }
 
+    /**
+     * @brief Evalua la solución candidata y desplaza la solución actual a la
+     * candidata si la mejora
+     * @author Andrés Rojas Ortefa
+     * @author David Díaz Jiménez
+     * @date 08/10/2020
+     * @param i int Elemento candidato.
+     * @param costeSolucion float Coste de la solucion candidata
+     * @param eleMenor int Elemento de la solucion que aporta menos
+     * @return
+     */
+    boolean EvaluarSolucion(int i, float costeSolucion, int eleMenor) {
+        boolean mejora = false;
+
+        //calculamos si mejora la solución actual
+        costeSolucion = CosteFactorizado(eleMenor, i);
+        _numEvaluciones++;
+
+        //Si resulta mejor nos deplazamos a el
+        if (_costeActual < costeSolucion) {
+            Intercambio(eleMenor, i);
+
+            //actualizamos el coste de la solucion
+            _costeActual = costeSolucion;
+            mejora = true;
+            _integrantesNoMejoran.clear();
+        } else {
+            if (i == _archivoDatos.getTama_Matriz() - 1) {
+                _integrantesNoMejoran.add(eleMenor);
+            }
+        }
+        return mejora;
+    }
+
+    /**
+     * @brief Muestra por pantalla los datos de la solución
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 03/10/2020
+     */
     void PresentarResultados() {
         System.out.println("Vector Solución");
         System.out.println(_solucion);
