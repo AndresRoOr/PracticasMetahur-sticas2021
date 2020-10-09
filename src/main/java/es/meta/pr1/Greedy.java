@@ -24,7 +24,7 @@ public class Greedy {
     ///Atributos de la clase:
     Archivo _archivoDatos;///<Contiene los datos sobre los que operar.
     Set<Integer> _solucionB;
-    Double _suma_Resultado;///<Almacena la suma del valor heurístico.
+    Float _suma_Resultado;///<Almacena la suma del valor heurístico.
 
     /**
      * @brief Constructor parametrizado de la clase Greedy
@@ -35,7 +35,7 @@ public class Greedy {
      */
     public Greedy(Archivo archivoDatos) {
         _archivoDatos = archivoDatos;
-        _suma_Resultado = 0.0;
+        _suma_Resultado = 0.0f;
         _solucionB = new HashSet<>();
     }
 
@@ -46,7 +46,7 @@ public class Greedy {
      * @date 27/09/2020
      * @param aleatorioSemilla Random Semilla generada aleatoriamente
      */
-    void greedy(Random aleatorioSemilla) {
+    void greedy(Random_p aleatorioSemilla) {
 
         //Generación del primer elemento
         Integer ultimo = GenSolucionIni(aleatorioSemilla);
@@ -83,7 +83,7 @@ public class Greedy {
 
         for (int i = 0; i < _archivoDatos.getTama_Matriz(); i++) {
             if (!_solucionB.contains(i)) {
-                candidatos.add(new Pair(i, 0.0));
+                candidatos.add(new Pair(i, 0.0f));
             }
         }
 
@@ -105,7 +105,7 @@ public class Greedy {
         double max = 0.0;
         Iterator<Pair> iterador = candidatos.iterator();
         Pair candidato = null;
-        Pair seleccionado;
+        Pair seleccionado = null;
 
         while (iterador.hasNext()) {
             candidato = iterador.next();
@@ -118,7 +118,7 @@ public class Greedy {
             }
         }
 
-        return candidato;
+        return seleccionado;
     }
 
     /**
@@ -155,10 +155,10 @@ public class Greedy {
      * @param aleatorioSemilla Random Utilizado para generar un número aleatorio
      * @return sol_Inicial Integer El primer elemento de la solución elegido.
      */
-    Integer GenSolucionIni(Random aleatorioSemilla) {
+    Integer GenSolucionIni(Random_p aleatorioSemilla) {
         _solucionB.clear();
         Integer sol_Inicial
-                = aleatorioSemilla.nextInt(_archivoDatos.getTama_Matriz());
+                = aleatorioSemilla.Randint(0,_archivoDatos.getTama_Matriz());
         _solucionB.add(sol_Inicial);
 
         return sol_Inicial;
@@ -173,6 +173,7 @@ public class Greedy {
     void PresentarResultados() {
         System.out.println("Vector Solución");
         System.out.println(_solucionB);
+        _suma_Resultado = calculoValorSolucion();
         System.out.println("Coste de la solución: " + _suma_Resultado);
 
         _solucionB = null;
@@ -190,13 +191,14 @@ public class Greedy {
      * @param candidato Integer
      * @return suma Double Resultado parcial obtenido
      */
-    Double calculoSolucionParcial(Integer candidato) {
+    Float calculoSolucionParcial(Integer candidato) {
 
-        Double coste = _suma_Resultado;
+        Float coste = _suma_Resultado;
         Iterator<Integer> iterador = _solucionB.iterator();
 
         while (iterador.hasNext()) {
-            coste += _archivoDatos.getMatriz()[iterador.next()][candidato];
+            int i = iterador.next();
+            coste += _archivoDatos.getMatriz()[i][candidato];
         }
 
         return coste;
@@ -210,16 +212,16 @@ public class Greedy {
      * @return suma Double Valor heurístico calculado a partir del conjunto
      * solución
      */
-    Double calculoValorSolucion() {
+    Float calculoValorSolucion() {
 
-        Double coste = 0.0;
-        Iterator<Integer> iterador = _solucionB.iterator();
-        while (iterador.hasNext()) {
-            Iterator<Integer> iterador1 = _solucionB.iterator();
-            while (iterador1.hasNext()) {
+         float coste = 0.0f;
+        Object[] sol = _solucionB.toArray();
 
-                coste += _archivoDatos.getMatriz()[iterador.next()][iterador1.next()];
-
+        for (int i = 0; i < sol.length - 1; i++) {
+            int a = (int) sol[i];
+            for (int j = i + 1; j < sol.length; j++) {
+                int b = (int) sol[j];
+                coste += _archivoDatos.getMatriz()[a][b];
             }
         }
 

@@ -17,7 +17,7 @@ public class Pair {
 
     ///Atributos de la clase:
     Integer candidato;
-    double coste;
+    float coste;
 
     /**
      * @brief Constructor parametrizado de la clase Pair
@@ -27,7 +27,7 @@ public class Pair {
      * @param candidato Integer
      * @param coste double
      */
-    public Pair(Integer candidato, double coste) {
+    public Pair(Integer candidato, float coste) {
         this.candidato = candidato;
         this.coste = coste;
     }
@@ -50,7 +50,7 @@ public class Pair {
      * @date 30/09/2020
      * @return coste double
      */
-    public double getCoste() {
+    public float getCoste() {
         return coste;
     }
 
@@ -72,7 +72,7 @@ public class Pair {
      * @date 30/09/2020
      * @param coste double
      */
-    public void setCoste(double coste) {
+    public void setCoste(float coste) {
         this.coste += coste;
     }
 

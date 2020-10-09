@@ -91,7 +91,9 @@ public class Metaheuristicas {
             Greedy g = new Greedy(ar);
 
             t.startTimer();
-            g.greedy(new Random(_config.getSemilla()));
+            Random_p sem = new Random_p();
+            sem.Set_random(_config.getSemilla());
+            g.greedy(sem);
             double tiempo = t.stopTimer();
 
             System.out.println("Datos de la solución al problema: " + ar._nombre);
@@ -126,7 +128,7 @@ public class Metaheuristicas {
                 b.busquedaLocal(sem);
                 double tiempo = t.stopTimer();
 
-                System.out.println("Datos de la solución al problema: " + ar._nombre);
+                System.out.println("Datos de la solución al problema: " + ar._nombre +" con la semilla: "+_config.getSemilla());
                 System.out.println("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
                 //ar.PresentarResultados();
                 b.PresentarResultados();

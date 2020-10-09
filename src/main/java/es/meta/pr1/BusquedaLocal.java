@@ -148,7 +148,7 @@ public class BusquedaLocal {
         _integrantesNoMejoran.clear();
         _integrantesNoMejoran = null;
 
-        System.out.println("COSTE: " + _costeActual);
+       // System.out.println("COSTE: " + _costeActual);
     }
 
     /**
