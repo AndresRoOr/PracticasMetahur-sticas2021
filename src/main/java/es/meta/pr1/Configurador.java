@@ -65,7 +65,7 @@ public class Configurador {
                     case "Intentos":
                         intentos = Integer.parseInt(split[1]);
                         break;
-                    case "iteracioens":
+                    case "Iteraciones":
                         iteraciones = Integer.parseInt(split[1]);
                         break;
                     case "Semilla tabu":
