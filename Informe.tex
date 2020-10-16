@@ -1,6 +1,9 @@
 \documentclass{article}
 \title{Informe}
 \usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{}
 \author{David Díaz Jiménez, Andrés Rojas Ortega}
 
 \begin{document}
@@ -26,6 +29,87 @@
 	\section{Pseudocódigo}
 	
 	\subsection{Greedy}
+	
+	\subsubsection{Algoritmo principal}
+	
+		\begin{algorithm}
+			\caption{Algoritmo Greedy}
+			\begin{algorithmic}
+				\STATE $solucion \leftarrow GeneraSolucionInicial(semilla)$
+				\STATE $candidatos \leftarrow GeneraCandidatos()$
+				\WHILE{! SolucionEncontrada()}
+				\STATE $candidato \leftarrow Seleccion(candidatos)$
+				\IF{Factible(candidato)}
+				\STATE $solucion \leftarrow solucion \cup \{candidato\}$
+				\STATE $sumaResultado \leftarrow sumaResultado + Coste(candidato)$
+				\ENDIF
+				\STATE $candidatos \leftarrow candidatos - \{ candidato \}$
+				\ENDWHILE
+			\end{algorithmic}
+		\end{algorithm}
+
+	\subsubsection{Generador de la solución inicial}
+	
+		\begin{algorithm}
+			\caption{GeneraSolucionInicial(semilla)}
+			\begin{algorithmic}
+				\STATE $solucion \leftarrow \emptyset$
+				\STATE $solucionInicial \leftarrow GeneraEnteroAlearorio(semilla)$
+				\STATE $solucion \leftarrow solucion \cup \{solucionInicial\}$
+				\RETURN solucion
+			\end{algorithmic}
+		\end{algorithm}
+
+	\subsubsection{Generador del conjunto de candidatos}
+
+	\begin{algorithm}
+		\caption{GeneraCandidatos()}
+		\begin{algorithmic}
+			\STATE $candidatos \leftarrow \emptyset$
+			\FORALL {$elemento \in matrizDatos$}
+			\IF {$elemento \notin solucion$}
+			\STATE $candidatos \leftarrow candidatos \cup \{elemento\}$
+			\ENDIF
+			\ENDFOR
+			\RETURN candidatos
+		\end{algorithmic}
+	\end{algorithm}
+
+	\subsubsection{Función solución}
+
+	\begin{algorithm}
+		\caption{SolucionEncontrada()}
+		\begin{algorithmic}	
+			\RETURN tamañoSolucion $<$ tamañoSolucionObjetivo 
+		\end{algorithmic}
+	\end{algorithm}
+
+	\subsubsection{Función selección}
+
+	\begin{algorithm}
+		\caption{Seleccion(candidatos)}
+		\begin{algorithmic}
+			\STATE $max \leftarrow 0$
+			\STATE $seleccionado \leftarrow \emptyset$
+			\FORALL {$candidato \in candidatos$}
+			\IF {Coste(candidato)$>$max}
+			\STATE $max \leftarrow Coste(candidato)$
+			\STATE $seleccionado \leftarrow candidato$ 
+			\ENDIF
+			\ENDFOR
+			\RETURN seleccionado
+		\end{algorithmic}
+	\end{algorithm}
+
+	\subsubsection{Función de factibilidad}
+
+	\begin{algorithm}
+		\caption{Factible(candidato)}
+		\begin{algorithmic}
+			\RETURN candidato != -1
+		\end{algorithmic}
+	\end{algorithm}
+
 	
 	\subsection{Búsqueda Local}
 	
