@@ -99,5 +99,42 @@ public class Metaheuristicas {
         }
 
     }
+    
+    
+     void busquedaTabu() {
+
+        for (Archivo ar : _archivos) {
+
+            int ite = 1;
+
+            while (ite <= 1) {
+                Timer t = new Timer();
+                BusquedaTabu b = new BusquedaTabu(ar, _config.getIntentos(),_config.getIteracionesTabu());
+
+                t.startTimer();
+
+                Random_p sem = new Random_p();
+                sem.Set_random(_config.getSemilla());
+                b.busquedaTabu(sem);
+                double tiempo = t.stopTimer();
+
+                System.out.println("Datos de la solución al problema: " + ar._nombre);
+                System.out.println("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
+                //ar.PresentarResultados();
+                b.PresentarResultados();
+
+                String semi = "" + sem;
+                semi = "";
+
+                ite++;
+
+                _config.rotarSemilla();
+
+            }
+
+            _config.recuperarSemilla();
+        }
+
+    }
 
 }
