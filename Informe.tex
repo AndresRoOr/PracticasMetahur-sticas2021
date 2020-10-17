@@ -30,9 +30,10 @@
 	
 	\subsection{Greedy}
 	
-	\subsubsection{Algoritmo principal}
+		\paragraph{}A continuación se procede a explicar el funcionamiento del código principal y, seguidamente, las diferentes funciones empleadas dentro del mismo.
 	
-		\begin{algorithm}
+	\subsubsection{Algoritmo principal}
+		\begin{algorithm}[H]
 			\caption{Algoritmo Greedy}
 			\begin{algorithmic}
 				\STATE $solucion \leftarrow GeneraSolucionInicial(semilla)$
@@ -47,10 +48,23 @@
 				\ENDWHILE
 			\end{algorithmic}
 		\end{algorithm}
+	
+		\paragraph{}Lo primero que realizamos es inicializar la solución con un primer elemento elegido aleatoriamente con la función "GeneraSolucionInicial(semilla)"
+		
+		\paragraph{}A continuación, creamos un conjunto con todos los candidatos posibles del problema, a excepción del elemento anteriormente introducido en la solución inicial. Esta tarea la realiza la función "GeneraCandidatos()".
+		
+		\paragraph{}Una vez realizado esto, iniciamos un bucle while - do, del cual no saldremos hasta que no hayamos encontrado una solución válida. Esta comprobación se realiza con la función "SoluciónEncontrada()".
+		
+		\paragraph{}El primer paso que se realiza dentro del bucle es elegir un candidato con la función "Seleccion(candidatos).
+		
+		\paragraph{}Una vez seleccionado un candidato, se procede a evaluar con la función "Factible(candidato) y, si resulta ser un candidato prometedor, se incluye en el conjunto solución y se actualiza el coste total de la solución acumulado.
+		
+		\paragraph{}El último paso a realizar en el bucle while - do es eliminar el candidato seleccionado del conjunto de candidatos, ya que ha sido evaluado (independientemente de que se haya incluido en la solución o no).
+	
+	
 
 	\subsubsection{Generador de la solución inicial}
-	
-		\begin{algorithm}
+		\begin{algorithm}[H]
 			\caption{GeneraSolucionInicial(semilla)}
 			\begin{algorithmic}
 				\STATE $solucion \leftarrow \emptyset$
@@ -59,10 +73,15 @@
 				\RETURN solucion
 			\end{algorithmic}
 		\end{algorithm}
+	
+		\paragraph{}El primer paso es inicializar un conjunto vacío como solución.
+			
+		\paragraph{}Acto seguido, se selecciona un entero aleatorio (dentro del rango de número de elementos del problema a resolver) con la función "GeneraEnteroAleatorio(semilla)". Este entero se almacena en la variable "solucionInicial".
+		
+		\paragraph{}Para finalizar, se incluye "solucionInicial" en la solucion vacía y se devuelve como solucion inicial.
 
 	\subsubsection{Generador del conjunto de candidatos}
-
-	\begin{algorithm}
+	\begin{algorithm}[H]
 		\caption{GeneraCandidatos()}
 		\begin{algorithmic}
 			\STATE $candidatos \leftarrow \emptyset$
@@ -75,18 +94,26 @@
 		\end{algorithmic}
 	\end{algorithm}
 
-	\subsubsection{Función solución}
+	\paragraph{}El primer paso es inicializar un conjunto de candidatos vacío, llamado "candidatos".
+	
+	\paragraph{}A continuación, comprobamos si cada elemento de "matrizDatos" pertenece o no a la solución actual. "matrizDatos" contiene todos los elementos del problema.
+	
+	\paragraph{}Si pertenece a la solución actual no hacemos nada. Si no, añadimos el elemento al conjunto de candidatos "candidatos".
+	
+	\paragraph{}Cuando el algoritmo haya terminado de realizar todas las comprobaciones, se devuelve el conjunto de candidatos generado.
 
-	\begin{algorithm}
+	\subsubsection{Función solución}
+	\begin{algorithm}[H]
 		\caption{SolucionEncontrada()}
 		\begin{algorithmic}	
 			\RETURN tamañoSolucion $<$ tamañoSolucionObjetivo 
 		\end{algorithmic}
 	\end{algorithm}
 
-	\subsubsection{Función selección}
+		\paragraph{}El funcionamiento de esta función resulta trivial. Simplemente devuelve si el tamaño de la solución actual es menor que el tamaño que debe tener una solución para ser aceptada o no.
 
-	\begin{algorithm}
+	\subsubsection{Función selección}
+	\begin{algorithm}[H]
 		\caption{Seleccion(candidatos)}
 		\begin{algorithmic}
 			\STATE $max \leftarrow 0$
@@ -101,14 +128,31 @@
 		\end{algorithmic}
 	\end{algorithm}
 
-	\subsubsection{Función de factibilidad}
+	\paragraph{}La variable "max" almacenará el mayor coste que aporta el mejor candidato. Inicialmente se le asigna el valor 0.
+	
+	\paragraph{}La variable "seleccionado" almacenará el candidato seleccionado, que es aquel que aporta un mayor coste añadiéndolo a la solución actual. Inicialmente se le asigna un valor nulo.
+	
+	\paragraph{}Para cada candidato del conjunto de candidatos se realiza la siguiente comprobación:
+	
+	\paragraph{}Se calcula el coste que aportaría a la solución si fuera incluido a esta. Si este coste calculado es mayor que la variables "max", se modifica el valor de "max" con el coste calculado y "seleccionado" se sobrescribe con el candidato evaluado.
+	
+	\paragraph{}Una vez realizadas todas las iteraciones del bucle for, se devuelve el candidato seleccionado.
+	
+	\subparagraph{Nota}En la implementación de nuestro código hemos realizado un enfoque de programación dinámica. Todos los candidatos son almacenados en un vector de pares. Cada par está formado por el candidato y un coste. Este coste se actualiza cada vez que se ejecuta al función de selección sumándole la distancia del último elemento introducido anteriormente en la solución respecto al candidato. De esta manera no tenemos que recorrer otra vez todos los elementos de la solución calculando todas sus respectivas distancias.
 
-	\begin{algorithm}
+	\subsubsection{Función de factibilidad}
+	\begin{algorithm}[H]
 		\caption{Factible(candidato)}
 		\begin{algorithmic}
 			\RETURN candidato != -1
 		\end{algorithmic}
 	\end{algorithm}
+
+	\paragraph{}El funcionamiento de esta función resulta trivial. Comprueba que el candidato a evaluar tenga un valor válido, es decir, que sea diferente del valor -1. 
+	
+	\paragraph{}No comprobamos que no esté repetido en la solución ya que dentro del algoritmo principal se eliminan todos los candidatos que hayan sido evaluados y, además, el elemento inicial de la solución no se introduce en el conjunto de candidatos. 
+	
+	\paragraph{}Por este motivo jamás se dará la situación de que esté repetido un elemento dentro de la solución.
 
 	
 	\subsection{Búsqueda Local}

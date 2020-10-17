@@ -113,20 +113,19 @@ public class BusquedaLocal {
 
         _costeActual = calcularCoste();
 
-        int eleMenor = 0;
+        int eleMenor;
 
         float costeSolucion = 0.0f;
 
         boolean mejora = true;
 
-        while (_numEvaluciones < 500000 && mejora) {
+        while (_numEvaluciones < 5000000 && mejora) {
 
             mejora = false;
             //calculamos el aporte de todos los elementos de la solución actual
             calcularAportes();
-            //por cada elemento seleccionado 
-            for (int k = 0; k < _archivoDatos.getTama_Solucion() && !mejora; k++) {
-                //calculamos el elemento de la solución actual que menos aporte
+
+            //calculamos el elemento de la solución actual que menos aporte
                 eleMenor = EleMenorAporte();
                 if (eleMenor == -1) {
                     break;
@@ -139,7 +138,6 @@ public class BusquedaLocal {
 
                     }
                 }
-            }
             _listaAportes.clear();
 
         }

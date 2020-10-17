@@ -183,28 +183,6 @@ public class Greedy {
     }
 
     /**
-     * @brief Calcula la solución resultante de añadir un nuevo valor haciendo
-     * uso de las solución parcial actual.
-     * @author Andrés Rojas Ortega
-     * @author David Díaz Jiménez
-     * @date 30/09/2020
-     * @param candidato Integer
-     * @return suma Double Resultado parcial obtenido
-     */
-    Float calculoSolucionParcial(Integer candidato) {
-
-        Float coste = _suma_Resultado;
-        Iterator<Integer> iterador = _solucionB.iterator();
-
-        while (iterador.hasNext()) {
-            int i = iterador.next();
-            coste += _archivoDatos.getMatriz()[i][candidato];
-        }
-
-        return coste;
-    }
-
-    /**
      * @brief Calcula el valor heurístico de un conjunto solución
      * @author Andrés Rojas Ortega
      * @author David Díaz Jiménez
