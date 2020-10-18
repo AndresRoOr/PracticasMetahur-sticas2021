@@ -157,6 +157,109 @@
 	
 	\subsection{Búsqueda Local}
 	
+	\subsubsection{Algoritmo principal}
+	\begin{algorithm}[H]
+		\caption{Busqueda local}
+		\begin{algorithmic}
+			\STATE GeneraSolucionInicial(semilla)
+			\STATE $costeActual \leftarrow CalcularCoste()$
+			\STATE $elementoMenor \leftarrow \emptyset$
+			\STATE $costeSolucion \leftarrow 0$
+			\STATE $mejora \leftarrow true$
+			\WHILE {mejora}
+			\STATE $mejora \leftarrow false$
+			\STATE CalcularAportes()
+			\STATE $elementoMenor \leftarrow ElementoMenorAporte()$
+			\FORALL {($elemento \in matrizDatos$) $\wedge$  !(mejora)}
+			\IF {!($elemento \in solucion$)}
+			\STATE $mejora \leftarrow EvaluarSolucion(elemento, costeSolucion, elementoMenor)$
+			\ENDIF
+			\ENDFOR
+			\STATE $listaAportes \leftarrow \emptyset$
+			\ENDWHILE
+		\end{algorithmic}
+	\end{algorithm}
+
+	\subsubsection{Generador de la solución inicial}
+	\begin{algorithm}[H]
+		\caption{GeneraSolucionInicial(semilla)}
+		\begin{algorithmic}
+			\WHILE{tamañoSolucion $<$ tamañoSolucionObjetivo}
+			\STATE $candidato \leftarrow GeneraEnteroAleatorio(semilla)$
+			\IF{$candidato \notin solucion$}
+			\STATE $solucion \leftarrow solucion \cup \{candidato\}$
+			\ENDIF
+			\ENDWHILE
+		\end{algorithmic}
+	\end{algorithm}
+
+	\subsubsection{Calculo de los aportes}
+	\begin{algorithm}[H]
+		\caption{CalcularAportes()}
+		\begin{algorithmic}
+			\STATE $aporte \leftarrow 0$
+			\FOR {i $<$ tamañoSolucion}
+			\FOR{j $<$ tamañoSolucion}
+			\STATE $aporte \leftarrow aporte + matrizDistancias[i][j]$
+			\ENDFOR
+			\STATE AñadirAporte(i,aporte)
+			\ENDFOR
+			\STATE Sort(listaAportes)
+			
+		\end{algorithmic}
+	\end{algorithm}
+
+	\subsubsection{Calculo del elemento de la solución con menor aporte}
+	\begin{algorithm}[H]
+		\caption{ElementoMenorAporte()}
+		\begin{algorithmic}
+			\STATE $elementoMenor \leftarrow -1$
+			\FORALL{$elemento \in listaAportes$}
+			\IF{$elemento \notin elementosNoMejoran$}
+			\STATE $elementoMenor \leftarrow elemento$
+			\RETURN elementoMenor
+			\ENDIF
+			\ENDFOR
+			\RETURN elementoMenor
+		\end{algorithmic}
+	\end{algorithm}
+
+	\subsubsection{Evaluación de la solución}
+	\begin{algorithm}[H]
+		\caption{EvaluarSolucion(elemento, costeSolucion, elementoMenor)}
+		\begin{algorithmic}
+			\STATE $mejora \leftarrow false$
+			\STATE $costeSolucion \leftarrow CosteFactorizado(elementoMenor, elemento)$
+			\IF{costeActual $<$ costeSolucion}
+			\STATE Intercambio(elementoMenor, elemento)
+			\STATE $costeActual \leftarrow costeSolucion$
+			\STATE $mejora \leftarrow true$
+			\STATE $elementosNoMejoran \leftarrow \emptyset$
+			\ELSIF{elemento == tamañoMatriz-1}
+			\STATE $elementosNoMejoran \leftarrow elementosNoMejoran \cup \{elementoMenor\}$
+			\ENDIF
+			\RETURN mejora
+			\	
+		\end{algorithmic}
+	\end{algorithm}
+
+	\subsubsection{Cálculo del coste factorizado}
+	\begin{algorithm}[H]
+		\caption{CosteFactorizado(elementoMenor, elemento)}
+		\begin{algorithmic}
+			\STATE $costeMenos \leftarrow 0$
+			\STATE $costeMas \leftarrow 0$
+			\FORALL{$elementoSolucion \in solucion$}
+			\STATE $costeMenos \leftarrow costeMenos + matrizDistancias[elementoSolucion][elementoMenor]$
+			\IF{elementoSolucion != elementoMenor}
+			\STATE $costeMas \leftarrow costeMas+matrizDistancias[elementoSolucion][elemento]$
+			\ENDIF
+			\ENDFOR
+			\RETURN costeActual - costeMenos + costeMas	
+		\end{algorithmic}
+	\end{algorithm}
+	
+	
 	\subsection{Búsqueda Tabú}
 	
 	
