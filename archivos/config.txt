@@ -1,7 +1,8 @@
 Datos=archivos/Datos/MDG archivos/Datos/GKD archivos/Datos/SOM
 Semilla=77356084
-Intentos=50000
+Interaciones=50000
 Iteraciones=100
 Semilla tabu=77356084
-Intentos tabu=50000
-Iteraciones tabu=100
+Intentos tabu=100
+Iteraciones tabu=50000
+Tenencia tabu=10

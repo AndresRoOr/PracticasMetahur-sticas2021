@@ -72,7 +72,7 @@ public class Metaheuristicas {
 
             while (ite <= 5) {
                 Timer t = new Timer();
-                BusquedaLocal b = new BusquedaLocal(ar, _config.getIntentos());
+                BusquedaLocal b = new BusquedaLocal(ar, _config.getIteraciones());
 
                 t.startTimer();
 
@@ -85,9 +85,6 @@ public class Metaheuristicas {
                 System.out.println("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
                 //ar.PresentarResultados();
                 b.PresentarResultados();
-
-                String semi = "" + sem;
-                semi = "";
 
                 ite++;
 
@@ -107,9 +104,9 @@ public class Metaheuristicas {
 
             int ite = 1;
 
-            while (ite <= 1) {
+            while (ite <= 5) {
                 Timer t = new Timer();
-                BusquedaTabu b = new BusquedaTabu(ar, _config.getIntentos(),_config.getIteracionesTabu());
+                BusquedaTabu b = new BusquedaTabu(ar, _config.getIteracionesTabu(),_config.getIntentosTabu(),_config.getTenenciaTabu());
 
                 t.startTimer();
 
@@ -118,13 +115,10 @@ public class Metaheuristicas {
                 b.busquedaTabu(sem);
                 double tiempo = t.stopTimer();
 
-                System.out.println("Datos de la solución al problema: " + ar._nombre);
+                System.out.println("Datos de la solución al problema: " + ar._nombre +", con la semilla: " +_config.getSemilla());
                 System.out.println("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
                 //ar.PresentarResultados();
                 b.PresentarResultados();
-
-                String semi = "" + sem;
-                semi = "";
 
                 ite++;
 

@@ -19,12 +19,13 @@ public class Configurador {
 
     ArrayList<String> directoriosDatos;
     Long semilla;
-    Integer intentos;
     Integer iteraciones;
     Long semillaTabu;
     Integer intentosTabu;
     Integer iteracionesTabu;
+    Integer teneciaTabu;
     Long recuperarSemilla;
+    
 
     public Configurador(String ruta) {
         directoriosDatos = new ArrayList<>();
@@ -47,9 +48,6 @@ public class Configurador {
                         semilla = Long.parseLong(split[1]);
                         recuperarSemilla = semilla;
                         break;
-                    case "Intentos":
-                        intentos = Integer.parseInt(split[1]);
-                        break;
                     case "Iteraciones":
                         iteraciones = Integer.parseInt(split[1]);
                         break;
@@ -61,6 +59,9 @@ public class Configurador {
                         break;
                     case "Iteraciones tabu":
                         iteracionesTabu = Integer.parseInt(split[1]);
+                        break;
+                    case "Tenencia tabu":
+                        teneciaTabu = Integer.parseInt(split[1]);
                         break;
                 }
             }
@@ -89,10 +90,6 @@ public class Configurador {
         return semilla;
     }
 
-    public Integer getIntentos() {
-        return intentos;
-    }
-
     public Integer getIteraciones() {
         return iteraciones;
     }
@@ -107,6 +104,10 @@ public class Configurador {
 
     public Integer getIteracionesTabu() {
         return iteracionesTabu;
+    }
+    
+    public Integer getTenenciaTabu() {
+        return teneciaTabu;
     }
 
     void rotarSemilla() {
