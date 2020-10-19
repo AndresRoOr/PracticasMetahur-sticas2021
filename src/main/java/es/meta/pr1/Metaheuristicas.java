@@ -62,6 +62,7 @@ public class Metaheuristicas {
             g.greedy(new Random(_config.getSemilla()));
             double tiempo = t.stopTimer();
             
+            System.out.println("Datos de la solución al problema: " + ar._nombre);
             System.out.println("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
             //ar.PresentarResultados();
             g.PresentarResultados();
