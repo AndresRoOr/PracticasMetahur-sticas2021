@@ -16,11 +16,13 @@ public class Greedy {
     Archivo _archivoDatos;
     ArrayList<Integer> _solucion;
     Double _suma_Resultado;
+    GestorLog gestor;
     
-    public Greedy(Archivo archivoDatos){
+    public Greedy(Archivo archivoDatos, GestorLog g){
         _archivoDatos=archivoDatos;
         _solucion=new ArrayList<>();
         _suma_Resultado=0.0;
+        gestor = g;
     }
     
     void greedy(Random aleatorioSemilla) {
@@ -50,6 +52,7 @@ public class Greedy {
             if (candidato != -1) {
                 _solucion.add(candidato);
                 _suma_Resultado = max;
+                gestor.escribirArchivo(candidato+ " Added to solution");
             }
 
         }
@@ -60,7 +63,12 @@ public class Greedy {
         System.out.println("Vector Solución");
         System.out.println(_solucion);
         System.out.println("Coste de la solución: " + _suma_Resultado);
-
+        
+        gestor.escribirArchivo("");
+        gestor.escribirArchivo("Vector Solución: " + _solucion);
+        gestor.escribirArchivo("Coste de la solución: " + _suma_Resultado);
+        
+        
         _solucion = null;
         _archivoDatos.setMatriz(null);
 

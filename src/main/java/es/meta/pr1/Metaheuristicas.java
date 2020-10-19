@@ -47,32 +47,46 @@ public class Metaheuristicas {
     }
 
     void greedy() {
+        
+        GestorLog gestor = new GestorLog("");
+        
         for (Archivo ar : _archivos) {
 
             Timer t = new Timer();
-            Greedy g = new Greedy(ar);
+            Greedy g = new Greedy(ar,gestor);
 
+            gestor.cambiarNombre("greedy/Log_"+ar.getNombre());
+            gestor.abrirArchivo();
+            
             t.startTimer();
             g.greedy(new Random(_config.getSemilla()));
             double tiempo = t.stopTimer();
-
-            System.out.println("Datos de la solución al problema: " + ar._nombre);
+            
             System.out.println("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
             //ar.PresentarResultados();
             g.PresentarResultados();
-
+            
+            gestor.cerrarArchivo();
         }
     }
 
     void busquedaLocal() {
 
+        GestorLog gestor = new GestorLog("");
+        
         for (Archivo ar : _archivos) {
 
             int ite = 1;
+            
 
             while (ite <= 5) {
+                
+                gestor.cambiarNombre("blocal/Log_Sem_"+_config.getSemilla()+"_"+ar.getNombre());
+                gestor.abrirArchivo();
+                
+                
                 Timer t = new Timer();
-                BusquedaLocal b = new BusquedaLocal(ar, _config.getIteraciones());
+                BusquedaLocal b = new BusquedaLocal(ar, _config.getIteraciones(),gestor);
 
                 t.startTimer();
 
@@ -89,6 +103,8 @@ public class Metaheuristicas {
                 ite++;
 
                 _config.rotarSemilla();
+                
+                gestor.cerrarArchivo();
 
             }
 
@@ -99,6 +115,8 @@ public class Metaheuristicas {
     
     
      void busquedaTabu() {
+         
+        GestorLog gestor = new GestorLog("");
 
         for (Archivo ar : _archivos) {
 
@@ -114,6 +132,10 @@ public class Metaheuristicas {
                 sem.Set_random(_config.getSemilla());
                 b.busquedaTabu(sem);
                 double tiempo = t.stopTimer();
+                
+                gestor.cambiarNombre(ar.getRuta());
+                gestor.abrirArchivo();
+                gestor.cerrarArchivo();
 
                 System.out.println("Datos de la solución al problema: " + ar._nombre +", con la semilla: " +_config.getSemilla());
                 System.out.println("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
