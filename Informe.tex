@@ -180,6 +180,22 @@
 		\end{algorithmic}
 	\end{algorithm}
 
+	\paragraph{} La primera tarea que realiza el algoritmo es generar una solución de partida. Esta solución es generada de manera aleatoria con la función "GeneraSoluciónInicial(semilla)", haciendo uso de la semilla que forma parte de los parámetros del problema.
+	
+	\paragraph{}Una vez generada la solución inicial, se calcula su coste con la función "CalcularCoste()". El resultado calculado se almacena en la variable "costeActual".
+	
+	\paragraph{}Antes de entrar en el bucle while se inicializan tres variables que serán empleadas durante el algoritmo. "elementoMenor" almacenará el elemento de la solución que aporta menos valor al coste total de la solución, se inicializa vacío. "costeSolucion" almacenará el coste de las soluciones vecinas que se vayan generando durante el transcurso de la ejecución del algoritmo, se inicializa a 0. "mejora" almacena un valor booleano e indica si el coste de la solución vecina mejora el coste de la solución global.
+	
+	\paragraph{}Entramos en la ejecución del bucle while. Siempre que haya mejora se ejecutan las instrucciones que se describen a continuación.
+	
+	\paragraph{}Primero se modifica el valor de mejora a "false". Una vez hecho esto, se calcula el valor al coste global de la solución cada uno de los elementos pertenecientes a la solución con la función "CalcularAportes()". A continuación, se extrae el elemento que menos valor aporta con la función "ElementoMenorAporte()" y se almacena en la variable "elementoMenor".
+	
+	\paragraph{}Entramos ahora en un bucle for que recorre cada uno de los elementos del problema, que se encuentran en "matrizDatos" siempre que el valor de mejora sea false.
+	
+	\paragraph{}Dentro de este bucle se comprueba que cada uno de los elementos no pertenezca a la solución. Si se da este caso, se permuta ese elemento con "elementoMenor" y se evalua si al hacer este cambia logramos una mejora del coste con la función "EvaluarSolucion(elemento,costeSolucion,elementoMenor)".
+	
+	\paragraph{}Una vez hecho esto, se termina el bucle for, y se modifica el valor de "listaAportes" a vacío. "listaAportes" almacena el cálculo que realiza la función "CalcularAportes()", anteriormente utilizada.
+
 	\subsubsection{Generador de la solución inicial}
 	\begin{algorithm}[H]
 		\caption{GeneraSolucionInicial(semilla)}
@@ -192,6 +208,8 @@
 			\ENDWHILE
 		\end{algorithmic}
 	\end{algorithm}
+
+	\paragraph{}Este algoritmo va añadiendo a la solución un elemento aleatorio, generado con la función "GeneraEnteroAleatorio(semilla)", siempre que este no forme parte ya de la solución. Esto lo realizará simpre que el número de elementos introducidos sea inferior al número de elementos que debe contener una solución para poder ser considerada como tal.
 
 	\subsubsection{Calculo de los aportes}
 	\begin{algorithm}[H]
@@ -209,6 +227,16 @@
 		\end{algorithmic}
 	\end{algorithm}
 
+	\paragraph{}Este algoritmo utiliza un doble bucle for para poder calcular la distancia total de cada elemento de la solución respecto al resto de elementos.
+	
+	\paragraph{}Lo primero que se realiza es inicializar la variable "aporte" a 0. Esta variable almacena el coste de cada elemento.
+	
+	\paragraph{}Entramos en el doble bucle que antes mencionamos y dentro de este bucle se van sumando todas las distancias para el elemento i respecto al resto de los elementos j siempre que no sean el mismo elemento.
+	
+	\paragraph{}Una vez termina el segundo bucle for, se almacena el coste calculado para el elemento i en la variables "listaAportes" utilizando la funcion "AñadirAporte(i,aporte)"
+	
+	\paragraph{}Una vez hemos realizado todos los cálculos, ordenamos "listaAportes" de menor a mayor con la función "Sort(listaAportes)" y se termina la ejecución de la función.
+
 	\subsubsection{Calculo del elemento de la solución con menor aporte}
 	\begin{algorithm}[H]
 		\caption{ElementoMenorAporte()}
@@ -223,6 +251,12 @@
 			\RETURN elementoMenor
 		\end{algorithmic}
 	\end{algorithm}
+
+	\paragraph{}Empezamos con un bucle for que recorre todos los elementos de listaAportes.
+	
+	\paragraph{}Para cada elemento de listaAportes, se comprueba que este no pertenezca a la variable "elementosNoMejoran", que almacena todos los elementos que no aportan mejoran a la solución actual. Si no pertenece a esta variable, se almacena este elemento en la variable "elementoMenor" y se devuelve elementoMenor.
+	
+	\paragraph{}En caso de que no se haya encontrado ningún elemento que no pertenezca a "elementosNoMejoran", se devuelve "elementoMenor" con el valor comodín -1, que indica que no se ha encontrado ningún elemento válido.
 
 	\subsubsection{Evaluación de la solución}
 	\begin{algorithm}[H]
@@ -243,6 +277,20 @@
 		\end{algorithmic}
 	\end{algorithm}
 
+	\paragraph{}Primero se inicializa la variable local "mejora" con el valor false.
+	
+	\paragraph{}A continuación, se almacena el coste de la solución vecina resultante de intercambiar "elementoMenor" con "elemento" en la variable "costeSolucion". "elementoMenor" pertenece a la solución y "elemento" no.
+	
+	\paragraph{}Se comprueba si "costeSolucion" es mayor que "costeActual", que es el coste de la solución actual.
+	
+	\paragraph{}En el caso de que sea mayor, se realiza el intercambio de los dos elementos con la función "Intercambio(elementoMenor,elemento)" y se almacena en "costeActual" el nuevo coste de la solución. Se actualiza el valor de mejora a true y se reinicia la variable "elementosNoMejoran" a vacío.
+	
+	\paragraph{}En el caso de que no sea mayor, se comprueba que el elemento evaluado no sea el último del problema. En este caso, se añade "elemento" a "elementosNoMejoran".
+	
+	\paragraph{}Para finalizar, se devuelve el valor de la variable local "mejora".
+	
+	\paragraph{}
+
 	\subsubsection{Cálculo del coste factorizado}
 	\begin{algorithm}[H]
 		\caption{CosteFactorizado(elementoMenor, elemento)}
@@ -259,6 +307,15 @@
 		\end{algorithmic}
 	\end{algorithm}
 	
+	\paragraph{}Se inicializan a 0 las variables "costeMenos" y "costeMas", que almacenarán el coste que hay que restarle y sumarle respectivamente al coste total de la solución actual.
+	
+	\paragraph{}Una vez hecho esto, se empieza un bucle for que recorre todos los elementos de la solucion.
+	
+	\paragraph{}dentro del bucle se suma a "costeMenor" la distancia entre el elemento de la solucion y "elementoMenor", que es el elemento que dejará de formar parte de la solución.
+	
+	\paragraph{}A continuación, si el elemento de la solución no es igual que "elementoMenor", se suma a "costeMas" la distancia del elemento de la solución respecto a "elemento", que es el nuevo elemento de la solución. 
+	
+	\paragraph{}Una vez terminamos el bucle, se devuelve el resultado de restarle al coste de la solución actual "costeMenos" y sumarle "costeMas".
 	
 	\subsection{Búsqueda Tabú}
 	
