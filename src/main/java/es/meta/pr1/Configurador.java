@@ -20,7 +20,6 @@ public class Configurador {
     ArrayList<String> directoriosDatos;
     Long semilla;
     Integer iteraciones;
-    Long semillaTabu;
     Integer intentosTabu;
     Integer iteracionesTabu;
     Integer teneciaTabu;
@@ -50,9 +49,6 @@ public class Configurador {
                         break;
                     case "Iteraciones":
                         iteraciones = Integer.parseInt(split[1]);
-                        break;
-                    case "Semilla tabu":
-                        semillaTabu = Long.parseLong(split[1]);
                         break;
                     case "Intentos tabu":
                         intentosTabu = Integer.parseInt(split[1]);
@@ -92,10 +88,6 @@ public class Configurador {
 
     public Integer getIteraciones() {
         return iteraciones;
-    }
-
-    public Long getSemillaTabu() {
-        return semillaTabu;
     }
 
     public Integer getIntentosTabu() {

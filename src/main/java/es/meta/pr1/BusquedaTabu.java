@@ -185,16 +185,21 @@ public class BusquedaTabu {
             //}
             mejora = false;
             //calculamos el aporte de todos los elementos de la solución actual
-            calcularAportes();
+            
             //por cada elemento seleccionado
+            
+            if(_numIteraciones == 1545){
+                int b=0;
+            }
+            
             if(_numIntentos < _intentos){
              
-                eleMenor = EleMenorAporte();
+                eleMenor = calcularAportes();
                 
 
                 //comprobamos el vecindario
 
-                mejora = EvaluarSolucion(eleMenor);
+                mejora = EvaluarSolucion(eleMenor,s);
                 
             }else{
                 
@@ -238,10 +243,12 @@ public class BusquedaTabu {
      * @author David Díaz Jiménez
      * @date 03/10/2020
      */
-    void calcularAportes() {
+    int calcularAportes() {
 
         float aporte = 0.0f;
         Iterator<Integer> iterator = _solucion.iterator();
+        float menosAporte = Float.MAX_VALUE;
+        int elementoMenorAporte = -1;
 
         while (iterator.hasNext()) {
 
@@ -257,13 +264,14 @@ public class BusquedaTabu {
 
             ElementoSolucion x = new ElementoSolucion(i, aporte);
             _listaAportes.add(x);
+            if(aporte<menosAporte){
+                menosAporte = aporte;
+                elementoMenorAporte = i;
+            }
             aporte = 0.0f;
         }
-        if(_numIteraciones == 45563 ){
-            int a=0;
-        }
 
-        Collections.sort(_listaAportes);
+        return elementoMenorAporte;
     }
 
     /**
@@ -334,11 +342,13 @@ public class BusquedaTabu {
         ArrayList<ElementoSolucion> aux = new ArrayList<>();
         int i = 0;
         for(ElementoSolucion ele : _memoriaLargoPlazo){
+            i = ele.getId();
             ElementoSolucion f = new ElementoSolucion(i, ele.getVeces());
             aux.add(f);
-            i++;
         }
+        
         Collections.sort(aux);
+        
         if(p>0.5){
             //Intensificar
             while(sol.size()< _archivoDatos.getTama_Solucion()){
@@ -347,6 +357,7 @@ public class BusquedaTabu {
             }
             
             _numRestartMayor++;
+            
         }else{
             //Diversificar
             while(sol.size()< _archivoDatos.getTama_Solucion()){
@@ -371,7 +382,17 @@ public class BusquedaTabu {
                 _mejorSolucion.add(a);
             }
         }
-       
+        
+        
+        _memoriaCortoPlazo.clear();
+        _memoriaLargoPlazo.clear();
+        
+        for(int a = 0; a <_tenenciaTabu; a++){
+            _memoriaCortoPlazo.addLast(-1);
+        }
+        for(int a = 0; a <_archivoDatos.getTama_Matriz(); a++){
+            _memoriaLargoPlazo.add(new ElementoSolucion(a, 0));
+        }
     }
 
     /**
@@ -415,7 +436,7 @@ public class BusquedaTabu {
      * @param eleMenor int Elemento de la solucion que aporta menos
      * @return
      */
-    boolean EvaluarSolucion( int eleMenor) {
+    boolean EvaluarSolucion( int eleMenor, Random_p random) {
         boolean mejora = false;
         int mejorCandidato = 0;
         int candidatosEva = 1;
@@ -423,19 +444,24 @@ public class BusquedaTabu {
         float mejorCosteCandidato =0.0f;
         int min=0;
         int max=_archivoDatos.getTama_Matriz()-1;
-        if(eleMenor-10>=min) min = eleMenor -10;
-        if(eleMenor+2<=max) max = eleMenor;
+
         
-        for(int i = min; i<=max && candidatosEva<=10; i++){
-            
-            if(!_solucion.contains(i) && !_memoriaCortoPlazo.contains(i)){
+        while(candidatosEva <10){
+            int i = random.Randint(0, _archivoDatos.getTama_Matriz()-1);
+                    
+            if(!_solucion.contains(i)){
                 
-                Coste = CosteFactorizado(eleMenor, i);
-                if(Coste>= mejorCosteCandidato){
-                    mejorCosteCandidato = Coste;
-                    mejorCandidato = i;
+                if(!_memoriaCortoPlazo.contains(i)){
+                    Coste = CosteFactorizado(eleMenor, i);
+                    if(Coste>= mejorCosteCandidato){
+                        mejorCosteCandidato = Coste;
+                        mejorCandidato = i;
+                    }
+                    
                 }
+                
                 candidatosEva++;
+                
             }else{
                 if(max +1 < _archivoDatos.getTama_Matriz()-1) max++;
             }
