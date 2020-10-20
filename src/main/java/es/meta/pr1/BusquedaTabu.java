@@ -104,17 +104,18 @@ public class BusquedaTabu {
     Set<Integer> _solucion;
     Set<Integer> _mejorSolucion;///<Almacena el conjunto solución
     float _costeActual;///<Almacena el coste de la solucion durante la ejecución
-    float _mejorCoste;
-    ArrayList<ElementoSolucion> _listaAportes;///<Contiene el aporte de cada elemento de la solución actual
+    float _mejorCoste;///<Almacena el coste de la mejor solución obtenida
     int _iteraciones;///<Número de evaluaciones máximas
     long _numIteraciones;///<Número de evaluaciones actuales
-    int _intentos;
-    int _numIntentos;
-    int _tenenciaTabu;
-    ArrayList<ElementoSolucion> _memoriaLargoPlazo;
-    LinkedList<Integer> _memoriaCortoPlazo;
-    int _numRestartMenor;
-    int _numRestartMayor;
+    int _intentos;///<Número de intentos de mejora máximos
+    int _numIntentos;///<Número de intentos de mejora actuales
+    int _tenenciaTabu;///<Tamaño de la memoria de corto plazo
+    ArrayList<ElementoSolucion> _memoriaLargoPlazo;///<Almacena la frecuencia de
+    // aparición de los elementos en la solución
+    LinkedList<Integer> _memoriaCortoPlazo;///<Almacena los últimos movimientos
+    //de intercambio
+    int _numRestartMenor;///<Número de reinicializaciones de intensificación
+    int _numRestartMayor;///<Número de reinicializaciones de exploración
 
     /**
      * @brief Constructor parametrizado de la clase BusquedaLocal
@@ -137,7 +138,6 @@ public class BusquedaTabu {
         _tenenciaTabu = tenenciaTabu;
         _costeActual = 0.0f;
         _mejorCoste = 0.0f;
-        _listaAportes = new ArrayList<>();
         
 
         _memoriaLargoPlazo = new ArrayList<>();
@@ -176,30 +176,13 @@ public class BusquedaTabu {
 
         int eleMenor = 0;
 
-        boolean mejora = true;
-
         while (_numIteraciones < _iteraciones) {
-            
-            //if(_numIteraciones %100 == 0){
-               // System.out.println(_mejorCoste);
-            //}
-            mejora = false;
-            //calculamos el aporte de todos los elementos de la solución actual
-            
-            //por cada elemento seleccionado
-            
-            if(_numIteraciones == 1545){
-                int b=0;
-            }
-            
+                
             if(_numIntentos < _intentos){
              
                 eleMenor = calcularAportes();
                 
-
-                //comprobamos el vecindario
-
-                mejora = EvaluarSolucion(eleMenor,s);
+                EvaluarSolucion(eleMenor,s);
                 
             }else{
                 
@@ -207,11 +190,8 @@ public class BusquedaTabu {
                 _numIntentos = 0;
                 
             }
-            _listaAportes.clear();
 
         }
-
-        _listaAportes = null;
 
         System.out.println("COSTE: " + _mejorCoste);
     }
@@ -242,6 +222,7 @@ public class BusquedaTabu {
      * @author Andrés Rojas Ortega
      * @author David Díaz Jiménez
      * @date 03/10/2020
+     * @return elemento de la solución actual con el menor aporte
      */
     int calcularAportes() {
 
@@ -263,32 +244,19 @@ public class BusquedaTabu {
             }
 
             ElementoSolucion x = new ElementoSolucion(i, aporte);
-            _listaAportes.add(x);
+            
             if(aporte<menosAporte){
                 menosAporte = aporte;
                 elementoMenorAporte = i;
             }
+            
             aporte = 0.0f;
         }
 
         return elementoMenorAporte;
     }
 
-    /**
-     * @brief Busca el elemento de menor aporte de la solución actual
-     * @author Andrés Rojas Ortega
-     * @author David Díaz Jiménez
-     * @date 03/10/2020
-     * @return Integrantre de lasolucón con menor aporte
-     */
-    int EleMenorAporte() {
-
-        ElementoSolucion ele = _listaAportes.get(0);
-        int eleMenor = ele.getId();
-        return eleMenor;  
-
-    }
-
+  
     /**
      * @brief Calcula el coste factorizado de la solución actual
      * @author Andrés Rojas Ortega
@@ -334,6 +302,15 @@ public class BusquedaTabu {
     }
     
     
+    /**
+     * @brief Cuando la búsqueda Tabú llega a las X iteraciones sin mejora
+     * se reinicilaiza la búsqueda, creando una solución con los más visitidos 
+     * o con los menos visitados
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 20/10/2020
+     * @param ale aleatorio
+     */
     void Reinicializar(Random_p ale){
         
         float p = (float) ale.Randfloat(0, 1);
@@ -367,12 +344,15 @@ public class BusquedaTabu {
             _numRestartMenor++;
         }
         
+        // Actualizamos la solución
         _solucion.clear();
         for(int ele: sol){
                 int a = ele;
                 _solucion.add(a);
             }
         _costeActual = calcularCoste(true);
+        
+        //Si mejora a la mejor solución, la actualizamos
         
         if(_costeActual > _mejorCoste){
             _mejorCoste = _costeActual;
@@ -383,6 +363,7 @@ public class BusquedaTabu {
             }
         }
         
+        //Reiniciamos las memorias
         
         _memoriaCortoPlazo.clear();
         _memoriaLargoPlazo.clear();
@@ -393,6 +374,11 @@ public class BusquedaTabu {
         for(int a = 0; a <_archivoDatos.getTama_Matriz(); a++){
             _memoriaLargoPlazo.add(new ElementoSolucion(a, 0));
         }
+        
+        //Actualizamos las memorias
+        
+        _numIteraciones++;
+        ActualizarMemorias(-1);
     }
 
     /**
@@ -491,6 +477,14 @@ public class BusquedaTabu {
         
         return mejora;
     }
+    
+    /**
+     * @brief Actualiza las memorias de corto y largo plazo
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 03/10/2020
+     * @param elementoTabu elemento sustituido de la solución
+     */
     
     void ActualizarMemorias(int elementoTabu){
         
