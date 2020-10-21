@@ -52,7 +52,17 @@ public class BusquedaLocal {
 
         @Override
         public int compareTo(ElementoSolucion vecino) {
-            return (int) (this.getContribucion() - vecino.getContribucion());
+            Float ele1 = this.getContribucion();
+            Float ele2 = vecino.getContribucion();
+            int comparativa = ele1.compareTo(ele2);
+            
+            if(comparativa < 0)
+                return -1;
+            else if(comparativa > 0)
+                return 1;
+            else
+                return 0;
+    
         }
 
         public Integer getId() {
@@ -82,6 +92,7 @@ public class BusquedaLocal {
     Integer _evaluciones;///<Número de evaluaciones máximas
     long _numEvaluciones;///<Número de evaluaciones actuales
     private GestorLog gestor;
+    String linea ="";
 
     /**
      * @brief Constructor parametrizado de la clase BusquedaLocal
@@ -129,6 +140,8 @@ public class BusquedaLocal {
         boolean mejora = true;
 
         while (_numEvaluciones < 5000000 && mejora) {
+            
+            linea ="";
 
             mejora = false;
             //calculamos el aporte de todos los elementos de la solución actual
@@ -145,6 +158,7 @@ public class BusquedaLocal {
                 //comprobamos el primer vecino que nos mejore
                 for (int i = 0; i < _archivoDatos.getTama_Matriz() && !mejora; i++) {
                     if (!_solucion.contains(i)) {
+                        linea ="";
                         gestor.escribirArchivo("-----Evaluación nº " +_numEvaluciones+"-----");
                         mejora = EvaluarSolucion(i, costeSolucion, eleMenor);
 
@@ -323,24 +337,24 @@ public class BusquedaLocal {
         if (_costeActual < costeSolucion) {
             Intercambio(eleMenor, i);
             
-            gestor.escribirArchivo(eleMenor +" sustituido por " + i);
+            linea+=eleMenor +" sustituido por " + i;
             
             //actualizamos el coste de la solucion
             _costeActual = costeSolucion;
             
-            gestor.escribirArchivo("Nuevo mejor coste: " +_costeActual);
+            linea += "  Nuevo mejor coste: " +_costeActual ;
             
             mejora = true;
             _integrantesNoMejoran.clear();
         } else {
             if (i == _archivoDatos.getTama_Matriz() - 1) {
                 _integrantesNoMejoran.add(eleMenor);
-                gestor.escribirArchivo(eleMenor +" añadido a los integrantes que no mejoran");
+                linea+=eleMenor +" añadido a los integrantes que no mejoran ";
             }
             
-            gestor.escribirArchivo("No se realiza ningún movimiento");
+            linea+=" No se realiza ningún movimiento ";
         }
-        gestor.escribirArchivo("");
+        gestor.escribirArchivo(linea);
         return mejora;
     }
 

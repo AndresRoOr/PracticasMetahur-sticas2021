@@ -117,15 +117,20 @@ public class Metaheuristicas {
     
      void busquedaTabu() {
          
-       // GestorLog gestor = new GestorLog("");
+       GestorLog gestor = new GestorLog("");
 
         for (Archivo ar : _archivos) {
 
             int ite = 1;
 
             while (ite <= 5) {
+                
+                gestor.cambiarNombre("btabu/Log_Sem_"+_config.getSemilla()+"_"+ar.getNombre());
+                gestor.abrirArchivo();
+                
                 Timer t = new Timer();
-                BusquedaTabu b = new BusquedaTabu(ar, _config.getIteracionesTabu(),_config.getIntentosTabu(),_config.getTenenciaTabu());
+                BusquedaTabu b = new BusquedaTabu(ar, _config.getIteracionesTabu(),
+                        _config.getIntentosTabu(),_config.getTenenciaTabu(),gestor);
 
                 t.startTimer();
 
@@ -134,9 +139,6 @@ public class Metaheuristicas {
                 b.busquedaTabu(sem);
                 double tiempo = t.stopTimer();
                 
-              //gestor.cambiarNombre(ar.getRuta());
-                //gestor.abrirArchivo();
-                //gestor.cerrarArchivo();
 
                 System.out.println("Datos de la solución al problema: " + ar._nombre +", con la semilla: " +_config.getSemilla());
                 System.out.println("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
@@ -147,6 +149,7 @@ public class Metaheuristicas {
 
                 _config.rotarSemilla();
 
+                gestor.cerrarArchivo();
             }
 
             _config.recuperarSemilla();

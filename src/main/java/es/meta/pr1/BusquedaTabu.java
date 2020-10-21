@@ -12,8 +12,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
-import javafx.util.Pair;
-
 /**
  * @brief Clase que implementa la funcionalidad del algoritmo de Búsqueda Local
  * @class BusquedaLocal
@@ -62,11 +60,11 @@ public class BusquedaTabu {
         public int compareTo(ElementoSolucion vecino) {
             Float ele1 = this.getContribucion();
             Float ele2 = vecino.getContribucion();
-            int comparartiva = ele1.compareTo(ele2);
+            int comparativa = ele1.compareTo(ele2);
             
-            if(comparartiva < 0)
+            if(comparativa < 0)
                 return -1;
-            else if(comparartiva > 0)
+            else if(comparativa > 0)
                 return 1;
             else
                 return 0;
@@ -116,6 +114,8 @@ public class BusquedaTabu {
     //de intercambio
     int _numRestartMenor;///<Número de reinicializaciones de intensificación
     int _numRestartMayor;///<Número de reinicializaciones de exploración
+    GestorLog gestor;
+    String linea ="";
 
     /**
      * @brief Constructor parametrizado de la clase BusquedaLocal
@@ -127,18 +127,19 @@ public class BusquedaTabu {
      * @param Intentos
      * @param tenenciaTabu
      */
-    public BusquedaTabu(Archivo archivoDatos, Integer iteraciones, Integer Intentos, Integer tenenciaTabu) {
+    public BusquedaTabu(Archivo archivoDatos, Integer iteraciones, Integer Intentos, Integer tenenciaTabu, GestorLog g) {
         _archivoDatos = archivoDatos;
         _solucion = new HashSet<>();
         _mejorSolucion = new HashSet<>();
         _iteraciones = iteraciones;
         _numIteraciones = 0;
-        _intentos = 100;
+        _intentos = Intentos;
         _numIntentos = 0;
         _tenenciaTabu = tenenciaTabu;
         _costeActual = 0.0f;
         _mejorCoste = 0.0f;
         
+        gestor = g;
 
         _memoriaLargoPlazo = new ArrayList<>();
         _memoriaCortoPlazo = new LinkedList<>();
@@ -173,10 +174,20 @@ public class BusquedaTabu {
         _costeActual = calcularCoste(false);
         _mejorCoste = _costeActual;
         
+        gestor.escribirArchivo("Solución inicial: " + _solucion);
+        
+        gestor.escribirArchivo("");
 
+        gestor.escribirArchivo("Coste: " + _costeActual);
+
+        gestor.escribirArchivo("");
+        
         int eleMenor = 0;
 
         while (_numIteraciones < _iteraciones) {
+            
+            linea = "";
+            gestor.escribirArchivo("-----Iteración nº " +_numIteraciones+"-----");
                 
             if(_numIntentos < _intentos){
              
@@ -190,6 +201,8 @@ public class BusquedaTabu {
                 _numIntentos = 0;
                 
             }
+            
+            gestor.escribirArchivo(linea);
 
         }
 
@@ -333,6 +346,7 @@ public class BusquedaTabu {
                 aux.remove(aux.size()-1);
             }
             
+            linea+=" Intensificación ";
             _numRestartMayor++;
             
         }else{
@@ -341,6 +355,7 @@ public class BusquedaTabu {
                 sol.add(aux.get(0).getId());
                 aux.remove(0);
             }
+            linea+=" Diversificación ";
             _numRestartMenor++;
         }
         
@@ -352,6 +367,7 @@ public class BusquedaTabu {
             }
         _costeActual = calcularCoste(true);
         
+        linea+=", coste actual: "  +_costeActual +", mejor coste: "+ _mejorCoste;
         //Si mejora a la mejor solución, la actualizamos
         
         if(_costeActual > _mejorCoste){
@@ -361,6 +377,8 @@ public class BusquedaTabu {
                 int a = ele;
                 _mejorSolucion.add(a);
             }
+            
+            linea+=" nuevo mejor coste;";
         }
         
         //Reiniciamos las memorias
@@ -430,24 +448,22 @@ public class BusquedaTabu {
         float mejorCosteCandidato =0.0f;
         int min=0;
         int max=_archivoDatos.getTama_Matriz()-1;
-
+        Set<Integer> vecindario = new HashSet<>();
         
         while(candidatosEva <10){
             int i = random.Randint(0, _archivoDatos.getTama_Matriz()-1);
                     
-            if(!_solucion.contains(i)){
+            if(!_solucion.contains(i)&& !_memoriaCortoPlazo.contains(i) &&
+                    !vecindario.contains(i)){
                 
-                if(!_memoriaCortoPlazo.contains(i)){
-                    Coste = CosteFactorizado(eleMenor, i);
-                    if(Coste>= mejorCosteCandidato){
-                        mejorCosteCandidato = Coste;
-                        mejorCandidato = i;
-                    }
-                    
+                Coste = CosteFactorizado(eleMenor, i);
+                if(Coste>= mejorCosteCandidato){
+                    mejorCosteCandidato = Coste;
+                    mejorCandidato = i;
+                    vecindario.add(i);
                 }
-                
                 candidatosEva++;
-                
+                        
             }else{
                 if(max +1 < _archivoDatos.getTama_Matriz()-1) max++;
             }
@@ -458,8 +474,13 @@ public class BusquedaTabu {
         Intercambio(eleMenor, mejorCandidato);
         _numIteraciones++;
         
+        linea+=" "+ eleMenor+" reemplazado por "+ mejorCandidato+ ", coste actual: " +_costeActual +", mejor coste: "+ _mejorCoste;
+        
         //Si resulta mejor nos deplazamos a el
-        if (_costeActual <= _mejorCoste) {   _numIntentos++;
+        if (_costeActual <= _mejorCoste) {  
+            _numIntentos++;
+            linea+=" nº interaciones sin mejora: " + _numIntentos +";";
+           
         } else { 
             _numIntentos = 0; 
             _mejorSolucion.clear();
@@ -469,6 +490,8 @@ public class BusquedaTabu {
             }
             
             _mejorCoste = _costeActual;
+            
+            linea+=" Nuevo mejor coste;";
         }
         
         ActualizarMemorias(eleMenor);
@@ -514,6 +537,13 @@ public class BusquedaTabu {
         System.out.println(_mejorSolucion);
         float _suma_Resultado = calcularCoste(false);
         System.out.println("Coste de la solución: " + _suma_Resultado);
+        
+        gestor.escribirArchivo("");
+        gestor.escribirArchivo("Resultados");
+        gestor.escribirArchivo("Intensificaciones: " +_numRestartMayor);
+        gestor.escribirArchivo("Diversificaciones: " +_numRestartMenor);
+        gestor.escribirArchivo("Vector Solución: " + _mejorSolucion);
+        gestor.escribirArchivo("Coste de la solución: " + _suma_Resultado);
 
         _solucion.clear();
         _solucion = null;
