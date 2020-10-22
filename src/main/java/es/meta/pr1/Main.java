@@ -36,7 +36,7 @@ public class Main {
                     config.getDirectoriosDatos().get(i), config);
             M1.lector_Archivos();
 
-            M1.busquedaTabu();
+            M1.greedy();
                     
         }
         //M1.mostrar_Datos();        

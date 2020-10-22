@@ -139,7 +139,7 @@ public class BusquedaLocal {
 
         boolean mejora = true;
 
-        while (_numEvaluciones < 5000000 && mejora) {
+        while ( mejora) {
             
             linea ="";
 

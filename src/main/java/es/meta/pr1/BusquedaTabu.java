@@ -175,11 +175,8 @@ public class BusquedaTabu {
         _mejorCoste = _costeActual;
         
         gestor.escribirArchivo("Solución inicial: " + _solucion);
-        
         gestor.escribirArchivo("");
-
         gestor.escribirArchivo("Coste: " + _costeActual);
-
         gestor.escribirArchivo("");
         
         int eleMenor = 0;
@@ -457,10 +454,10 @@ public class BusquedaTabu {
                     !vecindario.contains(i)){
                 
                 Coste = CosteFactorizado(eleMenor, i);
+                vecindario.add(i);
                 if(Coste>= mejorCosteCandidato){
                     mejorCosteCandidato = Coste;
                     mejorCandidato = i;
-                    vecindario.add(i);
                 }
                 candidatosEva++;
                         
@@ -479,7 +476,7 @@ public class BusquedaTabu {
         //Si resulta mejor nos deplazamos a el
         if (_costeActual <= _mejorCoste) {  
             _numIntentos++;
-            linea+=" nº interaciones sin mejora: " + _numIntentos +";";
+            linea+=", nº interaciones sin mejora: " + _numIntentos +";";
            
         } else { 
             _numIntentos = 0; 
