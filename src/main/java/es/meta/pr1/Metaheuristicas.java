@@ -156,7 +156,7 @@ public class Metaheuristicas {
 
             }
 
-            _config.recuperarSemilla();
+            _config.RecuperarSemilla();
         }
 
     }
