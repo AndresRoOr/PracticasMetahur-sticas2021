@@ -146,8 +146,8 @@ public class BusquedaLocal {
             mejora = false;
             //calculamos el aporte de todos los elementos de la solución actual
             calcularAportes();
-            //por cada elemento seleccionado 
-                //calculamos el elemento de la solución actual que menos aporte
+
+            //calculamos el elemento de la solución actual que menos aporte
                 eleMenor = EleMenorAporte();
                 if (eleMenor == -1) {
                     break;
@@ -164,7 +164,6 @@ public class BusquedaLocal {
 
                     }
                 }
-            
             _listaAportes.clear();
 
         }
@@ -173,7 +172,7 @@ public class BusquedaLocal {
         _integrantesNoMejoran.clear();
         _integrantesNoMejoran = null;
 
-        System.out.println("COSTE: " + _costeActual);
+       // System.out.println("COSTE: " + _costeActual);
     }
 
     /**
