@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.BufferedReader;
+import java.util.Arrays;
 
 /**
  * @brief Clase que almacena todos los parámetros principales del programa
@@ -31,6 +32,7 @@ public class Configurador {
     ///algoritmo de la búsqueda tabú
     Integer intentosTabu;///<Número de intentos en la búsqueda tabú
     Integer iteracionesTabu;///<Número de iteraciones en la búsqueda tabú
+    Long recuperarSemilla;///<Alamcena el valor inicial de la semilla
 
     /**
      * @brief Constructor parametrizado de la clase Configurador
@@ -61,11 +63,12 @@ public class Configurador {
                         break;
                     case "Semilla":
                         semilla = Long.parseLong(split[1]);
+                        recuperarSemilla = semilla;
                         break;
                     case "Intentos":
                         intentos = Integer.parseInt(split[1]);
                         break;
-                    case "iteracioens":
+                    case "Iteraciones":
                         iteraciones = Integer.parseInt(split[1]);
                         break;
                     case "Semilla tabu":
@@ -171,4 +174,36 @@ public class Configurador {
         return iteracionesTabu;
     }
 
+    /**
+     * @brief Rota las posiciones de la semilla una posición a la derecha
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 06/10/2020
+     */
+    void rotarSemilla() {
+        //-------------------------------------------------
+        long semillaAntigua = semilla;
+        //-------------------------------------------------
+
+        char[] cadenaSemilla = semilla.toString().toCharArray();
+        char[] cadenaRotada = new char[8];
+
+        cadenaRotada[7] = cadenaSemilla[0];
+
+        for (int i = 0; i < 7; i++) {
+            cadenaRotada[i] = cadenaSemilla[i + 1];
+        }
+
+        semilla = Long.parseLong(String.valueOf(cadenaRotada));
+    }
+
+    /**
+     * @brief Restaura la semilla a su estado original
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 06/10/2020
+     */
+    void RecuperarSemilla() {
+        semilla = recuperarSemilla;
+    }
 }

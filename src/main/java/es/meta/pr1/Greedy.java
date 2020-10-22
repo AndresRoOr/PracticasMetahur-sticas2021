@@ -7,7 +7,10 @@
 package es.meta.pr1;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * @brief Clase que implementa la funcionalidad del algoritmo Greedy
@@ -20,8 +23,8 @@ public class Greedy {
 
     ///Atributos de la clase:
     Archivo _archivoDatos;///<Contiene los datos sobre los que operar.
-    ArrayList<Integer> _solucion;///<Almacena el conjunto solución.
-    Double _suma_Resultado;///<Almacena la suma del valor heurístico.
+    Set<Integer> _solucionB;
+    Float _suma_Resultado;///<Almacena la suma del valor heurístico.
 
     /**
      * @brief Constructor parametrizado de la clase Greedy
@@ -32,8 +35,8 @@ public class Greedy {
      */
     public Greedy(Archivo archivoDatos) {
         _archivoDatos = archivoDatos;
-        _solucion = new ArrayList<>();
-        _suma_Resultado = 0.0;
+        _suma_Resultado = 0.0f;
+        _solucionB = new HashSet<>();
     }
 
     /**
@@ -43,24 +46,48 @@ public class Greedy {
      * @date 27/09/2020
      * @param aleatorioSemilla Random Semilla generada aleatoriamente
      */
-    void greedy(Random aleatorioSemilla) {
+    void greedy(Random_p aleatorioSemilla) {
 
         //Generación del primer elemento
-        GenSolucionIni(aleatorioSemilla);
+        Integer ultimo = GenSolucionIni(aleatorioSemilla);
 
-        Integer candidato;
+        //Generación del conjunto de candidatos
+        ArrayList<Pair> candidatos = GenCandidatos();
+
+        Pair candidato;
 
         while (!FuncionSolucion()) {
 
-            candidato = FuncionSeleccion();
+            candidato = FuncionSeleccion(candidatos, ultimo);
 
-            if (FuncionFactible(candidato)) {
-                _solucion.add(candidato);
-                _suma_Resultado = calculoSolucionParcial();
+            if (FuncionFactible(candidato.getCandidato())) {
+                _solucionB.add(candidato.getCandidato());
+                _suma_Resultado = candidato.getCoste();
+                ultimo = candidato.getCandidato();
             }
 
+            candidatos.remove(candidato);
+
+        }
+    }
+
+    /**
+     * @brief Genera el conjunto inicial de candidatos para el algoritmo Greedy
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 30/09/2020
+     * @return candidatos ArrayList El conjunto de candidatos inicial.
+     */
+    ArrayList<Pair> GenCandidatos() {
+        ArrayList<Pair> candidatos = new ArrayList<>();
+
+        for (int i = 0; i < _archivoDatos.getTama_Matriz(); i++) {
+            if (!_solucionB.contains(i)) {
+                candidatos.add(new Pair(i, 0.0f));
+            }
         }
 
+        return candidatos;
     }
 
     /**
@@ -69,25 +96,29 @@ public class Greedy {
      * @author Andrés Rojas Ortega
      * @author David Díaz Jiménez
      * @date 28/09/2020
-     * @return candidato Integer El candidato más prometedor
+     * @param candidatos ArrayList El conjunto de todos los candidatos
+     * @param ultimo Integer El último elemento que ha formado parte de la
+     * solución
+     * @return candidato Pair El candidato más prometedor
      */
-    Integer FuncionSeleccion() {
-        Double max = 0.0;
-        Integer candidato = -1;
+    Pair FuncionSeleccion(ArrayList<Pair> candidatos, Integer ultimo) {
+        double max = 0.0;
+        Iterator<Pair> iterador = candidatos.iterator();
+        Pair candidato = null;
+        Pair seleccionado = null;
 
-        for (int i = 0; i < _archivoDatos.getTama_Matriz(); i++) {
-            if (!_solucion.contains(i)) {
-                _solucion.add(i);
-                Double valor = calculoSolucionParcial();
-                if (valor > max) {
-                    max = valor;
-                    candidato = i;
-                }
-                _solucion.remove(_solucion.size() - 1);
+        while (iterador.hasNext()) {
+            candidato = iterador.next();
+
+            candidato.setCoste(_archivoDatos.getMatriz()[ultimo][candidato.getCandidato()]);
+
+            if (candidato.getCoste() > max) {
+                max = candidato.getCoste();
+                seleccionado = candidato;
             }
         }
 
-        return candidato;
+        return seleccionado;
     }
 
     /**
@@ -99,7 +130,7 @@ public class Greedy {
      * @return
      */
     boolean FuncionSolucion() {
-        return !(_solucion.size() < _archivoDatos.getTama_Solucion());
+        return !(_solucionB.size() < _archivoDatos.getTama_Solucion());
     }
 
     /**
@@ -122,12 +153,15 @@ public class Greedy {
      * @author David Díaz Jiménez
      * @date 28/09/2020
      * @param aleatorioSemilla Random Utilizado para generar un número aleatorio
+     * @return sol_Inicial Integer El primer elemento de la solución elegido.
      */
-    void GenSolucionIni(Random aleatorioSemilla) {
-        _solucion.clear();
+    Integer GenSolucionIni(Random_p aleatorioSemilla) {
+        _solucionB.clear();
         Integer sol_Inicial
-                = aleatorioSemilla.nextInt(_archivoDatos.getTama_Matriz());
-        _solucion.add(sol_Inicial);
+                = aleatorioSemilla.Randint(0,_archivoDatos.getTama_Matriz());
+        _solucionB.add(sol_Inicial);
+
+        return sol_Inicial;
     }
 
     /**
@@ -138,33 +172,14 @@ public class Greedy {
      */
     void PresentarResultados() {
         System.out.println("Vector Solución");
-        System.out.println(_solucion);
+        System.out.println(_solucionB);
+        _suma_Resultado = calculoValorSolucion();
         System.out.println("Coste de la solución: " + _suma_Resultado);
 
-        _solucion = null;
+        _solucionB = null;
         _archivoDatos.setMatriz(null);
 
         System.out.println("");
-    }
-
-    /**
-     * @brief Calcula la solución resultante de añadir un nuevo valor haciendo
-     * uso de las solución parcial actual.
-     * @author Andrés Rojas Ortega
-     * @author David Díaz Jiménez
-     * @date 27/09/2020
-     * @return suma Double Resultado parcial obtenido
-     */
-    Double calculoSolucionParcial() {
-
-        Double suma = _suma_Resultado;
-
-        for (int i = 0; i < _solucion.size() - 1; i++) {
-            suma += _archivoDatos.getMatriz()[_solucion.get(i)]
-                    [_solucion.get(_solucion.size() - 1)];
-        }
-
-        return suma;
     }
 
     /**
@@ -175,18 +190,19 @@ public class Greedy {
      * @return suma Double Valor heurístico calculado a partir del conjunto
      * solución
      */
-    Double calculoValorSolucion() {
+    Float calculoValorSolucion() {
 
-        Double suma = 0.0;
-        for (int i = 0; i < _solucion.size(); i++) {
-            for (int j = i + 1; j < _solucion.size(); j++) {
+         float coste = 0.0f;
+        Object[] sol = _solucionB.toArray();
 
-                suma += _archivoDatos.getMatriz()[_solucion.get(i)]
-                        [_solucion.get(j)];
-
+        for (int i = 0; i < sol.length - 1; i++) {
+            int a = (int) sol[i];
+            for (int j = i + 1; j < sol.length; j++) {
+                int b = (int) sol[j];
+                coste += _archivoDatos.getMatriz()[a][b];
             }
         }
 
-        return suma;
+        return coste;
     }
 }
