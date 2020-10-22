@@ -551,4 +551,17 @@ public class BusquedaTabu {
         System.out.println("");
     }
 
+        ArrayList<Integer> GeneraVecindarioRestringido(int tamanioVecindario, Random_p semilla){
+        int vecino = 0;
+        ArrayList<Integer> vecindario= new ArrayList<>();
+        
+        while (vecindario.size() < tamanioVecindario){
+            vecino = semilla.Randint(0, _archivoDatos.getTama_Matriz()-1);
+            if ( (!_solucion.contains(vecino)) && (!_memoriaCortoPlazo.contains(vecino)) && (!vecindario.contains(vecino))){
+                vecindario.add(vecino);
+            }
+        }
+        return vecindario;
+    }
+
 }
