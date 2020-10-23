@@ -563,5 +563,18 @@ public class BusquedaTabu {
         }
         return vecindario;
     }
+        
+        Pair EvaluaVecindarioRestringido(ArrayList<Integer> vecindario, int elementoMenor){
+            float costeMax = 0.0f;
+            int mejorVecino = -1;
+            
+            for(int i=0; i<vecindario.size(); i++){
+                if (CosteFactorizado(elementoMenor, vecindario.get(i))>costeMax){
+                    costeMax = CosteFactorizado(elementoMenor, vecindario.get(i));
+                    mejorVecino=vecindario.get(i);
+                }
+            }
+            return new Pair(mejorVecino, costeMax);
+        }
 
 }
