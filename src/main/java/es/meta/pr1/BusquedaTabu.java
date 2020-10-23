@@ -225,34 +225,6 @@ public class BusquedaTabu {
     }
 
     /**
-     * @brief Muestra por pantalla los datos de la solución
-     * @author Andrés Rojas Ortega
-     * @author David Díaz Jiménez
-     * @date 03/10/2020
-     */
-    void PresentarResultados() {
-        System.out.println("Intensificaciones: " + _numRestartMayor);
-        System.out.println("Diversificaciones: " + _numRestartMenor);
-        System.out.println("Vector Solución");
-        System.out.println(_solucionElite);
-        float _suma_Resultado = CalcularCosteElite();
-        System.out.println("Coste de la solución: " + _suma_Resultado);
-
-        gestor.escribirArchivo("");
-        gestor.escribirArchivo("Resultados");
-        gestor.escribirArchivo("Intensificaciones: " + _numRestartMayor);
-        gestor.escribirArchivo("Diversificaciones: " + _numRestartMenor);
-        gestor.escribirArchivo("Vector Solución: " + _solucionElite);
-        gestor.escribirArchivo("Coste de la solución: " + _suma_Resultado);
-
-        _solucionMomento.clear();
-        _solucionMomento = null;
-
-        System.out.println("");
-    }
-
-    //====================================================================================================================================================
-    /**
      * @brief Genera la solución incial
      * @author Andrés Rojas Ortega
      * @author David Díaz Jiménez
@@ -546,5 +518,32 @@ public class BusquedaTabu {
 
         linea += " Intensificación ";
         _numRestartMayor++;
+    }
+    
+    /**
+     * @brief Muestra por pantalla los datos de la solución
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 03/10/2020
+     */
+    void PresentarResultados() {
+        System.out.println("Intensificaciones: " + _numRestartMayor);
+        System.out.println("Diversificaciones: " + _numRestartMenor);
+        System.out.println("Vector Solución");
+        System.out.println(_solucionElite);
+        float _suma_Resultado = CalcularCosteElite();
+        System.out.println("Coste de la solución: " + _suma_Resultado);
+
+        gestor.escribirArchivo("");
+        gestor.escribirArchivo("Resultados");
+        gestor.escribirArchivo("Intensificaciones: " + _numRestartMayor);
+        gestor.escribirArchivo("Diversificaciones: " + _numRestartMenor);
+        gestor.escribirArchivo("Vector Solución: " + _solucionElite);
+        gestor.escribirArchivo("Coste de la solución: " + _suma_Resultado);
+
+        _solucionMomento.clear();
+        _solucionMomento = null;
+
+        System.out.println("");
     }
 }
