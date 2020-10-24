@@ -120,7 +120,6 @@ public class BusquedaTabu {
     GestorLog gestor;
     String linea = "";
 
-    ArrayList<ElementoSolucion> _listaAportes;
 
     /**
      * @brief Constructor parametrizado de la clase BusquedaLocal
@@ -146,8 +145,6 @@ public class BusquedaTabu {
 
         gestor = g;
 
-        _listaAportes = new ArrayList<>();
-
         _memoriaLargoPlazo = new ArrayList<>();
         _listaTabu = new LinkedList<>();
         for (int i = 0; i < _tenenciaTabu; i++) {
@@ -164,16 +161,16 @@ public class BusquedaTabu {
     void busquedaTabu(Random_p aleatorioSemilla) {
 
         int elementoMenor;
-        ArrayList<Integer> vecindario = null;
+        Set vecindario = null;
         int tamanioVecindario;
         Pair mejorVecino = null;
 
         GeneraSolucionAleatoria(aleatorioSemilla);
-        _solucionMomento = new HashSet<>(_solucionElite);
+        _solucionElite = new HashSet<>(_solucionMomento);
         _costeSolucionElite = CalcularCosteElite();
         _costeSolucionMomento = _costeSolucionElite;
 
-        gestor.escribirArchivo("Solución inicial: " + _solucionMomento);
+        gestor.escribirArchivo("Solución inicial: " + _solucionElite);
         gestor.escribirArchivo("");
         gestor.escribirArchivo("Coste: " + _costeSolucionMomento);
         gestor.escribirArchivo("");
@@ -190,11 +187,12 @@ public class BusquedaTabu {
             Intercambio(elementoMenor, mejorVecino.getCandidato());
             _costeSolucionMomento = mejorVecino.getCoste();
 
-            linea += " " + elementoMenor + " reemplazado por " + mejorVecino + ", coste actual: " + _costeSolucionMomento + ", mejor coste: " + _costeSolucionElite;
+            linea += " " + elementoMenor + " reemplazado por " + mejorVecino.getCandidato() + ", coste actual: " + _costeSolucionMomento + ", mejor coste: " + _costeSolucionElite;
 
-            ActualizarMemorias(mejorVecino.getCandidato());
+            ActualizarMemorias(elementoMenor);
 
             if (_costeSolucionMomento > _costeSolucionElite) {
+                _solucionElite.clear();
                 _solucionElite = new HashSet<>(_solucionMomento);
                 _costeSolucionElite = _costeSolucionMomento;
                 _iteracionesSinMejora = 0;
@@ -208,14 +206,15 @@ public class BusquedaTabu {
 
             }
 
-            EliminarMasAntiguo();
+            //EliminarMasAntiguo();
             _iteracionesRealizadas++;
-            _listaAportes.clear();
 
-            if (_iteracionesSinMejora > _limiteSinMejora) {
+            if (_iteracionesSinMejora >= _limiteSinMejora) {
                 ReinicializarBusqueda(aleatorioSemilla);
+                _iteracionesRealizadas++;
             }
 
+                
             gestor.escribirArchivo(linea);
 
         }
@@ -245,9 +244,9 @@ public class BusquedaTabu {
 
     }
 
-    ArrayList<Integer> GeneraVecindarioRestringido(int tamanioVecindario, Random_p semilla) {
+    Set<Integer> GeneraVecindarioRestringido(int tamanioVecindario, Random_p semilla) {
         int vecino = 0;
-        ArrayList<Integer> vecindario = new ArrayList<>();
+        Set<Integer> vecindario = new HashSet<>();
 
         while (vecindario.size() < tamanioVecindario) {
             vecino = semilla.Randint(0, _archivoDatos.getTama_Matriz() - 1);
@@ -258,14 +257,17 @@ public class BusquedaTabu {
         return vecindario;
     }
 
-    Pair EvaluaVecindarioRestringido(ArrayList<Integer> vecindario, int elementoMenor) {
+    Pair EvaluaVecindarioRestringido(Set<Integer> vecindario, int elementoMenor) {
         float costeMax = 0.0f;
         int mejorVecino = -1;
 
+        Iterator<Integer> iterator = vecindario.iterator();
         for (int i = 0; i < vecindario.size(); i++) {
-            if (CosteFactorizado(elementoMenor, vecindario.get(i)) > costeMax) {
-                costeMax = CosteFactorizado(elementoMenor, vecindario.get(i));
-                mejorVecino = vecindario.get(i);
+            int elemento = iterator.next();
+            float Coste = CosteFactorizado(elementoMenor, elemento);
+            if (Coste > costeMax) {
+                costeMax = Coste;
+                mejorVecino = elemento;
             }
         }
         return new Pair(mejorVecino, costeMax);
@@ -305,6 +307,8 @@ public class BusquedaTabu {
 
         float aporte = 0.0f;
         Iterator<Integer> iterator = _solucionMomento.iterator();
+        float menorAporte  = Float.MAX_VALUE;
+        int elemenor = -1;
 
         while (iterator.hasNext()) {
 
@@ -318,12 +322,15 @@ public class BusquedaTabu {
 
             }
 
-            ElementoSolucion x = new ElementoSolucion(i, aporte);
-            _listaAportes.add(x);
+            if(aporte < menorAporte){
+                menorAporte = aporte;
+                elemenor = i;
+            }
+            
             aporte = 0.0f;
         }
-        Collections.sort(_listaAportes);
-        return _listaAportes.get(0).getId();
+
+        return elemenor;
     }
 
     void EliminarMasAntiguo() {
@@ -370,7 +377,7 @@ public class BusquedaTabu {
         int tamanioVecindario = (int) Math.exp((_limiteIteraciones - _iteracionesRealizadas) / ((_limiteIteraciones / log(_archivoDatos.getTama_Solucion()))));
 
         if (tamanioVecindario < 10) {
-            tamanioVecindario = (int) (_archivoDatos.getTama_Solucion());
+            tamanioVecindario = 10;
         }
 
         return tamanioVecindario;
@@ -402,13 +409,11 @@ public class BusquedaTabu {
         Object[] sol = _solucionMomento.toArray();
 
         for (Object elemento : sol) {
-
             int a = (int) elemento;
             _memoriaLargoPlazo.get(a).setVeces();
-
         }
 
-        _listaTabu.push(elementoTabu);
+        _listaTabu.addLast(elementoTabu);
         _listaTabu.pop();
     }
 
@@ -425,11 +430,15 @@ public class BusquedaTabu {
             Diversificacion();
         }
         _listaTabu.clear();
+        for (int i = 0; i < _tenenciaTabu; i++) {
+            _listaTabu.addLast(-1);
+        }
         _iteracionesSinMejora = 0;
+        ActualizarMemorias(-1);
     }
 
     float GeneraLimiteExploracion() {
-        return (float) _iteracionesRealizadas / _limiteIteraciones;
+        return ((float)_iteracionesRealizadas) /((float) _limiteIteraciones);
     }
 
     void Intensificacion() {
@@ -448,15 +457,6 @@ public class BusquedaTabu {
 
         while (_solucionMomento.size() < _archivoDatos.getTama_Solucion()) {
             _solucionMomento.add(aux.get(aux.size() - 1).getId());
-
-            Object[] sol = _solucionMomento.toArray();
-
-            for (Object elemento : sol) {
-
-                int a = (int) elemento;
-                _memoriaLargoPlazo.get(a).setVeces();
-
-            }
 
             aux.remove(aux.size() - 1);
         }
@@ -493,18 +493,9 @@ public class BusquedaTabu {
         while (_solucionMomento.size() < _archivoDatos.getTama_Solucion()) {
             _solucionMomento.add(aux.get(0).getId());
 
-            Object[] sol = _solucionMomento.toArray();
-
-            for (Object elemento : sol) {
-
-                int a = (int) elemento;
-                _memoriaLargoPlazo.get(a).setVeces();
-
-            }
-
             aux.remove(0);
         }
-
+        
         _costeSolucionMomento = CalcularCosteMomento();
         
         linea+=", coste actual: "  +_costeSolucionMomento +", mejor coste: "+ _costeSolucionElite;
@@ -513,11 +504,11 @@ public class BusquedaTabu {
             _solucionElite = new HashSet<>(_solucionMomento);
             _costeSolucionElite = _costeSolucionMomento;
             
-            linea+=" nuevo mejor coste;";
+            linea+=", nuevo mejor coste;";
         }
 
         linea += " Intensificación ";
-        _numRestartMayor++;
+        _numRestartMenor++;
     }
     
     /**
