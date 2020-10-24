@@ -187,7 +187,7 @@ public class BusquedaTabu {
             Intercambio(elementoMenor, mejorVecino.getCandidato());
             _costeSolucionMomento = mejorVecino.getCoste();
 
-            linea += " " + elementoMenor + " reemplazado por " + mejorVecino.getCandidato() + ", coste actual: " + _costeSolucionMomento + ", mejor coste: " + _costeSolucionElite;
+            linea += ", " + elementoMenor + " reemplazado por " + mejorVecino.getCandidato() + ", coste actual: " + _costeSolucionMomento + ", mejor coste: " + _costeSolucionElite;
 
             ActualizarMemorias(elementoMenor);
 
@@ -209,13 +209,20 @@ public class BusquedaTabu {
             //EliminarMasAntiguo();
             _iteracionesRealizadas++;
 
+            gestor.escribirArchivo(linea);
+            
             if (_iteracionesSinMejora >= _limiteSinMejora) {
+                
+                linea = "";
+                gestor.escribirArchivo("-----Iteración nº " + _iteracionesRealizadas + "-----");
                 ReinicializarBusqueda(aleatorioSemilla);
                 _iteracionesRealizadas++;
+                gestor.escribirArchivo(linea);
+                
             }
 
                 
-            gestor.escribirArchivo(linea);
+            
 
         }
 
@@ -380,6 +387,7 @@ public class BusquedaTabu {
             tamanioVecindario = 10;
         }
 
+        linea+= "Tamaño del vecindario: " +tamanioVecindario+" ";
         return tamanioVecindario;
     }
 
@@ -424,6 +432,8 @@ public class BusquedaTabu {
         limiteExploracion = GeneraLimiteExploracion();
         factorAleatorio = (float) aleatorioSemilla.Randfloat(0, 1);
 
+        linea += "Oscilación estrátegica:  ";
+        
         if (factorAleatorio < limiteExploracion) {
             Intensificacion();
         } else {
@@ -463,6 +473,8 @@ public class BusquedaTabu {
 
         _costeSolucionMomento = CalcularCosteMomento();
         
+        linea += " Intensificación ";
+        
         linea+=", coste actual: "  +_costeSolucionMomento +", mejor coste: "+ _costeSolucionElite;
 
         if (_costeSolucionMomento > _costeSolucionElite) {
@@ -472,7 +484,7 @@ public class BusquedaTabu {
             linea+=" nuevo mejor coste;";
         }
 
-        linea += " Intensificación ";
+        
         _numRestartMayor++;
     }
 
@@ -497,7 +509,7 @@ public class BusquedaTabu {
         }
         
         _costeSolucionMomento = CalcularCosteMomento();
-        
+        linea += " Intensificación ";
         linea+=", coste actual: "  +_costeSolucionMomento +", mejor coste: "+ _costeSolucionElite;
 
         if (_costeSolucionMomento > _costeSolucionElite) {
@@ -507,7 +519,7 @@ public class BusquedaTabu {
             linea+=", nuevo mejor coste;";
         }
 
-        linea += " Intensificación ";
+        
         _numRestartMenor++;
     }
     
