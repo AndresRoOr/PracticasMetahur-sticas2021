@@ -1,4 +1,4 @@
-Datos=archivos/Datos/SOM
+Datos=archivos/Datos/MDG archivos/Datos/GKD archivos/Datos/SOM
 Semilla=77356084
 Iteraciones=50000
 Intentos tabu=300
