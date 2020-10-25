@@ -122,6 +122,7 @@ public class BusquedaTabu {
 
 
     /**
+     * @param g
      * @brief Constructor parametrizado de la clase BusquedaLocal
      * @author Andrés Rojas Ortega
      * @author David Díaz Jiménez
@@ -269,7 +270,7 @@ public class BusquedaTabu {
         int mejorVecino = -1;
 
         Iterator<Integer> iterator = vecindario.iterator();
-        for (int i = 0; i < vecindario.size(); i++) {
+        while (iterator.hasNext()) {
             int elemento = iterator.next();
             float Coste = CosteFactorizado(elementoMenor, elemento);
             if (Coste > costeMax) {
@@ -432,7 +433,7 @@ public class BusquedaTabu {
         limiteExploracion = GeneraLimiteExploracion();
         factorAleatorio = (float) aleatorioSemilla.Randfloat(0, 1);
 
-        linea += "Oscilación estrátegica:  ";
+        linea += "Oscilación estratégica:  ";
         
         if (factorAleatorio < limiteExploracion) {
             Intensificacion();
@@ -478,6 +479,7 @@ public class BusquedaTabu {
         linea+=", coste actual: "  +_costeSolucionMomento +", mejor coste: "+ _costeSolucionElite;
 
         if (_costeSolucionMomento > _costeSolucionElite) {
+            _solucionElite.clear();
             _solucionElite = new HashSet<>(_solucionMomento);
             _costeSolucionElite = _costeSolucionMomento;
             
@@ -513,6 +515,7 @@ public class BusquedaTabu {
         linea+=", coste actual: "  +_costeSolucionMomento +", mejor coste: "+ _costeSolucionElite;
 
         if (_costeSolucionMomento > _costeSolucionElite) {
+            _solucionElite.clear();
             _solucionElite = new HashSet<>(_solucionMomento);
             _costeSolucionElite = _costeSolucionMomento;
             
