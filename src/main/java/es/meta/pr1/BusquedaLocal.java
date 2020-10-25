@@ -139,7 +139,7 @@ public class BusquedaLocal {
 
         boolean mejora = true;
 
-        while ( mejora) {
+        while ( mejora ) {
             
             linea ="";
 
@@ -148,22 +148,20 @@ public class BusquedaLocal {
             calcularAportes();
 
             //calculamos el elemento de la solución actual que menos aporte
-                eleMenor = EleMenorAporte();
-                if (eleMenor == -1) {
-                    break;
-                }
+            eleMenor = EleMenorAporte();
+            if (eleMenor == -1) {
+                break;
+            }
                 
-                
+            //comprobamos el primer vecino que nos mejore
+            for (int i = 0; i < _archivoDatos.getTama_Matriz() && !mejora; i++) {
+                if (!_solucion.contains(i)) {
+                    linea ="";
+                    gestor.escribirArchivo("-----Evaluación nº " +_numEvaluciones+"-----");
+                    mejora = EvaluarSolucion(i, costeSolucion, eleMenor);
 
-                //comprobamos el primer vecino que nos mejore
-                for (int i = 0; i < _archivoDatos.getTama_Matriz() && !mejora; i++) {
-                    if (!_solucion.contains(i)) {
-                        linea ="";
-                        gestor.escribirArchivo("-----Evaluación nº " +_numEvaluciones+"-----");
-                        mejora = EvaluarSolucion(i, costeSolucion, eleMenor);
-
-                    }
                 }
+            }
             _listaAportes.clear();
 
         }
