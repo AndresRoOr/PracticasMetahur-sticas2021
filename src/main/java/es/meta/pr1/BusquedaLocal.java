@@ -21,68 +21,6 @@ import java.util.Set;
  */
 public class BusquedaLocal {
 
-    /**
-     * @brief Clase auxiliar necesaria para representar toda la información de
-     * cada elemento perteneciente al atributo _listaAportes
-     * @class ElementoSolucion
-     * @author Andrés Rojas Ortega
-     * @author David Díaz Jiménez
-     * @date 03/10/2020
-     */
-    public class ElementoSolucion implements Comparable<ElementoSolucion> {
-
-        ///Atributos de la clase:
-        private Integer id;///<Indica el elemento de la solución que representa
-        private Float _contribucion;///<Coste que aporta a la solución
-
-
-        /**
-         * @brief Constructor parametrizado de la clase ElementoSolucion
-         * @author Andrés Rojas Ortega
-         * @author David Díaz Jiménez
-         * @date 03/10/2020
-         * @param id Integer
-         * @param _contribucion Float
-         */
-        public ElementoSolucion(Integer id, Float _contribucion) {
-            this.id = id;
-            this._contribucion = _contribucion;
-            
-        }
-
-        @Override
-        public int compareTo(ElementoSolucion vecino) {
-            Float ele1 = this.getContribucion();
-            Float ele2 = vecino.getContribucion();
-            int comparativa = ele1.compareTo(ele2);
-            
-            if(comparativa < 0)
-                return -1;
-            else if(comparativa > 0)
-                return 1;
-            else
-                return 0;
-    
-        }
-
-        public Integer getId() {
-            return this.id;
-        }
-
-        public Float getContribucion() {
-            return _contribucion;
-        }
-
-        public void setContribucion(float cont) {
-            this._contribucion = cont;
-        }
-
-        public String toString() {
-            return "Key: " + getId() + ", Value: " + getContribucion();
-        }
-
-    }
-
     Archivo _archivoDatos;///<Contiene los datos del problema
     Set<Integer> _solucion;///<Almacena el conjunto solución
     float _suma_Resultado;///<Usado para almacenar el coste de la solución final
@@ -92,7 +30,7 @@ public class BusquedaLocal {
     Integer _evaluciones;///<Número de evaluaciones máximas
     long _numEvaluciones;///<Número de evaluaciones actuales
     private GestorLog gestor;
-    String linea ="";
+    String linea = "";
 
     /**
      * @brief Constructor parametrizado de la clase BusquedaLocal
@@ -102,7 +40,7 @@ public class BusquedaLocal {
      * @param archivoDatos Archivo
      * @param evaluaciones Integer
      */
-    public BusquedaLocal(Archivo archivoDatos, Integer evaluaciones,GestorLog g) {
+    public BusquedaLocal(Archivo archivoDatos, Integer evaluaciones, GestorLog g) {
         _archivoDatos = archivoDatos;
         _solucion = new HashSet<>();
         _suma_Resultado = 0.0f;
@@ -112,7 +50,7 @@ public class BusquedaLocal {
         _listaAportes = new ArrayList<>();
 
         _integrantesNoMejoran = new HashSet<>();
-        
+
         gestor = g;
     }
 
@@ -128,20 +66,20 @@ public class BusquedaLocal {
         generearSolucionAleatoria(aleatorioSemilla);
 
         _costeActual = calcularCoste();
-        
+
         gestor.escribirArchivo("Solución inicial: " + _solucion);
 
         gestor.escribirArchivo("Coste: " + _costeActual);
-        
+
         int eleMenor = 0;
 
         float costeSolucion = 0.0f;
 
         boolean mejora = true;
 
-        while ( mejora ) {
-            
-            linea ="";
+        while (mejora) {
+
+            linea = "";
 
             mejora = false;
             //calculamos el aporte de todos los elementos de la solución actual
@@ -152,12 +90,12 @@ public class BusquedaLocal {
             if (eleMenor == -1) {
                 break;
             }
-                
+
             //comprobamos el primer vecino que nos mejore
             for (int i = 0; i < _archivoDatos.getTama_Matriz() && !mejora; i++) {
                 if (!_solucion.contains(i)) {
-                    linea ="";
-                    gestor.escribirArchivo("-----Evaluación nº " +_numEvaluciones+"-----");
+                    linea = "";
+                    gestor.escribirArchivo("-----Evaluación nº " + _numEvaluciones + "-----");
                     mejora = EvaluarSolucion(i, costeSolucion, eleMenor);
 
                 }
@@ -170,7 +108,7 @@ public class BusquedaLocal {
         _integrantesNoMejoran.clear();
         _integrantesNoMejoran = null;
 
-       // System.out.println("COSTE: " + _costeActual);
+        // System.out.println("COSTE: " + _costeActual);
     }
 
     /**
@@ -333,23 +271,23 @@ public class BusquedaLocal {
         //Si resulta mejor nos deplazamos a el
         if (_costeActual < costeSolucion) {
             Intercambio(eleMenor, i);
-            
-            linea+=eleMenor +" sustituido por " + i;
-            
+
+            linea += eleMenor + " sustituido por " + i;
+
             //actualizamos el coste de la solucion
             _costeActual = costeSolucion;
-            
-            linea += "  Nuevo mejor coste: " +_costeActual ;
-            
+
+            linea += "  Nuevo mejor coste: " + _costeActual;
+
             mejora = true;
             _integrantesNoMejoran.clear();
         } else {
             if (i == _archivoDatos.getTama_Matriz() - 1) {
                 _integrantesNoMejoran.add(eleMenor);
-                linea+=eleMenor +" añadido a los integrantes que no mejoran ";
+                linea += eleMenor + " añadido a los integrantes que no mejoran ";
             }
-            
-            linea+=" No se realiza ningún movimiento ";
+
+            linea += " No se realiza ningún movimiento ";
         }
         gestor.escribirArchivo(linea);
         return mejora;
@@ -366,7 +304,7 @@ public class BusquedaLocal {
         System.out.println(_solucion);
         _suma_Resultado = calcularCoste();
         System.out.println("Coste de la solución: " + _suma_Resultado);
-        
+
         gestor.escribirArchivo("");
         gestor.escribirArchivo("Vector Solución: " + _solucion);
         gestor.escribirArchivo("Coste de la solución: " + _suma_Resultado);

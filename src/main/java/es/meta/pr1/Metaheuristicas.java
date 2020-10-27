@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * @brief Clase que calcula todos los resultados con los algoritmos solicitados
@@ -60,7 +59,7 @@ public class Metaheuristicas {
             System.out.println(fichero_Entrada.getName());
             Archivo ar = new Archivo(fichero_Entrada.getName(),
                     _ruta_Carpeta_Archivos + "/"
-                    + fichero_Entrada.getName(), 79956084);
+                    + fichero_Entrada.getName());
             _archivos.add(ar);
         }
     }

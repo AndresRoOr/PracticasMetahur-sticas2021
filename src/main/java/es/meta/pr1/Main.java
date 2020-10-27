@@ -8,7 +8,6 @@
 package es.meta.pr1;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 /**
  * @brief Clase Main del programa
@@ -38,8 +37,7 @@ public class Main {
 
             M1.greedy();
                     
-        }
-        //M1.mostrar_Datos();        
+        }       
         System.exit(0);
     }
 }
