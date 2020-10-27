@@ -11,9 +11,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Random;
 
 /**
  * @brief Clase que almacena toda la información que se encuentra dentro de un
@@ -26,17 +23,11 @@ import java.util.Random;
 public class Archivo {
 
     ///Atributos de la clase:
-    String _nombre;///<Nombre del objeto                                        //No se utiliza
+    String _nombre;///<Nombre del objeto                                        
     String _ruta;///<Ruta completa del archivo de datos
     Integer _tama_Matriz;///<Tamaño de la matriz de datos
-    Integer _tama_Solucion;///<Tamaño de la solución
-    Random _aleatorioSemilla;///<Número aleatorio                               //¿Borrar? Se utiliza la de Configurador
-    long _semilla;///<Semilla para que sea repetible el algoritmo               //¿Borrar? Se utiliza la de Configurador
+    Integer _tama_Solucion;///<Tamaño de la solución             
     float[][] _matriz;///<Matriz que almacena los datos del archivo
-
-    ArrayList<ArrayList<Integer>> _memorias;                                    //No se utiliza, por ahora
-    Map<Integer, Double> _valores;                                              //No se utiliza, por ahora
-    int _num_Mejoras;                                                           //No se utiliza, por ahora
 
     /**
      * @brief Constructor parametrizado de la clase Archivo
@@ -49,21 +40,14 @@ public class Archivo {
      * @throws FileNotFoundException
      * @throws IOException
      */
-    Archivo(String nombre, String ruta, long semilla)
+    Archivo(String nombre, String ruta)
             throws FileNotFoundException, IOException {
 
         _nombre = nombre;
         _ruta = ruta;
-        _semilla = semilla;
-        _aleatorioSemilla = new Random(_semilla);
         _tama_Matriz = 0;
         _tama_Solucion = 0;
 
-        /*                                                                      //Comentado hasta hacer uso de ello
-        _memorias = new ArrayList<>();
-        _valores = new HashMap<>();
-        _num_Mejoras = 0;
-         */
         try {
             BufferedReader br = new BufferedReader(new FileReader(_ruta));
             String currentRecord = br.readLine();
@@ -146,35 +130,13 @@ public class Archivo {
     }
 
     /**
-     * @brief Método getter para el parámetro _aleatorioSemilla
-     * @author Andrés Rojas Ortega
-     * @author David Díaz Jiménez
-     * @date 27/09/2020
-     * @return _aleatorioSemilla Random
-     */
-    public Random getAleatorioSemilla() {
-        return _aleatorioSemilla;
-    }
-
-    /**
-     * @brief Método getter para el parámetro _semilla
-     * @author Andrés Rojas Ortega
-     * @author David Díaz Jiménez
-     * @date 27/09/2020
-     * @return _semilla long
-     */
-    public long getSemilla() {
-        return _semilla;
-    }
-
-    /**
      * @brief Método getter para el parámetro _matriz
      * @author Andrés Rojas Ortega
      * @author David Díaz Jiménez
      * @date 27/09/2020
      * @return _matriz double[][]
      */
-    public float[][] getMatriz() {                                             //Mirar paso por referencia
+    public float[][] getMatriz() {
         return _matriz;
     }
 
