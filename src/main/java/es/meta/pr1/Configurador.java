@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.BufferedReader;
-import java.util.Arrays;
 
 /**
  * @brief Clase que almacena todos los parámetros principales del programa
@@ -26,13 +25,11 @@ public class Configurador {
     ArrayList<String> directoriosDatos;///<Almacena los directorios donde se 
     ///encuentran los archivos con la información del problema
     Long semilla;///<Semilla utilizada para generar número aleatorios
-    Integer intentos;///<Número de intentos
     Integer iteraciones;///<Número de iteraciones
-    Long semillaTabu;///<Semilla utilizada para generar números aleatorios en el
-    ///algoritmo de la búsqueda tabú
     Integer intentosTabu;///<Número de intentos en la búsqueda tabú
     Integer iteracionesTabu;///<Número de iteraciones en la búsqueda tabú
     Long recuperarSemilla;///<Alamcena el valor inicial de la semilla
+    Integer teneciaTabu;
 
     /**
      * @brief Constructor parametrizado de la clase Configurador
@@ -65,20 +62,17 @@ public class Configurador {
                         semilla = Long.parseLong(split[1]);
                         recuperarSemilla = semilla;
                         break;
-                    case "Intentos":
-                        intentos = Integer.parseInt(split[1]);
-                        break;
                     case "Iteraciones":
                         iteraciones = Integer.parseInt(split[1]);
-                        break;
-                    case "Semilla tabu":
-                        semillaTabu = Long.parseLong(split[1]);
                         break;
                     case "Intentos tabu":
                         intentosTabu = Integer.parseInt(split[1]);
                         break;
                     case "Iteraciones tabu":
                         iteracionesTabu = Integer.parseInt(split[1]);
+                        break;
+                    case "Tenencia tabu":
+                        teneciaTabu = Integer.parseInt(split[1]);
                         break;
                 }
             }
@@ -120,17 +114,6 @@ public class Configurador {
     }
 
     /**
-     * @brief Funcion getter del atributo intentos
-     * @author Andrés Rojas Ortega
-     * @author David Díaz Jiménez
-     * @date 27/09/2020
-     * @return intentos Integer
-     */
-    public Integer getIntentos() {
-        return intentos;
-    }
-
-    /**
      * @brief Funcion getter del atributo iteraciones
      * @author Andrés Rojas Ortega
      * @author David Díaz Jiménez
@@ -139,17 +122,6 @@ public class Configurador {
      */
     public Integer getIteraciones() {
         return iteraciones;
-    }
-
-    /**
-     * @brief Funcion getter del atributo semillaTabu
-     * @author Andrés Rojas Ortega
-     * @author David Díaz Jiménez
-     * @date 27/09/2020
-     * @return semillaTabu Long
-     */
-    public Long getSemillaTabu() {
-        return semillaTabu;
     }
 
     /**
@@ -172,6 +144,10 @@ public class Configurador {
      */
     public Integer getIteracionesTabu() {
         return iteracionesTabu;
+    }
+    
+    public Integer getTenenciaTabu() {
+        return teneciaTabu;
     }
 
     /**

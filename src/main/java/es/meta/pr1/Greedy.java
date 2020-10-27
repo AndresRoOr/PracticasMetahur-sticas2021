@@ -9,7 +9,6 @@ package es.meta.pr1;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Random;
 import java.util.Set;
 
 /**
@@ -25,6 +24,7 @@ public class Greedy {
     Archivo _archivoDatos;///<Contiene los datos sobre los que operar.
     Set<Integer> _solucionB;
     Float _suma_Resultado;///<Almacena la suma del valor heurístico.
+    GestorLog gestor;
 
     /**
      * @brief Constructor parametrizado de la clase Greedy
@@ -33,10 +33,11 @@ public class Greedy {
      * @date 27/09/2020
      * @param archivoDatos Archivo Contiene los datos sobre los que operar
      */
-    public Greedy(Archivo archivoDatos) {
+    public Greedy(Archivo archivoDatos, GestorLog g) {
         _archivoDatos = archivoDatos;
         _suma_Resultado = 0.0f;
         _solucionB = new HashSet<>();
+        gestor = g;
     }
 
     /**
@@ -175,7 +176,12 @@ public class Greedy {
         System.out.println(_solucionB);
         _suma_Resultado = calculoValorSolucion();
         System.out.println("Coste de la solución: " + _suma_Resultado);
-
+        
+        gestor.escribirArchivo("");
+        gestor.escribirArchivo("Vector Solución: " + _solucionB);
+        gestor.escribirArchivo("Coste de la solución: " + _suma_Resultado);
+        
+        
         _solucionB = null;
         _archivoDatos.setMatriz(null);
 

@@ -21,56 +21,6 @@ import java.util.Set;
  */
 public class BusquedaLocal {
 
-    /**
-     * @brief Clase auxiliar necesaria para representar toda la información de
-     * cada elemento perteneciente al atributo _listaAportes
-     * @class ElementoSolucion
-     * @author Andrés Rojas Ortega
-     * @author David Díaz Jiménez
-     * @date 03/10/2020
-     */
-    public class ElementoSolucion implements Comparable<ElementoSolucion> {
-
-        ///Atributos de la clase:
-        private Integer id;///<Indica el elemento de la solución que representa
-        private Float _contribucion;///<Coste que aporta a la solución
-
-        /**
-         * @brief Constructor parametrizado de la clase ElementoSolucion
-         * @author Andrés Rojas Ortega
-         * @author David Díaz Jiménez
-         * @date 03/10/2020
-         * @param id Integer
-         * @param _contribucion Float
-         */
-        public ElementoSolucion(Integer id, Float _contribucion) {
-            this.id = id;
-            this._contribucion = _contribucion;
-        }
-
-        @Override
-        public int compareTo(ElementoSolucion vecino) {
-            return (int) (this.getContribucion() - vecino.getContribucion());
-        }
-
-        public Integer getId() {
-            return this.id;
-        }
-
-        public Float getContribucion() {
-            return _contribucion;
-        }
-
-        public void setContribucion(float cont) {
-            this._contribucion = cont;
-        }
-
-        public String toString() {
-            return "Key: " + getId() + ", Value: " + getContribucion();
-        }
-
-    }
-
     Archivo _archivoDatos;///<Contiene los datos del problema
     Set<Integer> _solucion;///<Almacena el conjunto solución
     float _suma_Resultado;///<Usado para almacenar el coste de la solución final
@@ -79,6 +29,8 @@ public class BusquedaLocal {
     Set<Integer> _integrantesNoMejoran;///<Elementos de la solución que no mejoran al intercambiarlos por sus vecinos
     Integer _evaluciones;///<Número de evaluaciones máximas
     long _numEvaluciones;///<Número de evaluaciones actuales
+    private GestorLog gestor;
+    String linea = "";
 
     /**
      * @brief Constructor parametrizado de la clase BusquedaLocal
@@ -88,7 +40,7 @@ public class BusquedaLocal {
      * @param archivoDatos Archivo
      * @param evaluaciones Integer
      */
-    public BusquedaLocal(Archivo archivoDatos, Integer evaluaciones) {
+    public BusquedaLocal(Archivo archivoDatos, Integer evaluaciones, GestorLog g) {
         _archivoDatos = archivoDatos;
         _solucion = new HashSet<>();
         _suma_Resultado = 0.0f;
@@ -98,6 +50,8 @@ public class BusquedaLocal {
         _listaAportes = new ArrayList<>();
 
         _integrantesNoMejoran = new HashSet<>();
+
+        gestor = g;
     }
 
     /**
@@ -113,31 +67,39 @@ public class BusquedaLocal {
 
         _costeActual = calcularCoste();
 
-        int eleMenor;
+        gestor.escribirArchivo("Solución inicial: " + _solucion);
+
+        gestor.escribirArchivo("Coste: " + _costeActual);
+
+        int eleMenor = 0;
 
         float costeSolucion = 0.0f;
 
         boolean mejora = true;
 
-        while (_numEvaluciones < 5000000 && mejora) {
+        while (mejora) {
+
+            linea = "";
 
             mejora = false;
             //calculamos el aporte de todos los elementos de la solución actual
             calcularAportes();
 
             //calculamos el elemento de la solución actual que menos aporte
-                eleMenor = EleMenorAporte();
-                if (eleMenor == -1) {
-                    break;
-                }
+            eleMenor = EleMenorAporte();
+            if (eleMenor == -1) {
+                break;
+            }
 
-                //comprobamos el primer vecino que nos mejore
-                for (int i = 0; i < _archivoDatos.getTama_Matriz() && !mejora; i++) {
-                    if (!_solucion.contains(i)) {
-                        mejora = EvaluarSolucion(i, costeSolucion, eleMenor);
+            //comprobamos el primer vecino que nos mejore
+            for (int i = 0; i < _archivoDatos.getTama_Matriz() && !mejora; i++) {
+                if (!_solucion.contains(i)) {
+                    linea = "";
+                    gestor.escribirArchivo("-----Evaluación nº " + _numEvaluciones + "-----");
+                    mejora = EvaluarSolucion(i, costeSolucion, eleMenor);
 
-                    }
                 }
+            }
             _listaAportes.clear();
 
         }
@@ -146,7 +108,7 @@ public class BusquedaLocal {
         _integrantesNoMejoran.clear();
         _integrantesNoMejoran = null;
 
-       // System.out.println("COSTE: " + _costeActual);
+        // System.out.println("COSTE: " + _costeActual);
     }
 
     /**
@@ -310,15 +272,24 @@ public class BusquedaLocal {
         if (_costeActual < costeSolucion) {
             Intercambio(eleMenor, i);
 
+            linea += eleMenor + " sustituido por " + i;
+
             //actualizamos el coste de la solucion
             _costeActual = costeSolucion;
+
+            linea += "  Nuevo mejor coste: " + _costeActual;
+
             mejora = true;
             _integrantesNoMejoran.clear();
         } else {
             if (i == _archivoDatos.getTama_Matriz() - 1) {
                 _integrantesNoMejoran.add(eleMenor);
+                linea += eleMenor + " añadido a los integrantes que no mejoran ";
             }
+
+            linea += " No se realiza ningún movimiento ";
         }
+        gestor.escribirArchivo(linea);
         return mejora;
     }
 
@@ -333,6 +304,10 @@ public class BusquedaLocal {
         System.out.println(_solucion);
         _suma_Resultado = calcularCoste();
         System.out.println("Coste de la solución: " + _suma_Resultado);
+
+        gestor.escribirArchivo("");
+        gestor.escribirArchivo("Vector Solución: " + _solucion);
+        gestor.escribirArchivo("Coste de la solución: " + _suma_Resultado);
 
         _solucion.clear();
         _solucion = null;
