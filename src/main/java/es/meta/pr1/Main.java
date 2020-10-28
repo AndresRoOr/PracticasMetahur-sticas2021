@@ -7,7 +7,9 @@
  */
 package es.meta.pr1;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * @brief Clase Main del programa
@@ -29,13 +31,29 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         Configurador config = new Configurador("archivos/config.txt");
+        
+        ArrayList<File> directorios = new ArrayList<>();
+        directorios.add(new File("./archivos/Log"));
+        directorios.add(new File("./archivos/Log/btabu"));
+        directorios.add(new File("./archivos/Log/blocal"));
+        directorios.add(new File("./archivos/Log/greedy"));
+
+        for(File directorio : directorios){
+            if (!directorio.exists()) {
+                if (directorio.mkdirs()) {
+                    System.out.println("Directorio " + directorio.getName() + " creado");
+                } else {
+                    
+                }
+            }
+        }
 
         for (int i = 0; i < config.getDirectoriosDatos().size(); i++) {
             Metaheuristicas M1 = new Metaheuristicas("Ejemplo",
                     config.getDirectoriosDatos().get(i), config);
             M1.lector_Archivos();
 
-            M1.greedy();
+            M1.busquedaTabu();
                     
         }       
         System.exit(0);
