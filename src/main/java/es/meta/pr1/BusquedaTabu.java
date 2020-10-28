@@ -433,7 +433,7 @@ public class BusquedaTabu {
         }
         
         _costeSolucionMomento = CalcularCosteMomento();
-        linea += " Intensificación ";
+        linea += " Diversificación ";
         linea+=", coste actual: "  +_costeSolucionMomento +", mejor coste: "+ _costeSolucionElite;
 
         if (_costeSolucionMomento > _costeSolucionElite) {
