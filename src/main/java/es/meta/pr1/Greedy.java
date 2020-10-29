@@ -172,10 +172,15 @@ public class Greedy {
      * @date 27/09/2020
      */
     void PresentarResultados() {
-        System.out.println("Vector Solución");
-        System.out.println(_solucionB);
+        //System.out.println("Vector Solución");
+        //System.out.println(_solucionB);
         _suma_Resultado = calculoValorSolucion();
-        System.out.println("Coste de la solución: " + _suma_Resultado);
+        //System.out.println("Coste de la solución: " + _suma_Resultado);
+        
+        Main.console.presentarSalida("Vector Solución");
+        Main.console.presentarSalida(_solucionB.toString());
+        Main.console.presentarSalida("Coste de la solución: " + _suma_Resultado +"\n");
+                
         
         gestor.escribirArchivo("");
         gestor.escribirArchivo("Vector Solución: " + _solucionB);

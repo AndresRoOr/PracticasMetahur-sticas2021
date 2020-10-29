@@ -300,10 +300,14 @@ public class BusquedaLocal {
      * @date 03/10/2020
      */
     void PresentarResultados() {
-        System.out.println("Vector Solución");
-        System.out.println(_solucion);
+        //System.out.println("Vector Solución");
+        //System.out.println(_solucion);
         _suma_Resultado = calcularCoste();
-        System.out.println("Coste de la solución: " + _suma_Resultado);
+        //System.out.println("Coste de la solución: " + _suma_Resultado);
+        
+        Main.console.presentarSalida("Vector Solución");
+        Main.console.presentarSalida(_solucion.toString());
+        Main.console.presentarSalida("Coste de la solución: " + _suma_Resultado +"\n");
 
         gestor.escribirArchivo("");
         gestor.escribirArchivo("Vector Solución: " + _solucion);

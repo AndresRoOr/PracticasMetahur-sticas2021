@@ -149,7 +149,7 @@ public class BusquedaTabu {
 
         }
 
-        System.out.println("COSTE: " + _costeSolucionElite);
+        //System.out.println("COSTE: " + _costeSolucionElite);
 
     }
 
@@ -455,13 +455,20 @@ public class BusquedaTabu {
      * @date 03/10/2020
      */
     void PresentarResultados() {
-        System.out.println("Intensificaciones: " + _numRestartMayor);
-        System.out.println("Diversificaciones: " + _numRestartMenor);
-        System.out.println("Vector Solución");
-        System.out.println(_solucionElite);
+        //System.out.println("Intensificaciones: " + _numRestartMayor);
+        //System.out.println("Diversificaciones: " + _numRestartMenor);
+        //System.out.println("Vector Solución");
+        //System.out.println(_solucionElite);
         float _suma_Resultado = CalcularCosteElite();
-        System.out.println("Coste de la solución: " + _suma_Resultado);
-
+        //System.out.println("Coste de la solución: " + _suma_Resultado);
+        
+        Main.console.presentarSalida("Intensificaciones: " + _numRestartMayor);
+        Main.console.presentarSalida("Diversificaciones: " + _numRestartMenor);
+        Main.console.presentarSalida("Vector Solución");
+        Main.console.presentarSalida(_solucionElite.toString());
+        Main.console.presentarSalida("Coste de la solución: " + _suma_Resultado +"\n");
+        
+        
         gestor.escribirArchivo("");
         gestor.escribirArchivo("Resultados");
         gestor.escribirArchivo("Intensificaciones: " + _numRestartMayor);
