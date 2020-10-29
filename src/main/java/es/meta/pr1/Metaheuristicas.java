@@ -87,6 +87,8 @@ public class Metaheuristicas {
         
         GestorLog gestor = new GestorLog("");
         
+        int aumento = (100/Main.narchivos);
+        
         for (Archivo ar : _archivos) {
 
             Timer t = new Timer();
@@ -109,6 +111,7 @@ public class Metaheuristicas {
             g.PresentarResultados();
             
             gestor.cerrarArchivo();
+            Main.console.setValue(aumento);
         }
     }
 
@@ -122,6 +125,8 @@ public class Metaheuristicas {
     void busquedaLocal() {
 
         GestorLog gestor = new GestorLog("");
+        
+        int aumento = (100/(Main.narchivos*5));
         
         for (Archivo ar : _archivos) {
 
@@ -157,10 +162,12 @@ public class Metaheuristicas {
                 _config.rotarSemilla();
                 
                 gestor.cerrarArchivo();
-
+                
+                Main.console.setValue(aumento);
             }
 
             _config.RecuperarSemilla();
+            
         }
 
     }
@@ -169,6 +176,7 @@ public class Metaheuristicas {
      void busquedaTabu() {
          
        GestorLog gestor = new GestorLog("");
+       int aumento = (100/(Main.narchivos*5));
 
         for (Archivo ar : _archivos) {
 
@@ -206,6 +214,8 @@ public class Metaheuristicas {
                 _config.rotarSemilla();
 
                 gestor.cerrarArchivo();
+                
+                Main.console.setValue(aumento);
             }
 
             _config.RecuperarSemilla();

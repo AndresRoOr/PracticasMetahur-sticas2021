@@ -1,5 +1,6 @@
 \documentclass{article}
 \title{Informe}
+\usepackage[spanish]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{algorithm}
 \usepackage{algorithmic}
@@ -12,7 +13,7 @@
 	
 	\section{Definición y análisis del problema}
 	
-	Dado un conjunto N de tamaño n se pide encontrar un subconjunto M de tamaño m que maximice
+	Dado un conjunto N de tamaño n, se pide encontrar un subconjunto M de tamaño m, que maximice
 	la función: 
 	
 	\[ d(s_i,M)=\sum_{s_j \in M} d(s_i,s_j)\]
@@ -25,6 +26,10 @@
 	\subsection{Función objetivo}
 	
 	\[ d(s_i,M)=\sum_{s_j \in M} d(s_i,s_j)\]
+	
+	\subsection{Operadores comunes}
+	
+	El operador de intercambio será el 2-opt
 	
 	\section{Pseudocódigo}
 	
@@ -322,15 +327,32 @@
 	
 	\section{Experimentos y análisis de resultados}
 	
+	\subsection{Procedimiento de desarrollo de la práctica}
+	
+	\paragraph{}Para realizar la práctica, se ha optado por implementar las
+	heurísticas propuestas en el lenguaje de programación \textsc{Java}.
+	El ejecutable que se entrega junto a este documento ha sido compilado
+	bajo \textsc{ Apache NetBeansIDE 12.0}.
+	
+	
 	\subsection{Parámetros de los algoritmos}
+	
+		\begin{itemize}
+			
+			\item Iteraciones tabú: número máximo de iteraciones a realizar en la búsqueda tabú.
+			\item Tenencia tabú: número de iteraciones en la que un elemento tabú permanece en la lista tabú.
+			\item Intentos tabú: número de iteraciones máximas sin mejora de la mejor solución.
+				
+		\end{itemize}
 	
 	\subsubsection{Semillas}
 	
-	\subsection{Resultados obtenidos}
+	Para la generación de números pseudoaleatorios se utiliza una semilla previamente definida en el archivo de configuración, en este caso es 77356084. Esta semilla se va rotando en las 5 iteraciones de cada archivo.
+	
 	
 	\subsection{Análisis de los resultados}
 	
-	\subsection{Análisis de los algoritmos}
 	
+
 
 \end{document}

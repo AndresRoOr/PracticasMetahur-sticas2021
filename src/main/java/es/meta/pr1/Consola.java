@@ -21,7 +21,8 @@ public class Consola extends javax.swing.JFrame {
      */
     public Consola() {
         initComponents();
-        eleccion = 0;
+        this.eleccion = 0;
+        this.jProgressBarEstado.setVisible(false);
     }
 
     
@@ -38,6 +39,8 @@ public class Consola extends javax.swing.JFrame {
         this.jButtonGreedy.setEnabled(true);
         this.jButtonLocalSearch.setEnabled(true);
         this.jButtonTabuSearch.setEnabled(true);
+        this.jProgressBarEstado.setVisible(false);
+        this.jProgressBarEstado.setValue(0);
     }
     
     
@@ -46,6 +49,9 @@ public class Consola extends javax.swing.JFrame {
     }
     
     
+    void setValue( int estado){
+        jProgressBarEstado.setValue(jProgressBarEstado.getValue()+estado);
+    }
     /**
      * 
      * This method is called from within the constructor to initialize the form.
@@ -64,11 +70,13 @@ public class Consola extends javax.swing.JFrame {
         jButtonTabuSearch = new javax.swing.JButton();
         jButtonExit = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jProgressBarEstado = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Práctica 1 Metaheurísticas");
         setResizable(false);
 
+        jTextArea.setEditable(false);
         jTextArea.setColumns(20);
         jTextArea.setRows(5);
         jScrollPane1.setViewportView(jTextArea);
@@ -107,12 +115,9 @@ public class Consola extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 674, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(16, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -121,23 +126,27 @@ public class Consola extends javax.swing.JFrame {
                         .addComponent(jButtonLocalSearch)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonTabuSearch)
-                        .addGap(120, 120, 120)
-                        .addComponent(jButtonExit)))
-                .addContainerGap())
+                        .addGap(103, 103, 103)
+                        .addComponent(jButtonExit))
+                    .addComponent(jProgressBarEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE))
+                .addGap(27, 27, 27))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jProgressBarEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonGreedy)
-                    .addComponent(jButtonLocalSearch)
-                    .addComponent(jButtonTabuSearch)
                     .addComponent(jButtonExit)
+                    .addComponent(jButtonTabuSearch)
+                    .addComponent(jButtonLocalSearch)
+                    .addComponent(jButtonGreedy)
                     .addComponent(jLabel1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -160,6 +169,7 @@ public class Consola extends javax.swing.JFrame {
         this.jButtonGreedy.setEnabled(false);
         this.jButtonLocalSearch.setEnabled(false);
         this.jButtonTabuSearch.setEnabled(false);
+        this.jProgressBarEstado.setVisible(true);
     }//GEN-LAST:event_jButtonGreedyActionPerformed
 
     private void jButtonLocalSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLocalSearchActionPerformed
@@ -168,6 +178,7 @@ public class Consola extends javax.swing.JFrame {
         this.jButtonGreedy.setEnabled(false);
         this.jButtonLocalSearch.setEnabled(false);
         this.jButtonTabuSearch.setEnabled(false);
+        this.jProgressBarEstado.setVisible(true);
     }//GEN-LAST:event_jButtonLocalSearchActionPerformed
 
     private void jButtonTabuSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTabuSearchActionPerformed
@@ -176,6 +187,7 @@ public class Consola extends javax.swing.JFrame {
         this.jButtonGreedy.setEnabled(false);
         this.jButtonLocalSearch.setEnabled(false);
         this.jButtonTabuSearch.setEnabled(false);
+        this.jProgressBarEstado.setVisible(true);
     }//GEN-LAST:event_jButtonTabuSearchActionPerformed
 
     private void jButtonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExitActionPerformed
@@ -195,6 +207,7 @@ public class Consola extends javax.swing.JFrame {
     private javax.swing.JButton jButtonTabuSearch;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JProgressBar jProgressBarEstado;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea;
     // End of variables declaration//GEN-END:variables

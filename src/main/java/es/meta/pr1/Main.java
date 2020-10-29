@@ -32,6 +32,7 @@ public class Main {
      */
     
     public static Consola console = new Consola();
+    public  static int narchivos;
     
     public static void main(String[] args) throws IOException {
 
@@ -43,16 +44,17 @@ public class Main {
         directorios.add(new File("./archivos/Log/blocal"));
         directorios.add(new File("./archivos/Log/greedy"));
         
-        for(File directorio : directorios){
-            if (!directorio.exists()) {
-                if (directorio.mkdirs()) {
-                    System.out.println("Directorio " + directorio.getName() + " creado");
-                } else {
-                    
-                }
+        directorios.stream().filter(directorio -> (!directorio.exists())).forEachOrdered((File directorio) -> {
+            if (directorio.mkdirs()) {
+                System.out.println("Directorio " + directorio.getName() + " creado");
             }
-        }
+        });
         
+        for(String direc : config.getDirectoriosDatos()){
+            File directory = new File(direc);
+            int fileCount=directory.list().length;
+            narchivos+=fileCount;
+        }
         
         console.presentarSalida("");
 
@@ -70,7 +72,7 @@ public class Main {
             }
             
             for (int i = 0; i < config.getDirectoriosDatos().size(); i++) {
-                Metaheuristicas M1 = new Metaheuristicas("Ejemplo",
+                Metaheuristicas M1 = new Metaheuristicas(config.getDirectoriosDatos().get(i),
                         config.getDirectoriosDatos().get(i), config);
                 M1.lector_Archivos();
 
