@@ -10,7 +10,31 @@
 
 \begin{document}
 	
-	\maketitle
+	\begin{figure}[t]
+		\centering
+		\includegraphics[scale=0.2]{img/np_UJA_generica_6.png}
+		\includegraphics[scale=0.35]{img/Logo_EPS.png}
+		
+	\end{figure}
+	
+	\begin{center}
+		
+		\begin{large}
+			
+			Metaheurísticas
+			
+		\end{large}
+		
+		\vspace*{0.2in}
+		\textbf{\large Informe de prácticas}
+		
+		\vspace*{.2in}
+		
+		David Díaz Jiménez, Andrés Rojas Ortega
+		
+		\vspace*{2.5cm}
+		
+	\end{center}
 	
 	\section{Definición y análisis del problema}
 	
@@ -332,6 +356,29 @@
 	
 	\paragraph{}Para realizar la práctica, se ha optado por implementar lasheurísticas propuestas en el lenguaje de programación \textsc{Java}. El ejecutable que se entrega junto a este documento ha sido compilado bajo \textsc{ Apache NetBeansIDE 12.0}.
 	
+	\subsubsection{Equipo de pruebas}
+	
+	Los resultados de las heurísticas han sido obtenidos en el siguiente equipo:
+	
+		\begin{itemize}
+			
+			\item Procesador: Intel Core i5 7300HQ.
+			\item Memoria RAM : ?.
+			\item S.O: GNU/Linux 64.
+			
+		\end{itemize}
+
+	\subsubsection{Manual de usuario}
+	
+	Para ejecutar el software asegúrese de que el archivo .jar proporcionado se ubica en el mismo directorio que la carpeta \emph{archivos}. Una vez se inicie la GUI podrá seleccionar la heurística que desee mediante el botón correspondiente. Una vez empiece la ejecución de una heurística no sera posible seleccionar otra hasta que finalice su ejecución. Los resultados finales se mostrarán en el cuadro de texto, a su vez, se generan los log correspondientes a cada archivo y semilla en la carpeta Log, clasificados por el tipo del conjunto de datos.
+	
+		\begin{figure}[H]
+		
+			\centering
+			\includegraphics[scale=0.4]{img/GUI}
+			\caption{GUI}
+		
+		\end{figure}
 	
 	\subsection{Parámetros de los algoritmos}
 	
@@ -346,9 +393,13 @@
 			\begin{itemize}
 				
 				\item Iteraciones tabú: 50000.
-				\item Memoria a corto plazo: La lista tabú tiene una tenencia de 5 elementos
+				
+				\item Memoria a corto plazo: La lista tabú tiene una tenencia de 5 elementos.
+				
 				\item Intentos tabú: 300, número máximo de iteraciones sin mejora antes de aplicar la oscilación estratégica.
+				
 				\item Memoria a largo plazo: La memoria a largo plazo se ha diseñado como un vector de enteros, la memoria no se reinicializa al realizar oscilaciones estratégicas.
+				
 				\item Probabilidad de reinicio: La probabilidad de reinicio a la hora de realizar la oscilación estratégica viene dada por la función :
 				
 				\[ \frac{nIteraciones}{maxIteraciones} \]
@@ -373,13 +424,16 @@
 			
 			\begin{figure}[H]
 				
+				\centering
 				\includegraphics[scale=0.4]{img/greegyResult}
+				\caption{Resultados obtenidos Greedy}
 				
 			\end{figure}
 		
 		\subsubsection{Búsqueda local}
 		
 			La metaheurística 
+			
 		\subsubsection{Búsqueda tabú}
 	
 	

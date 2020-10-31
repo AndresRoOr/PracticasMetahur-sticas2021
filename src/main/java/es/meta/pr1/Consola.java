@@ -79,6 +79,7 @@ public class Consola extends javax.swing.JFrame {
         jTextArea.setEditable(false);
         jTextArea.setColumns(20);
         jTextArea.setRows(5);
+        jTextArea.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane1.setViewportView(jTextArea);
 
         jButtonGreedy.setText("Greedy");
@@ -110,6 +111,8 @@ public class Consola extends javax.swing.JFrame {
         });
 
         jLabel1.setText("Seleccione una heurística");
+
+        jProgressBarEstado.setMaximum(1000);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

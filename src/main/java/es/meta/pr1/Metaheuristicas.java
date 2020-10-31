@@ -87,10 +87,12 @@ public class Metaheuristicas {
         
         GestorLog gestor = new GestorLog("");
         
-        int aumento = (100/Main.narchivos);
+        int aumento = (1000/Main.narchivos);
         
         for (Archivo ar : _archivos) {
 
+            Main.console.setValue(aumento/2);
+            
             Timer t = new Timer();
             Greedy g = new Greedy(ar,gestor);
 
@@ -111,7 +113,8 @@ public class Metaheuristicas {
             g.PresentarResultados();
             
             gestor.cerrarArchivo();
-            Main.console.setValue(aumento);
+            
+            Main.console.setValue(aumento/2);
         }
     }
 
@@ -126,7 +129,7 @@ public class Metaheuristicas {
 
         GestorLog gestor = new GestorLog("");
         
-        int aumento = (100/(Main.narchivos*5));
+        int aumento = (1000/(Main.narchivos*5));
         
         for (Archivo ar : _archivos) {
 
@@ -134,6 +137,8 @@ public class Metaheuristicas {
             
 
             while (ite <= 5) {
+                
+                Main.console.setValue(aumento/2);
                 
                 gestor.cambiarNombre("blocal/Log_Sem_"+_config.getSemilla()+"_"+ar.getNombre());
                 gestor.abrirArchivo();
@@ -163,7 +168,7 @@ public class Metaheuristicas {
                 
                 gestor.cerrarArchivo();
                 
-                Main.console.setValue(aumento);
+                Main.console.setValue(aumento/2);
             }
 
             _config.RecuperarSemilla();
@@ -176,13 +181,15 @@ public class Metaheuristicas {
      void busquedaTabu() {
          
        GestorLog gestor = new GestorLog("");
-       int aumento = (100/(Main.narchivos*5));
+       int aumento = (1000/(Main.narchivos*5));
 
         for (Archivo ar : _archivos) {
 
             int ite = 1;
 
             while (ite <= 5) {
+                
+                Main.console.setValue(aumento/2);
                 
                 gestor.cambiarNombre("btabu/Log_Sem_"+_config.getSemilla()+"_"+ar.getNombre());
                 gestor.abrirArchivo();
@@ -215,7 +222,9 @@ public class Metaheuristicas {
 
                 gestor.cerrarArchivo();
                 
-                Main.console.setValue(aumento);
+                
+                Main.console.setValue(aumento/2);
+                
             }
 
             _config.RecuperarSemilla();
