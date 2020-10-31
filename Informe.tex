@@ -4,6 +4,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{algorithm}
 \usepackage{algorithmic}
+\usepackage{graphicx}
 \usepackage{}
 \author{David Díaz Jiménez, Andrés Rojas Ortega}
 
@@ -329,30 +330,69 @@
 	
 	\subsection{Procedimiento de desarrollo de la práctica}
 	
-	\paragraph{}Para realizar la práctica, se ha optado por implementar las
-	heurísticas propuestas en el lenguaje de programación \textsc{Java}.
-	El ejecutable que se entrega junto a este documento ha sido compilado
-	bajo \textsc{ Apache NetBeansIDE 12.0}.
+	\paragraph{}Para realizar la práctica, se ha optado por implementar lasheurísticas propuestas en el lenguaje de programación \textsc{Java}. El ejecutable que se entrega junto a este documento ha sido compilado bajo \textsc{ Apache NetBeansIDE 12.0}.
 	
 	
 	\subsection{Parámetros de los algoritmos}
 	
-		\begin{itemize}
-			
-			\item Iteraciones tabú: número máximo de iteraciones a realizar en la búsqueda tabú.
-			\item Tenencia tabú: número de iteraciones en la que un elemento tabú permanece en la lista tabú.
-			\item Intentos tabú: número de iteraciones máximas sin mejora de la mejor solución.
+		\subsubsection{Greedy}
+		
+			La heurística greedy toma como único parámetro la semilla, que se usa para generar el primer elemento de la solución, por tanto es una heurística muy cercana a un procedimiento determinista.
+	
+		\subsubsection{Búsqueda local}
+	
+		\subsubsection{Búsqueda tabú}
+		
+			\begin{itemize}
 				
-		\end{itemize}
+				\item Iteraciones tabú: 50000.
+				\item Memoria a corto plazo: La lista tabú tiene una tenencia de 5 elementos
+				\item Intentos tabú: 300, número máximo de iteraciones sin mejora antes de aplicar la oscilación estratégica.
+				\item Memoria a largo plazo: La memoria a largo plazo se ha diseñado como un vector de enteros, la memoria no se reinicializa al realizar oscilaciones estratégicas.
+				\item Probabilidad de reinicio: La probabilidad de reinicio a la hora de realizar la oscilación estratégica viene dada por la función :
+				
+				\[ \frac{nIteraciones}{maxIteraciones} \]
+				
+				
+					
+			\end{itemize}
 	
 	\subsubsection{Semillas}
 	
-	Para la generación de números pseudoaleatorios se utiliza una semilla previamente definida en el archivo de configuración, en este caso es 77356084. Esta semilla se va rotando en las 5 iteraciones de cada archivo.
+	\paragraph{}Para la generación de números pseudoaleatorios se utiliza una semilla previamente definida en el archivo de configuración, en este caso es 77356084. Esta semilla se va rotando en las 5 iteraciones de cada archivo.
+	
+	
+	\paragraph{} 77356084 $\rightarrow$ 73560847 $\rightarrow$ 35608477  ...
 	
 	
 	\subsection{Análisis de los resultados}
 	
+		\subsubsection{Greedy}
+		
+			La heurística greedy tiene un comportamiento aceptable para los conjuntos de datos escogidos, es capaz de ofrecer unos resultados cercanos a los óptimos globales mientras mantiene unos tiempos mínimos.
+			
+			\begin{figure}[H]
+				
+				\includegraphics[scale=0.4]{img/greegyResult}
+				
+			\end{figure}
+		
+		\subsubsection{Búsqueda local}
+		
+			La metaheurística 
+		\subsubsection{Búsqueda tabú}
+	
 	
 
+
+	\begin{thebibliography}{0}
+		
+		\bibitem{Glover2020} Fred Glover, Manuel Laguna, Rafael Martí. Principles of Tabu Search. https://www.uv.es/~rmarti/paper/docs/ts1.pdf
+		
+		\bibitem{UgrMe2020} https://sci2s.ugr.es/graduateCourses/Metaheuristicas
+		
+		\bibitem{UgrAl2020}https://sci2s.ugr.es/graduateCourses/Algoritmica
+		
+	\end{thebibliography}
 
 \end{document}
