@@ -7,11 +7,14 @@
  */
 package es.meta.pr1;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.UIManager;
+
 
 /**
  * @brief Clase Main del programa
@@ -35,7 +38,13 @@ public class Main {
     public  static int narchivos;
     
     public static void main(String[] args) throws IOException {
-
+        
+        try {
+            UIManager.setLookAndFeel( new FlatLightLaf() );
+        } catch( Exception ex ) {
+            System.err.println( "Failed to initialize LaF" );
+        }
+        
         Configurador config = new Configurador("archivos/config.txt");
         
         ArrayList<File> directorios = new ArrayList<>();

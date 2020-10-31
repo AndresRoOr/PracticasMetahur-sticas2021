@@ -22,7 +22,8 @@ public class Consola extends javax.swing.JFrame {
     public Consola() {
         initComponents();
         this.eleccion = 0;
-        this.jProgressBarEstado.setVisible(false);
+        this.jProgressBarEstado.setVisible(true);
+        
     }
 
     
@@ -39,7 +40,6 @@ public class Consola extends javax.swing.JFrame {
         this.jButtonGreedy.setEnabled(true);
         this.jButtonLocalSearch.setEnabled(true);
         this.jButtonTabuSearch.setEnabled(true);
-        this.jProgressBarEstado.setVisible(false);
         this.jProgressBarEstado.setValue(0);
     }
     
@@ -74,81 +74,124 @@ public class Consola extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Práctica 1 Metaheurísticas");
+        setBackground(new java.awt.Color(0, 0, 0));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setPreferredSize(new java.awt.Dimension(730, 355));
         setResizable(false);
 
+        jPanel1.setBackground(new java.awt.Color(34, 43, 53));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.setForeground(new java.awt.Color(0, 51, 102));
+        jPanel1.setPreferredSize(new java.awt.Dimension(730, 330));
+
         jTextArea.setEditable(false);
+        jTextArea.setBackground(new java.awt.Color(153, 153, 153));
         jTextArea.setColumns(20);
+        jTextArea.setForeground(new java.awt.Color(255, 255, 255));
         jTextArea.setRows(5);
         jTextArea.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane1.setViewportView(jTextArea);
 
+        jButtonGreedy.setBackground(new java.awt.Color(153, 153, 153));
+        jButtonGreedy.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonGreedy.setText("Greedy");
+        jButtonGreedy.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButtonGreedy.setBorderPainted(false);
+        jButtonGreedy.setFocusPainted(false);
+        jButtonGreedy.setFocusable(false);
         jButtonGreedy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonGreedyActionPerformed(evt);
             }
         });
 
+        jButtonLocalSearch.setBackground(new java.awt.Color(153, 153, 153));
+        jButtonLocalSearch.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonLocalSearch.setText("Búsqueda Local");
+        jButtonLocalSearch.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButtonLocalSearch.setBorderPainted(false);
+        jButtonLocalSearch.setFocusPainted(false);
+        jButtonLocalSearch.setFocusable(false);
+        jButtonLocalSearch.setPreferredSize(new java.awt.Dimension(20, 17));
         jButtonLocalSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonLocalSearchActionPerformed(evt);
             }
         });
 
+        jButtonTabuSearch.setBackground(new java.awt.Color(153, 153, 153));
+        jButtonTabuSearch.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonTabuSearch.setText("Búsqueda Tabú");
+        jButtonTabuSearch.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButtonTabuSearch.setBorderPainted(false);
+        jButtonTabuSearch.setFocusPainted(false);
+        jButtonTabuSearch.setFocusable(false);
         jButtonTabuSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonTabuSearchActionPerformed(evt);
             }
         });
 
+        jButtonExit.setBackground(new java.awt.Color(248, 146, 41));
+        jButtonExit.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonExit.setText("Salir");
+        jButtonExit.setBorderPainted(false);
+        jButtonExit.setFocusPainted(false);
+        jButtonExit.setFocusable(false);
+        jButtonExit.setPreferredSize(new java.awt.Dimension(53, 18));
         jButtonExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonExitActionPerformed(evt);
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Seleccione una heurística");
+        jLabel1.setFocusable(false);
 
+        jProgressBarEstado.setBackground(new java.awt.Color(34, 43, 53));
+        jProgressBarEstado.setForeground(new java.awt.Color(255, 255, 255));
         jProgressBarEstado.setMaximum(1000);
+        jProgressBarEstado.setBorderPainted(false);
+        jProgressBarEstado.setFocusable(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonGreedy)
+                        .addGap(40, 40, 40)
+                        .addComponent(jButtonGreedy, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonLocalSearch)
+                        .addComponent(jButtonLocalSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonTabuSearch)
-                        .addGap(103, 103, 103)
-                        .addComponent(jButtonExit))
+                        .addComponent(jButtonTabuSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
+                        .addComponent(jButtonExit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jProgressBarEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE))
-                .addGap(27, 27, 27))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jProgressBarEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonExit)
-                    .addComponent(jButtonTabuSearch)
-                    .addComponent(jButtonLocalSearch)
-                    .addComponent(jButtonGreedy)
-                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButtonTabuSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addComponent(jButtonGreedy, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonLocalSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonExit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -156,11 +199,11 @@ public class Consola extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
