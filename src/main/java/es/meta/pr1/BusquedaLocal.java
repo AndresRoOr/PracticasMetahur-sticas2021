@@ -304,9 +304,6 @@ public class BusquedaLocal {
         //System.out.println(_solucion);
         _suma_Resultado = calcularCoste();
         //System.out.println("Coste de la solución: " + _suma_Resultado);
-        
-        Main.console.presentarSalida("Vector Solución");
-        Main.console.presentarSalida(_solucion.toString());
         Main.console.presentarSalida("Coste de la solución: " + _suma_Resultado +"\n");
 
         gestor.escribirArchivo("");

@@ -176,9 +176,6 @@ public class Greedy {
         //System.out.println(_solucionB);
         _suma_Resultado = calculoValorSolucion();
         //System.out.println("Coste de la solución: " + _suma_Resultado);
-        
-        Main.console.presentarSalida("Vector Solución");
-        Main.console.presentarSalida(_solucionB.toString());
         Main.console.presentarSalida("Coste de la solución: " + _suma_Resultado +"\n");
                 
         

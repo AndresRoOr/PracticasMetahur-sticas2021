@@ -87,13 +87,14 @@ public class Consola extends javax.swing.JFrame {
         jTextArea.setEditable(false);
         jTextArea.setBackground(new java.awt.Color(153, 153, 153));
         jTextArea.setColumns(20);
+        jTextArea.setFont(new java.awt.Font("Segoe UI Semibold", 0, 13)); // NOI18N
         jTextArea.setForeground(new java.awt.Color(255, 255, 255));
         jTextArea.setRows(5);
         jTextArea.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane1.setViewportView(jTextArea);
 
         jButtonGreedy.setBackground(new java.awt.Color(153, 153, 153));
-        jButtonGreedy.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonGreedy.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         jButtonGreedy.setText("Greedy");
         jButtonGreedy.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jButtonGreedy.setBorderPainted(false);
@@ -106,7 +107,7 @@ public class Consola extends javax.swing.JFrame {
         });
 
         jButtonLocalSearch.setBackground(new java.awt.Color(153, 153, 153));
-        jButtonLocalSearch.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonLocalSearch.setFont(new java.awt.Font("Segoe UI Semibold", 1, 12)); // NOI18N
         jButtonLocalSearch.setText("Búsqueda Local");
         jButtonLocalSearch.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jButtonLocalSearch.setBorderPainted(false);
@@ -120,7 +121,7 @@ public class Consola extends javax.swing.JFrame {
         });
 
         jButtonTabuSearch.setBackground(new java.awt.Color(153, 153, 153));
-        jButtonTabuSearch.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonTabuSearch.setFont(new java.awt.Font("Segoe UI Semibold", 1, 12)); // NOI18N
         jButtonTabuSearch.setText("Búsqueda Tabú");
         jButtonTabuSearch.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jButtonTabuSearch.setBorderPainted(false);
@@ -133,7 +134,7 @@ public class Consola extends javax.swing.JFrame {
         });
 
         jButtonExit.setBackground(new java.awt.Color(248, 146, 41));
-        jButtonExit.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonExit.setFont(new java.awt.Font("Segoe UI Semibold", 1, 12)); // NOI18N
         jButtonExit.setText("Salir");
         jButtonExit.setBorderPainted(false);
         jButtonExit.setFocusPainted(false);
@@ -145,7 +146,7 @@ public class Consola extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Seleccione una heurística");
         jLabel1.setFocusable(false);
@@ -171,7 +172,7 @@ public class Consola extends javax.swing.JFrame {
                         .addComponent(jButtonLocalSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonTabuSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
                         .addComponent(jButtonExit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jProgressBarEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))

@@ -464,8 +464,6 @@ public class BusquedaTabu {
         
         Main.console.presentarSalida("Intensificaciones: " + _numRestartMayor);
         Main.console.presentarSalida("Diversificaciones: " + _numRestartMenor);
-        Main.console.presentarSalida("Vector Solución");
-        Main.console.presentarSalida(_solucionElite.toString());
         Main.console.presentarSalida("Coste de la solución: " + _suma_Resultado +"\n");
         
         

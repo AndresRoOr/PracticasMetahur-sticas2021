@@ -1,6 +1,5 @@
 \documentclass{article}
 \title{Informe}
-\usepackage[spanish]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{algorithm}
 \usepackage{algorithmic}
@@ -38,15 +37,25 @@
 	
 	\section{Definición y análisis del problema}
 	
-	Dado un conjunto N de tamaño n, se pide encontrar un subconjunto M de tamaño m, que maximice
+	Dado un conjunto \emph{N} de tamaño \emph{n}, se pide encontrar un subconjunto \emph{M} de tamaño \emph{m}, que maximice
 	la función: 
 	
 	\[ d(s_i,M)=\sum_{s_j \in M} d(s_i,s_j)\]
-	donde  $d(s_i,s_j)$ es la distancia del elemento $s_i$ al elemento $s_j$
+	donde  $d(s_i,s_j)$ es la diversidad del elemento $s_i$ respecto al elemento $s_j$
 	
 	\subsection{Representación de la solución}
 	
-	Para representar la solución se ha optado por el uso de un vector de enteros, en el que él elemento contenido en cada posición se corresponde con un integrante de la solución.
+	Para representar la solución se ha optado por el uso de un vector de enteros, en el que él elemento contenido en cada posición se corresponde con un integrante de la solución. La solución vendrá dada por las siguientes restricciones:
+		\begin{itemize}
+			
+			\item La solución no puede contener elementos repetidos.
+			
+			\item Debe tener exactamente \emph{m} elementos.
+			
+			\item El orden de los elementos es irrelevante.
+			
+		\end{itemize}
+	
 	
 	\subsection{Función objetivo}
 	
@@ -54,7 +63,7 @@
 	
 	\subsection{Operadores comunes}
 	
-	El operador de intercambio será el 2-opt
+	El operador de intercambio será el 2-opt, se seleccionara un elemento de la solución actual en base a un criterio y se sustituirá por un elemento que no pertenece a la solución. 
 	
 	\section{Pseudocódigo}
 	
@@ -370,7 +379,7 @@
 
 	\subsubsection{Manual de usuario}
 	
-	Para ejecutar el software asegúrese de que el archivo .jar proporcionado se ubica en el mismo directorio que la carpeta \emph{archivos}. Una vez se inicie la GUI podrá seleccionar la heurística que desee mediante el botón correspondiente. Una vez empiece la ejecución de una heurística no sera posible seleccionar otra hasta que finalice su ejecución. Los resultados finales se mostrarán en el cuadro de texto, a su vez, se generan los log correspondientes a cada archivo y semilla en la carpeta Log, clasificados por el tipo del conjunto de datos.
+		\paragraph{}Para ejecutar el software asegúrese de que el archivo .jar proporcionado se ubica en el mismo directorio que la carpeta \emph{archivos}. Una vez se inicie la GUI podrá seleccionar la heurística que desee mediante el botón correspondiente. Una vez empiece la ejecución de una heurística no sera posible seleccionar otra hasta que finalice su ejecución. Los resultados finales se mostrarán en el cuadro de texto, a su vez, se generan los log correspondientes a cada archivo y semilla en la carpeta Log, clasificados por el tipo del conjunto de datos.
 	
 		\begin{figure}[H]
 		
@@ -384,11 +393,20 @@
 	
 		\subsubsection{Greedy}
 		
-			La heurística greedy toma como único parámetro la semilla, que se usa para generar el primer elemento de la solución, por tanto es una heurística muy cercana a un procedimiento determinista.
+				\paragraph{}La heurística greedy toma como único parámetro la semilla, que se usa para generar el primer elemento de la solución, por tanto es una heurística muy cercana a un procedimiento determinista.
 	
-		\subsubsection{Búsqueda local}
+		\subsubsection{Búsqueda Local}
+		
+			\begin{itemize}
+				
+				\item Criterio de parada : Cuando no se encuentra mejora en las soluciones vecinas.
+				
+				\item Criterio de movimiento: Se realiza un movimiento a la primera solución vecina que nos mejore (first-improvement rule).
+				
+			\end{itemize}
+				
 	
-		\subsubsection{Búsqueda tabú}
+		\subsubsection{Búsqueda Tabú}
 		
 			\begin{itemize}
 				
@@ -404,7 +422,9 @@
 				
 				\[ \frac{nIteraciones}{maxIteraciones} \]
 				
+				\item Entorno de búsqueda: El numero de vecinos a evaluar en cada iteración se calcula como:
 				
+				\[ e^{\frac{limitIter - nIte}{ \frac{limitIter}{\log{\emph{m}}}}}\]
 					
 			\end{itemize}
 	
@@ -420,21 +440,29 @@
 	
 		\subsubsection{Greedy}
 		
-			La heurística greedy tiene un comportamiento aceptable para los conjuntos de datos escogidos, es capaz de ofrecer unos resultados cercanos a los óptimos globales mientras mantiene unos tiempos mínimos.
+				\paragraph{}La heurística greedy tiene un comportamiento aceptable para los conjuntos de datos escogidos, es capaz de ofrecer unos resultados cercanos a los óptimos globales mientras mantiene unos tiempos mínimos.
 			
 			\begin{figure}[H]
 				
 				\centering
 				\includegraphics[scale=0.4]{img/greegyResult}
-				\caption{Resultados obtenidos Greedy}
+				\caption{Resultados obtenidos mediante Greedy}
 				
 			\end{figure}
 		
-		\subsubsection{Búsqueda local}
+		\subsubsection{Búsqueda Local}
 		
-			La metaheurística 
+				\paragraph{}Como se puede observar en la tabla de resultados, la Búsqueda Local es muy robusta en los resultados y rápida. Esto puede deberse al hecho de que es un algoritmo muy simple, no obstante, esto lo puede llevar a caer en óptimos locales.
 			
-		\subsubsection{Búsqueda tabú}
+			\begin{figure}[H]
+				
+				\centering
+				\includegraphics[scale=0.4]{img/blocalResult}
+				\caption{Resultados obtenidos mediante Búsqueda Local}
+				
+			\end{figure}
+			
+		\subsubsection{Búsqueda Tabú}
 	
 	
 

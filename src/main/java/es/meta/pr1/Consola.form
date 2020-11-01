@@ -76,7 +76,7 @@
                           <Component id="jButtonLocalSearch" min="-2" pref="100" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jButtonTabuSearch" min="-2" pref="100" max="-2" attributes="0"/>
-                          <EmptySpace pref="99" max="32767" attributes="0"/>
+                          <EmptySpace pref="108" max="32767" attributes="0"/>
                           <Component id="jButtonExit" min="-2" pref="90" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jProgressBarEstado" alignment="0" max="32767" attributes="0"/>
@@ -123,6 +123,9 @@
                   <Color blue="99" green="99" red="99" type="rgb"/>
                 </Property>
                 <Property name="columns" type="int" value="20"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI Semibold" size="13" style="0"/>
+                </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
@@ -140,7 +143,7 @@
               <Color blue="99" green="99" red="99" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="11" style="1"/>
+              <Font name="Segoe UI Semibold" size="12" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Greedy"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -162,7 +165,7 @@
               <Color blue="99" green="99" red="99" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="11" style="1"/>
+              <Font name="Segoe UI Semibold" size="12" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="B&#xfa;squeda Local"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -187,7 +190,7 @@
               <Color blue="99" green="99" red="99" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="11" style="1"/>
+              <Font name="Segoe UI Semibold" size="12" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="B&#xfa;squeda Tab&#xfa;"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -209,7 +212,7 @@
               <Color blue="29" green="92" red="f8" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="11" style="1"/>
+              <Font name="Segoe UI Semibold" size="12" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Salir"/>
             <Property name="borderPainted" type="boolean" value="false"/>
@@ -226,7 +229,7 @@
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="11" style="1"/>
+              <Font name="Segoe UI Semibold" size="12" style="0"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
