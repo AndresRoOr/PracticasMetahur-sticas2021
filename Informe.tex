@@ -1,5 +1,6 @@
 \documentclass{article}
 \title{Informe}
+\usepackage[spanish]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{algorithm}
 \usepackage{algorithmic}
@@ -34,10 +35,14 @@
 		\vspace*{2.5cm}
 		
 	\end{center}
+
+	\tableofcontents
+	
+	\newpage
 	
 	\section{Definición y análisis del problema}
 	
-	Dado un conjunto \emph{N} de tamaño \emph{n}, se pide encontrar un subconjunto \emph{M} de tamaño \emph{m}, que maximice
+	\paragraph{}Dado un conjunto \emph{N} de tamaño \emph{n}, se pide encontrar un subconjunto \emph{M} de tamaño \emph{m}, que maximice
 	la función: 
 	
 	\[ d(s_i,M)=\sum_{s_j \in M} d(s_i,s_j)\]
@@ -45,7 +50,7 @@
 	
 	\subsection{Representación de la solución}
 	
-	Para representar la solución se ha optado por el uso de un vector de enteros, en el que él elemento contenido en cada posición se corresponde con un integrante de la solución. La solución vendrá dada por las siguientes restricciones:
+	\paragraph{} Para representar la solución se ha optado por el uso de un vector de enteros, en el que él elemento contenido en cada posición se corresponde con un integrante de la solución. La solución vendrá dada por las siguientes restricciones:
 		\begin{itemize}
 			
 			\item La solución no puede contener elementos repetidos.
@@ -63,7 +68,7 @@
 	
 	\subsection{Operadores comunes}
 	
-	El operador de intercambio será el 2-opt, se seleccionara un elemento de la solución actual en base a un criterio y se sustituirá por un elemento que no pertenece a la solución. 
+	\paragraph{}El operador de intercambio es el 2-opt, se seleccionara un elemento de la solución actual en base a un criterio y se sustituirá por un elemento que no pertenece a la solución. 
 	
 	\section{Pseudocódigo}
 	
@@ -367,7 +372,7 @@
 	
 	\subsubsection{Equipo de pruebas}
 	
-	Los resultados de las heurísticas han sido obtenidos en el siguiente equipo:
+	\paragraph{}Los resultados de las heurísticas han sido obtenidos en el siguiente equipo:
 	
 		\begin{itemize}
 			
@@ -379,7 +384,9 @@
 
 	\subsubsection{Manual de usuario}
 	
-		\paragraph{}Para ejecutar el software asegúrese de que el archivo .jar proporcionado se ubica en el mismo directorio que la carpeta \emph{archivos}. Una vez se inicie la GUI podrá seleccionar la heurística que desee mediante el botón correspondiente. Una vez empiece la ejecución de una heurística no sera posible seleccionar otra hasta que finalice su ejecución. Los resultados finales se mostrarán en el cuadro de texto, a su vez, se generan los log correspondientes a cada archivo y semilla en la carpeta Log, clasificados por el tipo del conjunto de datos.
+		\paragraph{}Para ejecutar el software asegúrese de que el archivo .jar proporcionado se ubica en el mismo directorio que la carpeta \emph{archivos}. 
+		
+		\paragraph{}Cunado se muestre la GUI, podrá seleccionar la heurística que desee mediante el botón correspondiente. Una vez empiece la ejecución de una heurística no sera posible seleccionar otra hasta que finalice su ejecución. Los resultados finales se mostrarán en el cuadro de texto, a su vez, se generan los log correspondientes a cada archivo y semilla en la carpeta Log, clasificados por el tipo del conjunto de datos.
 	
 		\begin{figure}[H]
 		
@@ -452,8 +459,10 @@
 		
 		\subsubsection{Búsqueda Local}
 		
-				\paragraph{}Como se puede observar en la tabla de resultados, la Búsqueda Local es muy robusta en los resultados y rápida. Esto puede deberse al hecho de que es un algoritmo muy simple, no obstante, esto lo puede llevar a caer en óptimos locales.
-			
+				\paragraph{}Como se puede observar en la tabla de resultados, la Búsqueda Local es muy robusta en los resultados, manteniendo unos tiempos comedidos. Esto puede deberse al hecho de que es un algoritmo muy simple, no obstante, esto lo puede llevar a caer en óptimos locales.
+				
+			 \paragraph{}La Búsqueda local es capaz de encontrar óptimos globales en algunos casos, a diferencia de Greedy, no obstante, los tiempos pueden llegar a ser 100 veces más lentos que los obtenidos en Greedy. Debido a la eliminación de la condición de parada basada en evaluaciones, las instancias pequeñas alcanzan el optimo local en torno a las 20000 evaluaciones, mientras que las instancias más grandes necesitan unas 300000.
+				
 			\begin{figure}[H]
 				
 				\centering
