@@ -39,6 +39,7 @@ public class BusquedaLocal {
      * @date 03/10/2020
      * @param archivoDatos Archivo
      * @param evaluaciones Integer
+     * @param g GestorLog
      */
     public BusquedaLocal(Archivo archivoDatos, Integer evaluaciones, GestorLog g) {
         _archivoDatos = archivoDatos;
@@ -300,10 +301,7 @@ public class BusquedaLocal {
      * @date 03/10/2020
      */
     void PresentarResultados() {
-        //System.out.println("Vector Solución");
-        //System.out.println(_solucion);
         _suma_Resultado = calcularCoste();
-        //System.out.println("Coste de la solución: " + _suma_Resultado);
         Main.console.presentarSalida("Coste de la solución: " + _suma_Resultado +"\n");
 
         gestor.escribirArchivo("");
