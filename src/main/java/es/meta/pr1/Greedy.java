@@ -32,6 +32,7 @@ public class Greedy {
      * @author David Díaz Jiménez
      * @date 27/09/2020
      * @param archivoDatos Archivo Contiene los datos sobre los que operar
+     * @param g GestorLog Encargado de guardar los datos Log
      */
     public Greedy(Archivo archivoDatos, GestorLog g) {
         _archivoDatos = archivoDatos;
@@ -172,17 +173,12 @@ public class Greedy {
      * @date 27/09/2020
      */
     void PresentarResultados() {
-        //System.out.println("Vector Solución");
-        //System.out.println(_solucionB);
         _suma_Resultado = calculoValorSolucion();
-        //System.out.println("Coste de la solución: " + _suma_Resultado);
         Main.console.presentarSalida("Coste de la solución: " + _suma_Resultado +"\n");
                 
-        
         gestor.escribirArchivo("");
         gestor.escribirArchivo("Vector Solución: " + _solucionB);
         gestor.escribirArchivo("Coste de la solución: " + _suma_Resultado);
-        
         
         _solucionB = null;
         _archivoDatos.setMatriz(null);
