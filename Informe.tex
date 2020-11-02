@@ -1,6 +1,5 @@
 \documentclass{article}
 \title{Informe}
-\usepackage[spanish]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{algorithm}
 \usepackage{algorithmic}
@@ -363,6 +362,202 @@
 	
 	\subsection{Búsqueda Tabú}
 	
+		\subsubsection{Algoritmo principal}
+	
+		\begin{algorithm}[H]
+			\caption{Busqueda tabú}
+			\begin{algorithmic}
+				\STATE $elementoMenor \leftarrow \emptyset$
+				\STATE $costeSolucionElite \leftarrow 0$
+				\STATE $solucionElite \leftarrow \emptyset$
+				\STATE $solucionMomento \leftarrow \emptyset$
+				\STATE $consteSolucionMomento \leftarrow 0$
+				\STATE $iteracionesRealizadas \leftarrow 0$
+				\STATE $iteracionesSinMejora \leftarrow 0$
+				\STATE $solucionElite \leftarrow GeneraSolucionInicial(semilla)$
+				\STATE $solucionMomento \leftarrow solucionElite$
+				\STATE $costeSolucionElite \leftarrow CalcularCoste(solucionElite)$
+				\WHILE {iteracionesRealizadas$<$limiteIteraciones}
+				\STATE $vecindario \leftarrow GeneraVecindarioRestringido(tamanioVecindario,semilla)$
+				\FORALL {$elemento \in solucionMomento$}
+				\STATE $mejorVecino \leftarrow EvaluaVecindarioRestringido(vecindario,elementoMenor)$
+				\ENDFOR
+				\STATE $listaTabu \leftarrow listaTabu \cup \{mejorVecino\}$
+				\STATE $memoriaLargoP[mejorVecino] \leftarrow memoriaLargoP[mejorVecino]+1$
+				\STATE $solucionMomento \leftarrow Intercambio(elementoMenor, mejorVecino)$
+				\IF {costeSolucionMomento$>$costeSolucionElite}
+				\STATE $solucionElite \leftarrow solucionMomento$
+				\STATE $costeSolucionElite \leftarrow costeSolucionMomento$
+				\STATE $iteracionesSinMejora \leftarrow 0$
+				\ELSE
+				\STATE $iteracionesSinMejora \leftarrow iteracionesSinMejora+1$
+				\ENDIF
+				\STATE $iteracionesRealizadas \leftarrow iteracionesRealizadas+1$
+				\IF{iteracionesSinMejora$>$limiteSinMejora}
+				\STATE ReinicializarBusqueda(semilla)
+				\STATE $iteracionesRealizadas \leftarrow iteracionesRealizadas+1$
+				\ENDIF
+				\ENDWHILE
+			\end{algorithmic}
+		\end{algorithm}
+		
+		\paragraph{} La primera tarea que realiza el algoritmo es generar una solución de partida. Esta solución es generada de manera aleatoria con la función "GeneraSoluciónInicial(semilla)", haciendo uso de la semilla que forma parte de los parámetros del problema.
+		
+		
+		\subsubsection{Generación del vecindario}
+		
+		\begin{algorithm}[H]
+			\caption{GeneraVecindarioRestringido(tamañoVencidario,semilla)}
+			\begin{algorithmic}
+				\STATE $vecino \leftarrow \emptyset$
+				\STATE $vecindario \leftarrow \emptyset$	
+				\WHILE{vecindario.tamaño()$<$tamañoVecindario}
+				\STATE $vecino \leftarrow GeneraEnteroAleatorio(semilla)$
+				\IF{$vecino \notin solucion$ $\wedge$ $vecino \notin listaTabu$ $\wedge$ $vecino \notin vecindario$}
+				\STATE $vecindario \leftarrow vecindario \cup \{vecino\}$
+				\ENDIF
+				\ENDWHILE
+				\RETURN vecindario
+			\end{algorithmic}
+		\end{algorithm}
+		
+		\subsubsection{Evaluación de la solución}
+		
+		\begin{algorithm}[H]
+			\caption{EvaluaVecindarioRestringido(vecindario, elementoMenor)}
+			\begin{algorithmic}
+				\STATE $costeMax \leftarrow 0$
+				\STATE $mejorVecino \leftarrow -1$	
+				\FORALL {$vecino \in vecindario$}
+				\IF {CosteFactorizado(elementoMenor, vecino)$>$costeMax}
+				\STATE $costeMax \leftarrow CosteFactorizado(elementoMenor, vecino)$
+				\STATE $mejorVecino \leftarrow vecino$
+				\ENDIF
+				\ENDFOR
+				\RETURN mejorVecino
+			\end{algorithmic}
+		\end{algorithm}
+	
+		\subsubsection{Cálculo del coste factorizado}
+		
+		\begin{algorithm}[H]
+			\caption{CosteFactorizado(elementoMenor, mejorVecino)}
+			\begin{algorithmic}
+				\STATE $costeMenos \leftarrow 0$
+				\STATE $costeMas \leftarrow 0$
+				\FORALL{$elementoSolucion \in solucionMomento$}
+				\STATE $costeMenos \leftarrow costeMenos + matrizDistancias[elementoSolucion][elementoMenor]$
+				\IF{elementoSolucion != elementoMenor}
+				\STATE $costeMas \leftarrow costeMas+matrizDistancias[elementoSolucion][mejorVecino]$
+				\ENDIF
+				\ENDFOR
+				\RETURN costeSolucionMomento - costeMenos + costeMas	
+			\end{algorithmic}
+		\end{algorithm}
+	
+			\paragraph{}Se inicializan a 0 las variables "costeMenos" y costeMas, que almacenarán el coste que hay que restarle y sumarle respectivamente al coste total de la solución actual.
+		
+		\paragraph{}Una vez hecho esto, se empieza un bucle for que recorre todos los elementos de la solucion.
+		
+		\paragraph{}dentro del bucle se suma a " costeMenor" la distancia entre el elemento de la solucion y "elementoMenor", que es el elemento que dejará de formar parte de la solución.
+		
+		\paragraph{}A continuación, si el elemento de la solución no es igual que "elementoMenor", se suma a "costeMas" la distancia del elemento de la solución respecto a "elemento", que es el nuevo elemento de la solución. 
+		
+		\paragraph{}Una vez terminamos el bucle, se devuelve el resultado de restarle al coste de la solución actual "costeMenos" y sumarle "costeMas".
+		
+		\subsubsection{Calculo del elemento de la solución con menor aporte}
+		
+		\begin{algorithm}[H]
+			\caption{CalcularAportes()}
+			\begin{algorithmic}
+				\STATE $elementoMenor \leftarrow -1$
+				\FORALL{$elemento \in listaAportes$}
+				\IF{$elemento \notin elementosNoMejoran$}
+				\STATE $elementoMenor \leftarrow elemento$
+				\RETURN elementoMenor
+				\ENDIF
+				\ENDFOR
+				\RETURN elementoMenor
+			\end{algorithmic}
+		\end{algorithm}
+	
+		\paragraph{}Empezamos con un bucle for que recorre todos los elementos de listaAportes.
+		
+		\paragraph{}Para cada elemento de listaAportes se comprueba si es el que menos aporta, se almacena este elemento en la variable "elementoMenor" y se devuelve elementoMenor.
+		
+		\subsubsection{Oscilación estratégica}
+		
+		\begin{algorithm}[H]
+			\caption{ReinicializarBusqueda(semilla)}
+			\begin{algorithmic}
+				\STATE $limiteExploracion \leftarrow \emptyset$
+				\STATE $factorAleatorio \leftarrow \emptyset$
+				\STATE $limiteExploracion \leftarrow GeneraLimiteExploracion()$
+				\STATE $factorAleatorio \leftarrow GeneraPorcentajeAleatorio(semilla)$
+				\IF{factorAleatorio$<$limiteExploracion}
+				\STATE Intensificacion()
+				\ELSE
+				\STATE Diversificacion()
+				\ENDIF
+				\STATE $listaTabu \leftarrow \emptyset$
+				\STATE $iteracionesSinMejora \leftarrow 0$
+			\end{algorithmic}
+		\end{algorithm}
+		
+		\subsubsection{Solución basada en intensificación}
+		
+		\begin{algorithm}[H]
+			\caption{Intensificacion()}
+			\begin{algorithmic}
+				\STATE $solucionMomento \leftarrow \emptyset$
+				\STATE $costeSolucionMomento \leftarrow 0$
+				\STATE $mejor \leftarrow \emptyset$
+				\STATE $valorMejor \leftarrow \emptyset$
+				\WHILE{solucionMomento.tamaño()$<$tamañoSolucionObjetivo}
+				\FOR{(i=0;i$<$memoriaLargoPlazo.tamaño();i++)}
+				\IF{(memoriaLargoPlazo[i]$>$valorMejor)$\wedge$($i \notin solucionMomento$)}
+				\STATE $valorMejor \leftarrow memoriaLargoPlazo[i]$
+				\STATE $mejor \leftarrow i$
+				\ENDIF
+				\ENDFOR
+				\STATE $solucionMomento \leftarrow solucionMomento \cup \{mejor\}$
+				\STATE $memoriaLargoPlazo[mejor] \leftarrow memoriaLargoPlazo[mejor]+1$
+				\ENDWHILE
+				\STATE CalcularCoste(solucionMomento)
+				\IF{costeSolucionMomento$>$costeSolucionElite}
+				\STATE $solucionElite \leftarrow solucionMomento$
+				\STATE $costeSolucionElite \leftarrow costeSolucionMomento$
+				\ENDIF
+			\end{algorithmic}
+		\end{algorithm}
+		
+		\subsubsection{Solución basada en diversificación}
+		
+		\begin{algorithm}[H]
+			\caption{Diversificacion(semilla)}
+			\begin{algorithmic}
+				\STATE $solucionMomento \leftarrow \emptyset$
+				\STATE $costeSolucionMomento \leftarrow 0$
+				\STATE $mejor \leftarrow \emptyset$
+				\STATE $valorMejor \leftarrow \infty$
+				\WHILE{solucionMomento.tamaño()$<$tamañoSolucionObjetivo}
+				\FOR{(i=0;i$<$memoriaLargoPlazo.tamaño();i++)}
+				\IF{(memoriaLargoPlazo[i]$<$valorMejor)$\wedge$($i \notin solucionMomento$)}
+				\STATE $valorMejor \leftarrow memoriaLargoPlazo[i]$
+				\STATE $mejor \leftarrow i$
+				\ENDIF
+				\ENDFOR
+				\STATE $solucionMomento \leftarrow solucionMomento \cup \{mejor\}$
+				\STATE $memoriaLargoPlazo[mejor] \leftarrow memoriaLargoPlazo[mejor]+1$
+				\ENDWHILE
+				\STATE CalcularCoste(solucionMomento)
+				\IF{costeSolucionMomento$>$costeSolucionElite}
+				\STATE $solucionElite \leftarrow solucionMomento$
+				\STATE $costeSolucionElite \leftarrow costeSolucionMomento$
+				\ENDIF
+			\end{algorithmic}
+		\end{algorithm}
+		
 	
 	\section{Experimentos y análisis de resultados}
 	
@@ -429,6 +624,8 @@
 				
 				\[ \frac{nIteraciones}{maxIteraciones} \]
 				
+				Se aplicará pasadas 300 iteraciones sin mejora.
+				
 				\item Entorno de búsqueda: El numero de vecinos a evaluar en cada iteración se calcula como:
 				
 				\[ e^{\frac{limitIter - nIte}{ \frac{limitIter}{\log{\emph{m}}}}}\]
@@ -473,6 +670,18 @@
 			
 		\subsubsection{Búsqueda Tabú}
 	
+			\paragraph{}Para la Búsqueda Tabú se ha utilizado un sistema de memorias, aplicando una lista Tabú con tenencia de 5 iteraciones y una memoria de frecuencias basada en un vector de \emph{N} elementos, siendo \emph{N} el tamaño del problema. Realizando pruebas en base a aumentar la tenencia Tabú, hemos obtenido unos resultados en media similares, por tanto aumentar la tenencia Tabú no produce resultados significativos.
+			 
+			\paragraph{}Sin embargo, el aumento del número de iteraciones incrementa los resultados obtenidos, esto puede deberse al hecho de que el algoritmo dispone de más intentos de mejora desde soluciones creadas por la diversificación, permitiendo encontrar en algunos casos los óptimos globales.
+	
+			
+			\begin{figure}[H]
+				
+				\centering
+				\includegraphics[scale=0.4]{img/btabuResult}
+				\caption{Resultados obtenidos mediante Búsqueda Tabú}
+				
+			\end{figure}
 	
 
 
