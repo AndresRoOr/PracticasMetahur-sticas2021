@@ -157,9 +157,7 @@ public class Configurador {
      * @date 06/10/2020
      */
     void rotarSemilla() {
-        //-------------------------------------------------
-        long semillaAntigua = semilla;
-        //-------------------------------------------------
+        
 
         char[] cadenaSemilla = semilla.toString().toCharArray();
         char[] cadenaRotada = new char[8];
