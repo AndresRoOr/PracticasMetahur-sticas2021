@@ -109,7 +109,6 @@ public class Main {
             } 
             
             console.restaurarEleccion();
-            //System.exit(0);
         }
     }
 }
