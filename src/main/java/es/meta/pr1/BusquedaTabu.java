@@ -114,7 +114,7 @@ public class BusquedaTabu {
 
                 elementoSolucion = iterador.next();
 
-                if (aleatorioSemilla.Randfloat(0, 1) < 0.2) {
+                if (aleatorioSemilla.Randfloat(0, 1) < 0.1) {
                     vecino = EvaluaVecindarioRestringido(vecindario, elementoSolucion, aleatorioSemilla);
 
                     if (vecino.getCoste() > mejorVecino.getCoste()) {
@@ -128,6 +128,22 @@ public class BusquedaTabu {
                 }
 
             }
+            
+            if(mejorVecino.getCoste() < _costeSolucionElite  || mejorVecino.getCandidato() == -1){
+                
+                int eleMenor = CalcularAportes();
+               
+                if(eleMenor != elementoMenor){
+               
+                    vecino = EvaluaVecindarioRestringido(vecindario, eleMenor, aleatorioSemilla);
+                    if (vecino.getCoste() > mejorVecino.getCoste()) {
+                            mejorVecino = new Pair(vecino.getCandidato(), vecino.getCoste());
+                            elementoMenor = eleMenor;
+                    }
+            
+                }
+            }
+            
 
             Intercambio(elementoMenor, mejorVecino.getCandidato());
             _costeSolucionMomento = mejorVecino.getCoste();
@@ -213,13 +229,13 @@ public class BusquedaTabu {
         while (iterator.hasNext()) {
             int elemento = iterator.next();
 
-            if (aleatorioSemilla.Randfloat(0, 1) < 0.2) {
-                float Coste = CosteFactorizado(elementoMenor, elemento);
-                if (Coste > costeMax) {
-                    costeMax = Coste;
-                    mejorVecino = elemento;
-                }
+            
+            float Coste = CosteFactorizado(elementoMenor, elemento);
+            if (Coste > costeMax) {
+                costeMax = Coste;
+                mejorVecino = elemento;
             }
+            
         }
         return new Pair(mejorVecino, costeMax);
     }
