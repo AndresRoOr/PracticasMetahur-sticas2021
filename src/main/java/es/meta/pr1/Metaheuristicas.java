@@ -56,7 +56,6 @@ public class Metaheuristicas {
     void lector_Archivos() throws FileNotFoundException, IOException {
         final File carpeta = new File(_ruta_Carpeta_Archivos);
         for (final File fichero_Entrada : carpeta.listFiles()) {
-            //System.out.println(fichero_Entrada.getName());
             Archivo ar = new Archivo(fichero_Entrada.getName(),
                     _ruta_Carpeta_Archivos + "/"
                     + fichero_Entrada.getName());
@@ -105,8 +104,6 @@ public class Metaheuristicas {
             g.greedy(sem);
             double tiempo = t.stopTimer();
             
-            //System.out.println("Datos de la solución al problema: " + ar._nombre);
-            //System.out.println("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
             Main.console.presentarSalida("Datos de la solución al problema: " + ar._nombre);
             Main.console.presentarSalida("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
             
@@ -143,7 +140,6 @@ public class Metaheuristicas {
                 gestor.cambiarNombre("blocal/Log_Sem_"+_config.getSemilla()+"_"+ar.getNombre());
                 gestor.abrirArchivo();
                 
-                
                 Timer t = new Timer();
                 BusquedaLocal b = new BusquedaLocal(ar, _config.getIteraciones(),gestor);
 
@@ -154,11 +150,8 @@ public class Metaheuristicas {
                 b.busquedaLocal(sem);
                 double tiempo = t.stopTimer();
 
-                //System.out.println("Datos de la solución al problema: " + ar._nombre +" con la semilla: "+_config.getSemilla());
-                //System.out.println("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
                 Main.console.presentarSalida("Datos de la solución al problema: " + ar._nombre+" con la semilla: "+_config.getSemilla());
                 Main.console.presentarSalida("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
-                
                 
                 b.PresentarResultados();
 
@@ -170,11 +163,8 @@ public class Metaheuristicas {
                 
                 Main.console.setValue(aumento/2);
             }
-
             _config.RecuperarSemilla();
-            
         }
-
     }
     
     
@@ -204,16 +194,10 @@ public class Metaheuristicas {
                 sem.Set_random(_config.getSemilla());
                 b.busquedaTabu(sem);
                 double tiempo = t.stopTimer();
-                
-
-                //System.out.println("Datos de la solución al problema: " + ar._nombre +", con la semilla: " +_config.getSemilla());
-                //System.out.println("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
                       
                 Main.console.presentarSalida("Datos de la solución al problema: " + ar._nombre+" con la semilla: "+_config.getSemilla());
                 Main.console.presentarSalida("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
-                
-                
-                
+                    
                 b.PresentarResultados();
 
                 ite++;
@@ -222,14 +206,9 @@ public class Metaheuristicas {
 
                 gestor.cerrarArchivo();
                 
-                
-                Main.console.setValue(aumento/2);
-                
+                Main.console.setValue(aumento/2);  
             }
-
             _config.RecuperarSemilla();
         }
-
     }
-
 }
