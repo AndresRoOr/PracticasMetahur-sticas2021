@@ -145,7 +145,7 @@ public class Configurador {
     public Integer getIteracionesTabu() {
         return iteracionesTabu;
     }
-    
+
     public Integer getTenenciaTabu() {
         return teneciaTabu;
     }
@@ -157,23 +157,24 @@ public class Configurador {
      * @date 06/10/2020
      */
     void rotarSemilla() {
-        
 
         char[] cadenaSemilla = semilla.toString().toCharArray();
         char[] cadenaRotada = new char[cadenaSemilla.length];
 
-        cadenaRotada[cadenaSemilla.length-1] = cadenaSemilla[0];
+        cadenaRotada[cadenaSemilla.length - 1] = cadenaSemilla[0];
 
-        for (int i = 0; i < cadenaSemilla.length-1; i++) {
+        for (int i = 0; i < cadenaSemilla.length - 1; i++) {
             cadenaRotada[i] = cadenaSemilla[i + 1];
         }
-        
-        while (cadenaRotada[0]=='0'){
-        cadenaRotada[cadenaSemilla.length-1] = cadenaSemilla[0];
 
-        for (int i = 0; i < cadenaSemilla.length-1; i++) {
-            cadenaRotada[i] = cadenaSemilla[i + 1];
-        }
+        while (cadenaRotada[0] == '0') {
+            char[] cadenaAux = cadenaRotada;
+
+            cadenaRotada[cadenaSemilla.length - 1] = cadenaAux[0];
+
+            for (int i = 0; i < cadenaAux.length - 1; i++) {
+                cadenaRotada[i] = cadenaAux[i + 1];
+            }
         }
 
         semilla = Long.parseLong(String.valueOf(cadenaRotada));
