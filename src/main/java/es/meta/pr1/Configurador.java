@@ -160,11 +160,11 @@ public class Configurador {
         
 
         char[] cadenaSemilla = semilla.toString().toCharArray();
-        char[] cadenaRotada = new char[8];
+        char[] cadenaRotada = new char[cadenaSemilla.length];
 
-        cadenaRotada[7] = cadenaSemilla[0];
+        cadenaRotada[cadenaSemilla.length-1] = cadenaSemilla[0];
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < cadenaSemilla.length-1; i++) {
             cadenaRotada[i] = cadenaSemilla[i + 1];
         }
 
