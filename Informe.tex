@@ -503,6 +503,13 @@
 				\STATE $iteracionesSinMejora \leftarrow 0$
 			\end{algorithmic}
 		\end{algorithm}
+	
+			
+		\paragraph{}Una vez alcanzo el máximo número de iteraciones sin mejora, procedemos a realizar un reinicio de la solución actual, basándose en la oscilación estratégica.
+		
+		\paragraph{}Generamos un aleatorio entre [0,1], que evaluaremos con respecto a el limite de la exploración, en función del resultado crearemos una solución basada en \emph{Intensificación} o en \emph{Diversificación}.
+		
+		\paragraph{}Una vez finaliza la construcción de la nueva solución actual, procedemos a reiniciar la memoria tabú, y el contador de iteraciones sin mejora.
 		
 		\subsubsection{Solución basada en intensificación}
 		
@@ -530,6 +537,12 @@
 				\ENDIF
 			\end{algorithmic}
 		\end{algorithm}
+	
+		\paragraph{}Para construir una solución basada en intensificación, usaremos la memoria a largo plazo.
+		
+		\paragraph{}Recorremos la memoria a largo plazo, seleccionando los \emph{m} elementos de mayor frecuencia. Para cada elemento seleccionado, incrementamos su frecuencia de aparición en la memoria a largo plazo,y lo incluimos en la solución actual.
+		
+		\paragraph{}Calculamos el coste de la solución generada y lo almacenamos, si mejora a nuestra solución de élite, procedemos a sustituirla. 
 		
 		\subsubsection{Solución basada en diversificación}
 		
@@ -558,6 +571,11 @@
 			\end{algorithmic}
 		\end{algorithm}
 		
+		\paragraph{}Para construir una solución basada en diversificación, usaremos la memoria a largo plazo.
+		
+		\paragraph{}Recorremos la memoria a largo plazo, seleccionando los \emph{m} elementos de menor frecuencia. Para cada elemento seleccionado, incrementamos su frecuencia de aparición en la memoria a largo plazo,y lo incluimos en la solución actual.
+		
+		\paragraph{}Calculamos el coste de la solución generada y lo almacenamos, si mejora a nuestra solución de élite, procedemos a sustituirla. 
 	
 	\section{Experimentos y análisis de resultados}
 	
@@ -670,10 +688,9 @@
 			
 		\subsubsection{Búsqueda Tabú}
 	
-			\paragraph{}Para la Búsqueda Tabú se ha utilizado un sistema de memorias, aplicando una lista Tabú con tenencia de 5 iteraciones y una memoria de frecuencias basada en un vector de \emph{N} elementos, siendo \emph{N} el tamaño del problema. Realizando pruebas en base a aumentar la tenencia Tabú, hemos obtenido unos resultados en media similares, por tanto aumentar la tenencia Tabú no produce resultados significativos.
-			 
-			\paragraph{}Sin embargo, el aumento del número de iteraciones incrementa los resultados obtenidos, esto puede deberse al hecho de que el algoritmo dispone de más intentos de mejora desde soluciones creadas por la diversificación, permitiendo encontrar en algunos casos los óptimos globales.
-	
+			\paragraph{}Para la Búsqueda Tabú se ha utilizado un sistema de memorias, aplicando una lista Tabú con tenencia de 5 iteraciones y una memoria de frecuencias basada en un vector de \emph{N} elementos, siendo \emph{N} el tamaño del problema. Realizando pruebas en base a aumentar la tenencia Tabú, hemos obtenido unos resultados en media similares, por tanto aumentar la tenencia Tabú no produce resultados significativos. Sin embargo, el aumento del número de iteraciones incrementa los resultados obtenidos, esto puede deberse al hecho de que el algoritmo dispone de más intentos de mejora desde soluciones creadas por la diversificación, permitiendo encontrar en algunos casos los óptimos globales.
+			
+			\paragraph{}Como se puede observar en los resultados, Búsqueda Tabú mejora en resultados a Búsqueda Local, esto es debido a que tiene capacidad de salir de óptimos locales, sin embargo, el aumento de tiempos es más que notable, obteniendo tiempos mayores para las instancias más pequeñas, que los obtenidos por Búsqueda Local en las instancias más grandes.
 			
 			\begin{figure}[H]
 				
@@ -682,6 +699,10 @@
 				\caption{Resultados obtenidos mediante Búsqueda Tabú}
 				
 			\end{figure}
+	
+		\subsubsection{Comparativa entre algoritmos}
+			
+			
 	
 
 
