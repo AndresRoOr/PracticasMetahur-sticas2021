@@ -67,7 +67,7 @@
 	
 	\subsection{Operadores comunes}
 	
-	\paragraph{}El operador de intercambio es el 2-opt, se seleccionara un elemento de la solución actual en base a un criterio y se sustituirá por un elemento que no pertenece a la solución. 
+	\paragraph{}El operador de intercambio es el 1-opt, se seleccionara un elemento de la solución actual en base a un criterio y se sustituirá por un elemento que no pertenece a la solución. 
 	
 	\section{Pseudocódigo}
 	
@@ -599,7 +599,7 @@
 	
 		\paragraph{}Para ejecutar el software asegúrese de que el archivo .jar proporcionado se ubica en el mismo directorio que la carpeta \emph{archivos}. 
 		
-		\paragraph{}Cunado se muestre la GUI, podrá seleccionar la heurística que desee mediante el botón correspondiente. Una vez empiece la ejecución de una heurística no sera posible seleccionar otra hasta que finalice su ejecución. Los resultados finales se mostrarán en el cuadro de texto, a su vez, se generan los log correspondientes a cada archivo y semilla en la carpeta Log, clasificados por el tipo del conjunto de datos.
+		\paragraph{}Cuando se muestre la GUI, podrá seleccionar la heurística que desee mediante el botón correspondiente. Una vez empiece la ejecución de una heurística no sera posible seleccionar otra hasta que finalice su ejecución. Los resultados finales se mostrarán en el cuadro de texto, a su vez, se generan los log correspondientes a cada archivo y semilla en la carpeta Log.
 	
 		\begin{figure}[H]
 		
@@ -672,6 +672,21 @@
 				
 			\end{figure}
 		
+			\begin{figure}[H]
+				
+				\centering
+				\includegraphics[scale=0.4]{img/DTGreedy}
+				
+			\end{figure}
+		
+			\begin{figure}[H]
+				
+				\centering
+				\includegraphics[scale=0.4]{img/TiemposGreedy}
+				\caption{Tiempos expresados en milisegundos}
+				
+			\end{figure}
+		
 		\subsubsection{Búsqueda Local}
 		
 				\paragraph{}Como se puede observar en la tabla de resultados, la Búsqueda Local es muy robusta en los resultados, manteniendo unos tiempos comedidos. Esto puede deberse al hecho de que es un algoritmo muy simple, no obstante, esto lo puede llevar a caer en óptimos locales.
@@ -683,6 +698,22 @@
 				\centering
 				\includegraphics[scale=0.4]{img/blocalResult}
 				\caption{Resultados obtenidos mediante Búsqueda Local}
+				
+			\end{figure}
+		
+		
+			\begin{figure}[H]
+				
+				\centering
+				\includegraphics[scale=0.4]{img/DTBlocal}
+				
+			\end{figure}
+		
+			\begin{figure}[H]
+				
+				\centering
+				\includegraphics[scale=0.4]{img/TiemposBlocal}
+				\caption{Tiempos expresados en milisegundos}
 				
 			\end{figure}
 			
@@ -699,11 +730,41 @@
 				\caption{Resultados obtenidos mediante Búsqueda Tabú}
 				
 			\end{figure}
+		
+			\begin{figure}[H]
+				
+				\centering
+				\includegraphics[scale=0.4]{img/DTBtabu}
+				
+			\end{figure}
+		
+			\begin{figure}[H]
+				
+				\centering
+				\includegraphics[scale=0.4]{img/TiemposBtabu}
+				\caption{Tiempos expresados en milisegundos}
+				
+			\end{figure}
 	
 		\subsubsection{Comparativa entre algoritmos}
 			
 			
-	
+			\begin{figure}[H]
+				
+				\centering
+				\includegraphics[scale=0.4]{img/DTGlobal}
+				
+			\end{figure}
+			
+			
+			\begin{figure}[H]
+				
+				\centering
+				\includegraphics[scale=0.4]{img/TiemposGlobal}
+				\caption{Tiempos expresados en milisegundos}
+				
+			\end{figure}
+			
 
 
 	\begin{thebibliography}{0}
