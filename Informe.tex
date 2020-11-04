@@ -225,6 +225,8 @@
 	
 	\section{Pseudocódigo}
 	
+	\paragraph{}En este apartado se presenta el pseudocódigo a partir del cuál hemos realizado el código final del programa.
+	
 	\subsection{Greedy}
 	
 		\paragraph{}A continuación se procede a explicar el funcionamiento del código principal y, seguidamente, las diferentes funciones empleadas dentro del mismo.
@@ -521,7 +523,6 @@
 		\begin{algorithm}[H]
 			\caption{Busqueda tabú}
 			\begin{algorithmic}
-				\STATE $elementoMenor \leftarrow \emptyset$
 				\STATE $costeSolucionElite \leftarrow 0$
 				\STATE $solucionElite \leftarrow \emptyset$
 				\STATE $solucionMomento \leftarrow \emptyset$
@@ -534,11 +535,11 @@
 				\WHILE {iteracionesRealizadas$<$limiteIteraciones}
 				\STATE $vecindario \leftarrow GeneraVecindarioRestringido(tamanioVecindario,semilla)$
 				\FORALL {$elemento \in solucionMomento$}
-				\STATE $mejorVecino \leftarrow EvaluaVecindarioRestringido(vecindario,elementoMenor)$
+				\STATE $mejorVecino \leftarrow EvaluaVecindarioRestringido(vecindario,elemento)$
 				\ENDFOR
 				\STATE $listaTabu \leftarrow listaTabu \cup \{mejorVecino\}$
 				\STATE $memoriaLargoP[mejorVecino] \leftarrow memoriaLargoP[mejorVecino]+1$
-				\STATE $solucionMomento \leftarrow Intercambio(elementoMenor, mejorVecino)$
+				\STATE $solucionMomento \leftarrow Intercambio(elemento, mejorVecino)$
 				\IF {costeSolucionMomento$>$costeSolucionElite}
 				\STATE $solucionElite \leftarrow solucionMomento$
 				\STATE $costeSolucionElite \leftarrow costeSolucionMomento$
@@ -557,6 +558,24 @@
 		
 		\paragraph{} La primera tarea que realiza el algoritmo es generar una solución de partida. Esta solución es generada de manera aleatoria con la función "GeneraSoluciónInicial(semilla)", haciendo uso de la semilla que forma parte de los parámetros del problema.
 		
+		\paragraph{}Guardamos esta solución inicial como la mejor solución del momento, y calculamos y guardamos los costes de las soluciones para poder comenzar a iterar.
+		
+		\paragraph{}Mientras el número de iteraciones sea menor que el límite de iteraciones pasado como parámetro del programa se realizará lo que a continuación se expone:
+		
+		\paragraph{}Generamos un conjunto de candidatos restringido con la función GeneraVecindarioRestringido(tamanioVecindario,semilla), cuyo funcionamiento se explicará posteriormente. El vecindario se almacena en la variable local vecindario. Como parámetro se le pasa tamanioVecindario (el número de candidatos que debe tener el vecindario) y semilla (utilizada para generar números aleatorios).
+		
+		\paragraph{}Una vez generado el vecindario, para cada elemento de la solucionMomento se evalua el vecindario generado con la función EvaluaVecindarioRestringido(vecindario,elemento). El funcionamiento de esta función se explicará posteriormente. El resultado se almacena en la variable mejorVecino, que será el mejor candidato seleccionado.
+		
+		\paragraph{}Cuando ya tenemos nuestro candidato seleccionado, actualizamos la memoria tabú y la memoria a largo plazo, y realizamos el intercambio del elemento de la solución con nuestro candidato para obtener nuestra nueva solución del momento.
+		
+		\paragraph{}Si el coste de esta nueva solución mejora el coste de la solución élite, actualizamos tanto la solución élite como el coste de la misma y reiniciamos el contador de iteraciones sin obtener mejora. Si esto último no ocurre, simplemente aumentamos en uno el número de iteraciones sin mejora.
+		
+		\paragraph{}Actualizamos el número de iteraciones realizadas.
+		
+		\paragraph{}Para finalizar comprobamos que no hayamos superado el número de iteraciones límite sin obtener mejora de la solución élite. Si esto ocurre, reiniciamos la búsqueda con la función ReinicializarBusqueda(semilla) y actualizamos el número de iteraciones.
+		
+		\paragraph{}
+		
 		
 		\subsubsection{Generación del vecindario}
 		
@@ -567,23 +586,33 @@
 				\STATE $vecindario \leftarrow \emptyset$	
 				\WHILE{vecindario.tamaño()$<$tamañoVecindario}
 				\STATE $vecino \leftarrow GeneraEnteroAleatorio(semilla)$
-				\IF{$vecino \notin solucion$ $\wedge$ $vecino \notin listaTabu$ $\wedge$ $vecino \notin vecindario$}
+				\IF{$vecino \notin solucionMomento$$ \wedge $ $vecino \notin listaTabu$ $\wedge$ $vecino \notin vecindario$}
 				\STATE $vecindario \leftarrow vecindario \cup \{vecino\}$
 				\ENDIF
 				\ENDWHILE
 				\RETURN vecindario
 			\end{algorithmic}
 		\end{algorithm}
+	
+		\paragraph{}Iniciamos el valor de vecino y vecindario a nulo.
+		
+		\paragraph{}A continuación realizamos un bucle while hasta que el tamaño del vecindario generado sea igual a tamañoVecindario:
+		
+		\paragraph{}Generamos un vecino aleatorio haciendo uso de la función GeneraEnteroAleatorio(semilla) que, como su nombre indica, genera un número entero aleatoriamente.
+		
+		\paragraph{}Si este vecino no pertenece a la solución del momento, no se encuentra en la lista tabú y no se ha generado anteriormente, se añade al vecindario.
+		
+		\paragraph{}Una vez alcanzamos el tamaño del vecindario deseado, se devuelve vecindario. vecindario contiene de este modo todos los candidatos con los que generaremos las nuevas soluciones candidatas permutando un elemento de la solución con cada uno de estos candidatos.
 		
 		\subsubsection{Evaluación de la solución}
 		
 		\begin{algorithm}[H]
-			\caption{EvaluaVecindarioRestringido(vecindario, elementoMenor)}
+			\caption{EvaluaVecindarioRestringido(vecindario, elemento)}
 			\begin{algorithmic}
 				\STATE $costeMax \leftarrow 0$
 				\STATE $mejorVecino \leftarrow -1$	
 				\FORALL {$vecino \in vecindario$}
-				\IF {CosteFactorizado(elementoMenor, vecino)$>$costeMax}
+				\IF {CosteFactorizado(elemento, vecino)$>$costeMax}
 				\STATE $costeMax \leftarrow CosteFactorizado(elementoMenor, vecino)$
 				\STATE $mejorVecino \leftarrow vecino$
 				\ENDIF
@@ -591,6 +620,14 @@
 				\RETURN mejorVecino
 			\end{algorithmic}
 		\end{algorithm}
+	
+		\paragraph{}Inicializamos los valores por defecto de costeMax y mejorVecino.
+		
+		\paragraph{}Una vez hecho esto, inciamos un bucle for que recorre cada vecino perteneciente a vecindario.
+		
+		\paragraph{}Para cada vecino, comprobamos que el coste factorizado con el elemento de la solución pasado como parámetro sea o no mayor que costeMax. Si es mayor, actualizamos costeMax con el coste factorizado y guardamos el vecino como mejorVecino.
+		
+		\paragraph{}Cuando terminemos de realizar esta comprobación con todos los vecinos, devolvemos la variable mejorVecino. Esta variable contendrá el vecino que ha conseguido un mayor coste factorizado.
 	
 		\subsubsection{Cálculo del coste factorizado}
 		
@@ -730,6 +767,20 @@
 		\paragraph{}Recorremos la memoria a largo plazo, seleccionando los \emph{m} elementos de menor frecuencia. Para cada elemento seleccionado, incrementamos su frecuencia de aparición en la memoria a largo plazo,y lo incluimos en la solución actual.
 		
 		\paragraph{}Calculamos el coste de la solución generada y lo almacenamos, si mejora a nuestra solución de élite, procedemos a sustituirla. 
+		
+		\subsubsection{Generación del límite de exploración}
+		
+		\paragraph{}Para la generación del límite de exploración que determina si el algoritmo debe realizar exploración o intensificación hemos utilizado la siguiente fórmula:
+		
+		\[ limiteExploracion = \frac{iteracionesRealizadas}{limiteIteraciones}\]
+		
+		\paragraph{}De esta forma, conseguimos que al principio de la ejecución la probabilidad de realizar movimiento de exploración sea muy alta. Conforme el algoritmo vaya avanzando y acercándose al final de su ejecución dará más prioridad a la realización de movimiento de intensificación.
+		
+		\paragraph{}Con esta estrategia conseguimos que el algoritmo recoja la mayor cantidad posible de información del entorno al principio de su ejecución. Así, cuando realice los movimientos de intensificación, estos movimientos serán de una calidad alta.
+		
+		\subsubsection{Generación del tamaño del vecindario}
+		
+		
 	
 	\section{Experimentos y análisis de resultados}
 	
