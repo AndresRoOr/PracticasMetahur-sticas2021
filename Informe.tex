@@ -71,157 +71,42 @@
 	
 	\section{Clases auxiliares}
 	
-	\paragraph{} A continuación se enumeran las diferentes clases auxiliares utilizadas en el programa y una breve descripción de los atributos y funciones que las componen.
+	\paragraph{} A continuación se enumeran las diferentes clases auxiliares utilizadas en el programa acompañadas de una breve descripción de las mismas.
 	
-	\paragraph{nota:}Los constructores, getters y setters se han omitido.
+	\paragraph{nota:}Para obtener información detallada se deben consultar los comentarios insertados en el código de cada una de las clases.
 	
 	\subsection{Archivo}
 	
-	\paragraph{}Clase que almacena toda la información que se encuentra dentro de un archivo.
+	\paragraph{}Esta clase se encarga de almacenar toda la información que se encuentra dentro de cada archivo que contiene cada uno de los problemas.
 	
-	\subsubsection{Atributos}
-	
-	\paragraph{nombre String:}Nombre del objeto.
-	
-	\paragraph{ruta String:}Ruta completa del archivo de datos.
-	
-	\paragraph{tamaMatriz Integer:}Tamaño de la matriz de datos.
-	
-	\paragraph{tamaSolucion Integer:}Tamaño de la solución.
-	
-	\paragraph{matriz float[ ][ ]:}Matriz que almacena todos los datos del archivo.
-	
-	\subsubsection{Funciones}
-	
-	\paragraph{presentarDatos()}Muestra por pantalla los datos del Archivo y el contenido de matriz.
 	
 	\subsection{Configurador}
 	
-	\paragraph{}Clase que almacena todos los parámetros principales del programa.
-	
-	\subsubsection{Atributos}
-	
-	\paragraph{directoriosDatos ArrayList$<$String$>$} Almacena los directorios donde se encuentran los archivos con la información del problema.
-	
-	\paragraph{semilla Long}Semilla utilizada para generar números aleatorios.
-	
-	\paragraph{iteraciones Integer} Número de iteraciones.
-	
-	\paragraph{intentosTabu Integer} Número de intentos en la búsqueda tabú para mejorar la solución élite.
-	
-	\paragraph{iteracionesTabu Integer}Número de iteraciones en la búsqueda tabú.
-	
-	\paragraph{recuperarSemilla Long} Almacena el valor inicial de la semilla.
-	
-	\paragraph{tenenciaTabu Integer} Número de ciclos que un elemento se almacena en la lista tabú.
-	
-	\subsubsection{Funciones}
-	
-	\paragraph{rotarSemilla()} Rota las posiciones de la semilla una posición a la derecha.
-	
-	\paragraph{RecuperarSemilla()}Restaura la semilla a su estado original.
+	\paragraph{}Utilizamos esta clase para leer y almacenar los parámetros del programa que se encuentran dentro del archivo de configuración.
 	
 	\subsection{ElementoSolucion}
 	
-	\paragraph{}Clase que almacena la información de cada elemento que forma parte de la solución.
-	
-	\subsubsection{Atributos}
-	
-	\paragraph{id int}Indica el elemento de la solución que representa.
-	
-	\paragraph{contribucion float}Coste que aporta el elemento a la solución.
-	
-	\paragraph{vecesSolucion}Veces que el elemento ha formado parte de la solución.
-	
-	\subsubsection{Funciones}
-	
-	\paragraph{compareTo(ElementoSolucion vecino)}Compara dos ElementoSolucion.
-	
-	\paragraph{toString()}Método toString de la clase.
+	\paragraph{}Clase encargada de representar a un elemento perteneciente a una solución y almacena toda la información necesaria para la ejecución de las metaheurísticas del problema.
 	
 	\subsection{GestorLog}
 	
-	\paragraph{}Clase encargada de crear y escribir los archivos Log del programa.
-	
-	\subsubsection{Atributos}
-	
-	\paragraph{archiveName String} Nombre del archivo en el que escribir
-	
-	\paragraph{fichero FileWriter} Fichero a escribir.
-	
-	\paragraph{pw PrintWriter} Encargado de escribir en fichero.
-	
-	\subsubsection{Funciones}
-	
-	\paragraph{abrirArchivo()}Abre el archivo archiveName.
-	
-	\paragraph{escribirArchivo(String linea)}Escribe la información guardada en linea en el archivo.
-	
-	\paragraph{cerrarArchivo()}Cierra el fichero.
+	\paragraph{}La función principal de esta clase es la administración de los archivos Log del programa y el almacenamiento de información para debug en los mismos.
 	
 	\subsection{Metaheuristicas}
 	
-	\paragraph{}Clase que calcula todos los resultados con los algoritmos solicitados sobre todos los datos facilitados.
-	
-	\subsubsection{Atributos}
-	
-	\paragraph{config Configurador}Contiene los parámetros principales del programa.
-	
-	\paragraph{nombre String}Nombre del objeto Metaheurísticas.
-	
-	\paragraph{archivos ArrayList$<$Archivo$>$}Contiene el nombre de los archivos que contienen los datos sobre los que hacer los cálculos.
-	
-	\paragraph{rutaCarpetaArchivos String}Directorio que contiene los archivos.
-	
-	\subsubsection{Funciones}
-	
-	\paragraph{lectorArchivos()}Realiza la lectura de todos los datos de todos los archivos.
-	
-	\paragraph{mostrarDatos()}Muestra por pantalla los datos de todos los archivos leídos.
-	
-	\paragraph{greedy()}Calcula la solución para todos los archivos utilizando el algoritmo Greedy y muestra el resultado por pantalla.
-	
-	\paragraph{busquedaLocal()}Calcula la solución para todos los archivos utilizando el algoritmo de búsqueda local y muestra el resultado por pantalla.
-	
-	\paragraph{busquedaTabu()}Calcula la solución para todos los archivos utilizando el algoritmo de búsqueda tabú y muestra el resultado por pantalla.
+	\paragraph{}Esta clase se utiliza para lanzar la ejecución de los algoritmos para cada problema facilitado como parámetro.
 	
 	\subsection{Pair}
 	
 	\paragraph{}Representa un par formado por un candidato y un coste asociado a este.
 	
-	\subsubsection{Atributos}
-	
-	\paragraph{candidato Integer} id del candidato almacenado.
-	
-	\paragraph{coste float} Coste asociado al candidato.
-	
 	\subsection{RandomP}
 	
 	\paragraph{}Clase para generar números aleatorios.
 	
-	\subsubsection{Funciones}
-	
-	\paragraph{Rand()}Genera un número aleatorio real en el intervalo 0-1
-	
-	\paragraph{RandInt(int low, int high)}Genera un número aleatorio entero entre los límites que se pasan como parámetros.
-	
-	\paragraph{Randfloat(float low, float high)}Genera un número aleatorio real entre los límites que se pasan como parámetros.
-	
 	\subsection{Timer}
 	
 	\paragraph{}Clase para gestionar los tiempos de ejecución del algoritmo.
-	
-	\subsubsection{Atributos}
-	
-	\paragraph{inicio long}Almacena el momento en el que se inicia el algoritmo.
-	
-	\paragraph{fin long}Almacena el momento en el que finaliza el algoritmo.
-	
-	\subsubsection{Funciones}
-	
-	\paragraph{startTimer()}Registra el inicio de ejecución.
-	
-	\paragraph{stopTimer()}Registra la finalización de la ejecución, calcula el tiempo de ejecución y lo devuelve.
 	
 	\section{Pseudocódigo}
 	
@@ -802,9 +687,13 @@
 	
 		\begin{itemize}
 			
-			\item Procesador: Intel Core i5 7300HQ.
-			\item Memoria RAM : ?.
-			\item S.O: GNU/Linux 64.
+			\item Host: 80WK Lenovo Y520-15IKBN
+			\item S.O: KDE neon User Edition 5.20 x86 64
+			\item Kernel: 5.4.0-52-generic
+			\item CPU: Intel i5-7300HQ (4) @ 3.500GHz
+			\item GPU: NVIDIA GeForce GTX 1050 Mobile
+			\item GPU: Intel HD Graphics 630
+			\item Memoria RAM : 7837 MiB.
 			
 		\end{itemize}
 
