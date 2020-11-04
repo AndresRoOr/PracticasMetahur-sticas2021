@@ -780,6 +780,14 @@
 		
 		\subsubsection{Generación del tamaño del vecindario}
 		
+		\paragraph{}Para determinar el tamaño del vecindario de forma dinámica hemos buscado realizar una función que genere al principio un tamaño de vecindario cercano al tamaño de la solución y que decremente de manera exponencial conforme vaya avanzando el número de iteraciones realizadas.
+		
+		\[
+		Nº vecinos = \exp\biggl( \frac{limiteIteraciones-iteracionesRealizadas}{\frac{limiteIteraciones}{\ln (NVecinosMaximo) }} \biggr)
+		\]
+		
+		\paragraph{}Haciendo esto, sumado a la generación dinámica del limite de exploración, buscamos obtener al principio de la ejecución una generación conocimiento de muy alta calidad para poder realizar posteriormente movimientos de intensificación que nos devuelvan los mejores resultados posibles.
+		
 		
 	
 	\section{Experimentos y análisis de resultados}
