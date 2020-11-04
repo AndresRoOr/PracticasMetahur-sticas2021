@@ -57,19 +57,26 @@ public class Greedy {
         ArrayList<Pair> candidatos = GenCandidatos();
 
         Pair candidato;
+        
+        int ite = 1;
 
         while (!FuncionSolucion()) {
 
+            gestor.escribirArchivo("----- Iteración nº "+ ite +" -----");
             candidato = FuncionSeleccion(candidatos, ultimo);
 
             if (FuncionFactible(candidato.getCandidato())) {
                 _solucionB.add(candidato.getCandidato());
                 _suma_Resultado = candidato.getCoste();
+                gestor.escribirArchivo(candidato.getCandidato() + " añadido a la solución");
+                gestor.escribirArchivo("Coste que aporta a la solución: " + _suma_Resultado);
+                gestor.escribirArchivo("");
                 ultimo = candidato.getCandidato();
             }
 
             candidatos.remove(candidato);
 
+            ite++;
         }
     }
 
