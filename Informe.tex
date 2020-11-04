@@ -767,6 +767,20 @@
 		\paragraph{}Recorremos la memoria a largo plazo, seleccionando los \emph{m} elementos de menor frecuencia. Para cada elemento seleccionado, incrementamos su frecuencia de aparición en la memoria a largo plazo,y lo incluimos en la solución actual.
 		
 		\paragraph{}Calculamos el coste de la solución generada y lo almacenamos, si mejora a nuestra solución de élite, procedemos a sustituirla. 
+		
+		\subsubsection{Generación del límite de exploración}
+		
+		\paragraph{}Para la generación del límite de exploración que determina si el algoritmo debe realizar exploración o intensificación hemos utilizado la siguiente fórmula:
+		
+		\[ limiteExploracion = \frac{iteracionesRealizadas}{limiteIteraciones}\]
+		
+		\paragraph{}De esta forma, conseguimos que al principio de la ejecución la probabilidad de realizar movimiento de exploración sea muy alta. Conforme el algoritmo vaya avanzando y acercándose al final de su ejecución dará más prioridad a la realización de movimiento de intensificación.
+		
+		\paragraph{}Con esta estrategia conseguimos que el algoritmo recoja la mayor cantidad posible de información del entorno al principio de su ejecución. Así, cuando realice los movimientos de intensificación, estos movimientos serán de una calidad alta.
+		
+		\subsubsection{Generación del tamaño del vecindario}
+		
+		
 	
 	\section{Experimentos y análisis de resultados}
 	
