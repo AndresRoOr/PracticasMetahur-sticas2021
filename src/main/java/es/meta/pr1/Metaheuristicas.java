@@ -193,7 +193,7 @@ public class Metaheuristicas {
                 
                 Timer t = new Timer();
                 BusquedaTabu b = new BusquedaTabu(ar, _config.getIteracionesTabu(),
-                        _config.getIntentosTabu(),_config.getTenenciaTabu(),gestor);
+                        _config.getIntentosTabu(),_config.getTeneciaTabu(),gestor);
 
                 t.startTimer();
 

@@ -28,8 +28,9 @@ public class Configurador {
     Integer iteraciones;///<Número de iteraciones
     Integer intentosTabu;///<Número de intentos en la búsqueda tabú
     Integer iteracionesTabu;///<Número de iteraciones en la búsqueda tabú
-    Long recuperarSemilla;///<Alamcena el valor inicial de la semilla
-    Integer teneciaTabu;
+    Long recuperarSemilla;///<Almacena el valor inicial de la semilla
+    Integer teneciaTabu;///<Número de iteraciones que un elemento pertenece a la
+    ///lista tabu
 
     /**
      * @brief Constructor parametrizado de la clase Configurador
@@ -146,7 +147,14 @@ public class Configurador {
         return iteracionesTabu;
     }
 
-    public Integer getTenenciaTabu() {
+    /**
+     * @brief Funcion getter del atributo teneciaTabu
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 02/11/2020
+     * @return teneciaTabu Integer
+     */
+    public Integer getTeneciaTabu() {
         return teneciaTabu;
     }
 
