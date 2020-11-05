@@ -45,9 +45,11 @@ public class Main {
             System.err.println( "Failed to initialize LaF" );
         }
         
-        Configurador config = new Configurador("archivos/config.txt");
+        Configurador config = new Configurador("./config.txt");
         
         ArrayList<File> directorios = new ArrayList<>();
+        directorios.add(new File("./archivos"));
+        directorios.add(new File("./archivos/Datos"));
         directorios.add(new File("./archivos/Log"));
         directorios.add(new File("./archivos/Log/btabu"));
         directorios.add(new File("./archivos/Log/blocal"));
@@ -55,7 +57,7 @@ public class Main {
         
         directorios.stream().filter(directorio -> (!directorio.exists())).forEachOrdered((File directorio) -> {
             if (directorio.mkdirs()) {
-                System.out.println("Directorio " + directorio.getName() + " creado");
+                //System.out.println("Directorio " + directorio.getName() + " creado");
             }
         });
         

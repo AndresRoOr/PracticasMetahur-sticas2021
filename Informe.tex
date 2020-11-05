@@ -860,7 +860,7 @@
 			\end{figure}
 		
 		
-		Como se puede observar en la gráfica, la capacidad 
+		\paragraph{}Como se puede observar en la gráfica, entre los diferentes algoritmos evaluados, el que ofrece mejores resultados respecto a coste es la Búsqueda Tabú, la cual es capaz de obtener los óptimos globales en varias instancias, seguido de la Búsqueda Local. Greedy al tener un comportamiento no estocástico( a excepción del primer elemento generado aleatoriamente), ofrecerá unos resultados constantes.
 			
 			\begin{figure}[H]
 				
@@ -869,7 +869,7 @@
 				
 			\end{figure}
 			
-	\paragraph{}
+		\paragraph{}Si evaluamos los tiempos, el claro vencedor es el algoritmo Greedy. Es capaz de obtener soluciones razonablemente buenas en tiempos inferiores a los 50 milisegundos en todos los problemas. En el otro extremo, encontramos a la Búsqueda Tabú, la cual debido a su condición de parada basada en iteraciones, genera unos tiempos máximos para las instancias más grandes de 89000 milisegundos, a pesar de que puede encontrar el resultado final en las primeras iteraciones. Búsqueda Local estaría situada junto al algoritmo Greedy, siendo sus máximos inferiores a los 1000 milisegundos.
 			
 			\begin{figure}[H]
 				
@@ -879,7 +879,10 @@
 				
 			\end{figure}
 			
-
+		\paragraph{}Si analizamos la relación coste-tiempo, la heurística que presenta un mejor comportamiento es la Búsqueda Local, seguida de Greedy, y por ultimo la Búsqueda Tabú.
+		
+		\paragraph{}Si se busca obtener los mejores resultados independiente del tiempo empleado, la mejor opción sería la Búsqueda Tabú.
+		
 
 	\begin{thebibliography}{0}
 		

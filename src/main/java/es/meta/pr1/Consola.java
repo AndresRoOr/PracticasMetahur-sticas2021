@@ -73,7 +73,7 @@ public class Consola extends javax.swing.JFrame {
         jProgressBarEstado = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Práctica 1 Metaheurísticas");
+        setTitle("Metaheurísticas: Práctica 1");
         setBackground(new java.awt.Color(0, 0, 0));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setPreferredSize(new java.awt.Dimension(730, 355));
