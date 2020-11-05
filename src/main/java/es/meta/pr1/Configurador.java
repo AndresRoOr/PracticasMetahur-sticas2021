@@ -164,12 +164,16 @@ public class Configurador {
      * @author David Díaz Jiménez
      * @date 06/10/2020
      */
-    void rotarSemilla() {
+   void rotarSemilla() {
 
         char[] cadenaSemilla = semilla.toString().toCharArray();
         char[] cadenaRotada = new char[cadenaSemilla.length];
 
         cadenaRotada[cadenaSemilla.length - 1] = cadenaSemilla[0];
+
+            for (int i = 0; i < cadenaSemilla.length - 1; i++) {
+                cadenaRotada[i] = cadenaSemilla[i + 1];
+            }
 
         while (cadenaRotada[0] == '0') {
             char[] cadenaAux = cadenaRotada;

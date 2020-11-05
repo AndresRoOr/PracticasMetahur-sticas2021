@@ -56,10 +56,15 @@ public class Metaheuristicas {
     void lector_Archivos() throws FileNotFoundException, IOException {
         final File carpeta = new File(_ruta_Carpeta_Archivos);
         for (final File fichero_Entrada : carpeta.listFiles()) {
-            Archivo ar = new Archivo(fichero_Entrada.getName(),
-                    _ruta_Carpeta_Archivos + "/"
-                    + fichero_Entrada.getName());
-            _archivos.add(ar);
+            
+            if(fichero_Entrada.isFile()){
+            
+                Archivo ar = new Archivo(fichero_Entrada.getName(),
+                        _ruta_Carpeta_Archivos + "/"
+                        + fichero_Entrada.getName());
+                _archivos.add(ar);
+                
+            }
         }
     }
 
@@ -86,7 +91,7 @@ public class Metaheuristicas {
         
         GestorLog gestor = new GestorLog("");
         
-        int aumento = (1000/Main.narchivos);
+        int aumento = (1000/_archivos.size());
         
         for (Archivo ar : _archivos) {
 
@@ -126,7 +131,7 @@ public class Metaheuristicas {
 
         GestorLog gestor = new GestorLog("");
         
-        int aumento = (1000/(Main.narchivos*5));
+        int aumento = (1000/(_archivos.size()*5));
         
         for (Archivo ar : _archivos) {
 
@@ -178,7 +183,7 @@ public class Metaheuristicas {
      void busquedaTabu() {
          
        GestorLog gestor = new GestorLog("");
-       int aumento = (1000/(Main.narchivos*5));
+       int aumento = (1000/(_archivos.size()*5));
 
         for (Archivo ar : _archivos) {
 

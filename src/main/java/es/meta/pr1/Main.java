@@ -35,7 +35,6 @@ public class Main {
      */
     
     public static Consola console = new Consola();
-    public  static int narchivos;
     
     public static void main(String[] args) throws IOException {
         
@@ -60,11 +59,6 @@ public class Main {
             }
         });
         
-        for(String direc : config.getDirectoriosDatos()){
-            File directory = new File(direc);
-            int fileCount=directory.list().length;
-            narchivos+=fileCount;
-        }
         
         console.presentarSalida("");
 
@@ -111,5 +105,9 @@ public class Main {
             
             console.restaurarEleccion();
         }
+        
+        System.exit(0);
     }
+    
+    
 }
