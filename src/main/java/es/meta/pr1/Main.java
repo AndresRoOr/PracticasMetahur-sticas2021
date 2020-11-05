@@ -57,7 +57,6 @@ public class Main {
         
         directorios.stream().filter(directorio -> (!directorio.exists())).forEachOrdered((File directorio) -> {
             if (directorio.mkdirs()) {
-                //System.out.println("Directorio " + directorio.getName() + " creado");
             }
         });
         
