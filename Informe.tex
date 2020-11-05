@@ -823,7 +823,7 @@
 	
 			\paragraph{}Para la Búsqueda Tabú se ha utilizado un sistema de memorias, aplicando una lista Tabú con tenencia de 5 iteraciones y una memoria de frecuencias basada en un vector de \emph{N} elementos, siendo \emph{N} el tamaño del problema. Realizando pruebas en base a aumentar la tenencia Tabú, hemos obtenido unos resultados en media similares, por tanto aumentar la tenencia Tabú no produce resultados significativos. Sin embargo, el aumento del número de iteraciones incrementa los resultados obtenidos, esto puede deberse al hecho de que el algoritmo dispone de más intentos de mejora desde soluciones creadas por la diversificación, permitiendo encontrar en algunos casos los óptimos globales.
 			
-			\paragraph{}Como se puede observar en los resultados, Búsqueda Tabú mejora a Búsqueda Local, esto es debido a que tiene capacidad de salir de óptimos locales, sin embargo, el aumento de tiempos es más que notable, obteniendo tiempos mayores para las instancias más pequeñas, que los obtenidos por Búsqueda Local en las instancias más grandes.
+			\paragraph{}Como se puede observar en los resultados, Búsqueda Tabú mejora a Búsqueda Local, esto es debido a que tiene capacidad de salir de óptimos locales, sin embargo, el aumento de tiempos es más que notable, obteniendo tiempos mayores para las instancias más pequeñas, que los obtenidos por Búsqueda Local en las instancias más grandes. Una posible solución consistiría en adaptar el número de iteraciones, en proporción al entorno de búsqueda de cada problema.
 			
 			\begin{figure}[H]
 				
@@ -879,9 +879,9 @@
 				
 			\end{figure}
 			
-		\paragraph{}Si analizamos la \textbf{relación coste-tiempo}, la heurística que presenta un mejor comportamiento es la Búsqueda Local, seguida de Greedy, y por ultimo la Búsqueda Tabú.
+		\paragraph{}Si analizamos la \textbf{relación coste-tiempo}, la heurística que presenta un mejor comportamiento es la Búsqueda Local, seguida de Greedy, y por ultimo la Búsqueda Tabú. Aunque es difícil de determinar debido al amplio número de parámetros que podemos ajustar para la Búsqueda Tabú.
 		
-		\paragraph{}Si prestamos atención a la \textbf{robustez de los resultados obtenidos}, podemos observar que el que proporciona mejores resultado en este caso es la Búsqueda Tabú, como se puede observar en la gráfica camparativa de las desviaciones típicas.
+		\paragraph{}Si prestamos atención a la \textbf{robustez de los resultados obtenidos}, podemos observar que el que proporciona mejores resultados en este caso es la Búsqueda Tabú, como se puede observar en la gráfica comparando las desviaciones típicas en la gráfica de la figura ?.
 
 	\begin{thebibliography}{0}
 		
