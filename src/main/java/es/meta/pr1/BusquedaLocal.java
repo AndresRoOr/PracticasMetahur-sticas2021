@@ -108,8 +108,6 @@ public class BusquedaLocal {
         _listaAportes = null;
         _integrantesNoMejoran.clear();
         _integrantesNoMejoran = null;
-
-        // System.out.println("COSTE: " + _costeActual);
     }
 
     /**
@@ -260,7 +258,7 @@ public class BusquedaLocal {
      * @param i int Elemento candidato.
      * @param costeSolucion float Coste de la solucion candidata
      * @param eleMenor int Elemento de la solucion que aporta menos
-     * @return
+     * @return True si hay mejora, false en caso contrario
      */
     boolean EvaluarSolucion(int i, float costeSolucion, int eleMenor) {
         boolean mejora = false;
