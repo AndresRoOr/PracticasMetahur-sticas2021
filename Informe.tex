@@ -49,7 +49,7 @@
 	
 	\subsection{Representación de la solución}
 	
-	\paragraph{} Para representar la solución se ha optado por el uso de un vector de enteros, en el que él elemento contenido en cada posición se corresponde con un integrante de la solución. La solución vendrá dada por las siguientes restricciones:
+	\paragraph{} Para representar la solución se ha optado por el uso de un vector de enteros, en el que el elemento contenido en cada posición se corresponde con un integrante de la solución. La solución vendrá dada por las siguientes restricciones:
 		\begin{itemize}
 			
 			\item La solución no puede contener elementos repetidos.
@@ -86,7 +86,7 @@
 	
 	\subsection{ElementoSolucion}
 	
-	\paragraph{}Clase encargada de representar a un elemento perteneciente a una solución y almacena toda la información necesaria para la ejecución de las metaheurísticas del problema.
+	\paragraph{}Clase encargada de representar a un elemento perteneciente a una solución y almacenar toda la información necesaria para la ejecución de las metaheurísticas del programa.
 	
 	\subsection{GestorLog}
 	
@@ -139,9 +139,9 @@
 		
 		\paragraph{}Una vez realizado esto, iniciamos un bucle while - do, del cual no saldremos hasta que no hayamos encontrado una solución válida. Esta comprobación se realiza con la función "SoluciónEncontrada()".
 		
-		\paragraph{}El primer paso que se realiza dentro del bucle es elegir un candidato con la función "Seleccion(candidatos).
+		\paragraph{}El primer paso que se realiza dentro del bucle es elegir un candidato con la función "Seleccion(candidatos)".
 		
-		\paragraph{}Una vez seleccionado un candidato, se procede a evaluar con la función "Factible(candidato) y, si resulta ser un candidato prometedor, se incluye en el conjunto solución y se actualiza el coste total de la solución acumulado.
+		\paragraph{}Una vez seleccionado un candidato, se procede a evaluar con la función "Factible(candidato)" y, si resulta ser un candidato prometedor, se incluye en el conjunto solución y se actualiza el coste total de la solución acumulado.
 		
 		\paragraph{}El último paso a realizar en el bucle while - do es eliminar el candidato seleccionado del conjunto de candidatos, ya que ha sido evaluado (independientemente de que se haya incluido en la solución o no).
 	
@@ -162,7 +162,7 @@
 			
 		\paragraph{}Acto seguido, se selecciona un entero aleatorio (dentro del rango de número de elementos del problema a resolver) con la función "GeneraEnteroAleatorio(semilla)". Este entero se almacena en la variable "solucionInicial".
 		
-		\paragraph{}Para finalizar, se incluye "solucionInicial" en la solucion vacía y se devuelve como solucion inicial.
+		\paragraph{}Para finalizar, se incluye "solucionInicial" en la solucion vacía y se devuelve como solución.
 
 	\subsubsection{Generador del conjunto de candidatos}
 	\begin{algorithm}[H]
@@ -218,11 +218,11 @@
 	
 	\paragraph{}Para cada candidato del conjunto de candidatos se realiza la siguiente comprobación:
 	
-	\paragraph{}Se calcula el coste que aportaría a la solución si fuera incluido a esta. Si este coste calculado es mayor que la variables "max", se modifica el valor de "max" con el coste calculado y "seleccionado" se sobrescribe con el candidato evaluado.
+	\paragraph{}Se calcula el coste que aportaría a la solución si fuera incluido a esta. Si este coste calculado es mayor que la variable "max", se modifica el valor de "max" con el coste calculado y "seleccionado" se sobrescribe con el candidato evaluado.
 	
 	\paragraph{}Una vez realizadas todas las iteraciones del bucle for, se devuelve el candidato seleccionado.
 	
-	\subparagraph{Nota}En la implementación de nuestro código hemos realizado un enfoque de programación dinámica. Todos los candidatos son almacenados en un vector de pares. Cada par está formado por el candidato y un coste. Este coste se actualiza cada vez que se ejecuta al función de selección sumándole la distancia del último elemento introducido anteriormente en la solución respecto al candidato. De esta manera no tenemos que recorrer otra vez todos los elementos de la solución calculando todas sus respectivas distancias.
+	\subparagraph{Nota}En la implementación de nuestro código hemos realizado un enfoque de programación dinámica. Todos los candidatos son almacenados en un vector de pares. Cada par está formado por el candidato y un coste. Este coste se actualiza cada vez que se ejecuta la función de selección sumándole la distancia del último elemento introducido anteriormente en la solución respecto al candidato. De esta manera no tenemos que recorrer otra vez todos los elementos de la solución calculando todas sus respectivas distancias.
 
 	\subsubsection{Función de factibilidad}
 	\begin{algorithm}[H]
@@ -272,7 +272,7 @@
 	
 	\paragraph{}Entramos en la ejecución del bucle while. Siempre que haya mejora se ejecutan las instrucciones que se describen a continuación.
 	
-	\paragraph{}Primero se modifica el valor de mejora a "false". Una vez hecho esto, se calcula el valor al coste global de la solución cada uno de los elementos pertenecientes a la solución con la función "CalcularAportes()". A continuación, se extrae el elemento que menos valor aporta con la función "ElementoMenorAporte()" y se almacena en la variable "elementoMenor".
+	\paragraph{}Primero se modifica el valor de mejora a "false". Una vez hecho esto, se calcula el valor que aportan al coste global de la solución cada uno de los elementos pertenecientes a la solución con la función "CalcularAportes()". A continuación, se extrae el elemento que menos valor aporta con la función "ElementoMenorAporte()" y se almacena en la variable "elementoMenor".
 	
 	\paragraph{}Entramos ahora en un bucle for que recorre cada uno de los elementos del problema, que se encuentran en "matrizDatos" siempre que el valor de mejora sea false.
 	
@@ -295,7 +295,7 @@
 
 	\paragraph{}Este algoritmo va añadiendo a la solución un elemento aleatorio, generado con la función "GeneraEnteroAleatorio(semilla)", siempre que este no forme parte ya de la solución. Esto lo realizará simpre que el número de elementos introducidos sea inferior al número de elementos que debe contener una solución para poder ser considerada como tal.
 
-	\subsubsection{Calculo de los aportes}
+	\subsubsection{Cálculo de los aportes}
 	\begin{algorithm}[H]
 		\caption{CalcularAportes()}
 		\begin{algorithmic}
@@ -319,9 +319,9 @@
 	
 	\paragraph{}Una vez termina el segundo bucle for, se almacena el coste calculado para el elemento i en la variables "listaAportes" utilizando la funcion "AñadirAporte(i,aporte)"
 	
-	\paragraph{}Una vez hemos realizado todos los cálculos, ordenamos "listaAportes" de menor a mayor con la función "Sort(listaAportes)" y se termina la ejecución de la función.
+	\paragraph{}Cuando hayamos realizado todos los cálculos, ordenamos "listaAportes" de menor a mayor con la función "Sort(listaAportes)" y se termina la ejecución de la función.
 
-	\subsubsection{Calculo del elemento de la solución con menor aporte}
+	\subsubsection{Cálculo del elemento de la solución con menor aporte}
 	\begin{algorithm}[H]
 		\caption{ElementoMenorAporte()}
 		\begin{algorithmic}
@@ -338,7 +338,7 @@
 
 	\paragraph{}Empezamos con un bucle for que recorre todos los elementos de listaAportes.
 	
-	\paragraph{}Para cada elemento de listaAportes, se comprueba que este no pertenezca a la variable "elementosNoMejoran", que almacena todos los elementos que no aportan mejoran a la solución actual. Si no pertenece a esta variable, se almacena este elemento en la variable "elementoMenor" y se devuelve elementoMenor.
+	\paragraph{}Para cada elemento de listaAportes, se comprueba que este no pertenezca a la variable "elementosNoMejoran", que almacena todos los elementos que no aportan mejora a la solución actual. Si no pertenece a esta variable, se almacena este elemento en la variable "elementoMenor" y se devuelve elementoMenor.
 	
 	\paragraph{}En caso de que no se haya encontrado ningún elemento que no pertenezca a "elementosNoMejoran", se devuelve "elementoMenor" con el valor comodín -1, que indica que no se ha encontrado ningún elemento válido.
 
@@ -395,7 +395,7 @@
 	
 	\paragraph{}Una vez hecho esto, se empieza un bucle for que recorre todos los elementos de la solucion.
 	
-	\paragraph{}dentro del bucle se suma a "costeMenor" la distancia entre el elemento de la solucion y "elementoMenor", que es el elemento que dejará de formar parte de la solución.
+	\paragraph{}Dentro del bucle se suma a "costeMenos" la distancia entre el elemento de la solucion y "elementoMenor", que es el elemento que dejará de formar parte de la solución.
 	
 	\paragraph{}A continuación, si el elemento de la solución no es igual que "elementoMenor", se suma a "costeMas" la distancia del elemento de la solución respecto a "elemento", que es el nuevo elemento de la solución. 
 	
@@ -531,11 +531,11 @@
 			\end{algorithmic}
 		\end{algorithm}
 	
-			\paragraph{}Se inicializan a 0 las variables "costeMenos" y costeMas, que almacenarán el coste que hay que restarle y sumarle respectivamente al coste total de la solución actual.
+			\paragraph{}Se inicializan a 0 las variables "costeMenos" y "costeMas", que almacenarán el coste que hay que restarle y sumarle respectivamente al coste total de la solución actual.
 		
 		\paragraph{}Una vez hecho esto, se empieza un bucle for que recorre todos los elementos de la solucion.
 		
-		\paragraph{}dentro del bucle se suma a " costeMenor" la distancia entre el elemento de la solucion y "elementoMenor", que es el elemento que dejará de formar parte de la solución.
+		\paragraph{}dentro del bucle se suma a " costeMenos" la distancia entre el elemento de la solucion y "elementoMenor", que es el elemento que dejará de formar parte de la solución.
 		
 		\paragraph{}A continuación, si el elemento de la solución no es igual que "elementoMenor", se suma a "costeMas" la distancia del elemento de la solución respecto a "elemento", que es el nuevo elemento de la solución. 
 		
@@ -671,7 +671,7 @@
 		Nº vecinos = \exp\biggl( \frac{limiteIteraciones-iteracionesRealizadas}{\frac{limiteIteraciones}{\ln (NVecinosMaximo) }} \biggr)
 		\]
 		
-		\paragraph{}Haciendo esto, sumado a la generación dinámica del limite de exploración, buscamos obtener al principio de la ejecución una generación conocimiento de muy alta calidad para poder realizar posteriormente movimientos de intensificación que nos devuelvan los mejores resultados posibles.
+		\paragraph{}Haciendo esto, sumado a la generación dinámica del limite de exploración, buscamos obtener al principio de la ejecución un conocimiento del entorno de muy alta calidad para poder realizar posteriormente movimientos de intensificación que nos devuelvan los mejores resultados posibles.
 		
 		
 	
