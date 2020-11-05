@@ -171,6 +171,10 @@ public class Configurador {
 
         cadenaRotada[cadenaSemilla.length - 1] = cadenaSemilla[0];
 
+            for (int i = 0; i < cadenaSemilla.length - 1; i++) {
+                cadenaRotada[i] = cadenaSemilla[i + 1];
+            }
+
         while (cadenaRotada[0] == '0') {
             char[] cadenaAux = cadenaRotada;
 
@@ -183,6 +187,7 @@ public class Configurador {
 
         semilla = Long.parseLong(String.valueOf(cadenaRotada));
     }
+
 
     /**
      * @brief Restaura la semilla a su estado original

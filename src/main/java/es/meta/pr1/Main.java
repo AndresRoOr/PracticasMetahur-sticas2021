@@ -58,12 +58,6 @@ public class Main {
             }
         });
 
-        for (String direc : config.getDirectoriosDatos()) {
-            File directory = new File(direc);
-            int fileCount = directory.list().length;
-            narchivos += fileCount;
-        }
-
         console.presentarSalida("");
 
         while (console.getEleccion() != 4) {
@@ -107,5 +101,6 @@ public class Main {
 
             console.restaurarEleccion();
         }
+        System.exit(0);
     }
 }
