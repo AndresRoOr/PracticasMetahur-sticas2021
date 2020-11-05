@@ -20,7 +20,8 @@ public class ElementoSolucion implements Comparable<ElementoSolucion> {
     ///Atributos de la clase:
     private int id;///<Indica el elemento de la solución que representa
     private float _contribucion;///<Coste que aporta a la solución
-    private int _vecesSolucion;
+    private int _vecesSolucion;///<Nº de veces que un elemento ha formado parte
+    ///de la solución
 
     /**
      * @brief Constructor parametrizado de la clase ElementoSolucion
