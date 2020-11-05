@@ -1,4 +1,4 @@
-/** @file    BusquedaLocal.java
+/** @file    BusquedaTabu.java
  * @author Andrés Rojas Ortega
  * @author David Díaz Jiménez
  * @version 1.0
@@ -15,8 +15,8 @@ import java.util.LinkedList;
 import java.util.Set;
 
 /**
- * @brief Clase que implementa la funcionalidad del algoritmo de Búsqueda Local
- * @class BusquedaLocal
+ * @brief Clase que implementa la funcionalidad del algoritmo de Búsqueda Tabú
+ * @class BusquedaTabu
  * @author Andrés Rojas Ortega
  * @author David Díaz Jiménez
  * @date 03/10/2020
@@ -34,25 +34,24 @@ public class BusquedaTabu {
     int _iteracionesSinMejora;///<Número de intentos de mejora actuales
     int _tenenciaTabu;///<Tamaño de la memoria de corto plazo
     ArrayList<ElementoSolucion> _memoriaLargoPlazo;///<Almacena la frecuencia de
-    // aparición de los elementos en la solución
+    ///aparición de los elementos en la solución
     LinkedList<Integer> _listaTabu;///<Almacena los últimos movimientos
-    //de intercambio
+    ///de intercambio
     int _numRestartMenor;///<Número de reinicializaciones de intensificación
     int _numRestartMayor;///<Número de reinicializaciones de exploración
-    GestorLog gestor;
-    String linea = "";
-
+    GestorLog gestor;///<Gestor encargado de la creación del Log
+    String linea = "";///<Almacena la información que se escribe en el Log.
 
     /**
-     * @param g
-     * @brief Constructor parametrizado de la clase BusquedaLocal
+     * @brief Constructor parametrizado de la clase BusquedaTabu
      * @author Andrés Rojas Ortega
      * @author David Díaz Jiménez
-     * @date 03/10/2020
+     * @date 02/11/2020
      * @param archivoDatos Archivo
-     * @param iteraciones
-     * @param Intentos
-     * @param tenenciaTabu
+     * @param iteraciones Integer
+     * @param Intentos Integer
+     * @param tenenciaTabu Integer
+     * @param g GestorLog
      */
     public BusquedaTabu(Archivo archivoDatos, Integer iteraciones, Integer Intentos, Integer tenenciaTabu, GestorLog g) {
         _archivoDatos = archivoDatos;
@@ -81,16 +80,25 @@ public class BusquedaTabu {
         _numRestartMenor = 0;
     }
 
+    /**
+     * @brief Metaheuristica que resuelve el problema
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 02/11/2020
+     * @param aleatorioSemilla Random Semilla generada aleatoriamente
+     */
     void busquedaTabu(Random_p aleatorioSemilla) {
 
-        int elementoMenor;
+        int elementoMenor = 0;
+        int elementoSolucion;
         Set vecindario = null;
         int tamanioVecindario;
         Pair mejorVecino = null;
+        Pair vecino = null;
 
         GeneraSolucionAleatoria(aleatorioSemilla);
         _solucionElite = new HashSet<>(_solucionMomento);
-        _costeSolucionElite = CalcularCosteElite();
+        _costeSolucionElite = CalcularCoste(_solucionElite);
         _costeSolucionMomento = _costeSolucionElite;
 
         gestor.escribirArchivo("Solución inicial: " + _solucionElite);
@@ -103,10 +111,44 @@ public class BusquedaTabu {
             linea = "";
             gestor.escribirArchivo("-----Iteración nº " + _iteracionesRealizadas + "-----");
 
-            elementoMenor = CalcularAportes();
             tamanioVecindario = CalculaTamanioVecindario();
             vecindario = GeneraVecindarioRestringido(tamanioVecindario, aleatorioSemilla);
-            mejorVecino = EvaluaVecindarioRestringido(vecindario, elementoMenor);
+
+            Iterator<Integer> iterador = _solucionMomento.iterator();
+            mejorVecino = new Pair(-1, 0);
+
+            while (iterador.hasNext()) {
+
+                elementoSolucion = iterador.next();
+
+                if (aleatorioSemilla.Randfloat(0, 1) < 0.1) {
+                    vecino = EvaluaVecindarioRestringido(vecindario, elementoSolucion, aleatorioSemilla);
+
+                    if (vecino.getCoste() > mejorVecino.getCoste()) {
+                        mejorVecino = new Pair(vecino.getCandidato(), vecino.getCoste());
+                        elementoMenor = elementoSolucion;
+                    }
+                }
+
+                if (!iterador.hasNext() && mejorVecino.getCandidato() == -1) {
+                    iterador = _solucionMomento.iterator();
+                }
+            }
+
+            if (mejorVecino.getCoste() < _costeSolucionElite || mejorVecino.getCandidato() == -1) {
+
+                int eleMenor = CalcularAportes();
+
+                if (eleMenor != elementoMenor) {
+
+                    vecino = EvaluaVecindarioRestringido(vecindario, eleMenor, aleatorioSemilla);
+                    if (vecino.getCoste() > mejorVecino.getCoste()) {
+                        mejorVecino = new Pair(vecino.getCandidato(), vecino.getCoste());
+                        elementoMenor = eleMenor;
+                    }
+                }
+            }
+
             Intercambio(elementoMenor, mejorVecino.getCandidato());
             _costeSolucionMomento = mejorVecino.getCoste();
 
@@ -119,38 +161,29 @@ public class BusquedaTabu {
                 _solucionElite = new HashSet<>(_solucionMomento);
                 _costeSolucionElite = _costeSolucionMomento;
                 _iteracionesSinMejora = 0;
-                
-                linea+=" Nuevo mejor coste;";
-                
+
+                linea += " Nuevo mejor coste;";
+
             } else {
                 _iteracionesSinMejora++;
 
                 linea += " nº interaciones sin mejora: " + _iteracionesSinMejora + ";";
-
             }
 
-            //EliminarMasAntiguo();
             _iteracionesRealizadas++;
 
             gestor.escribirArchivo(linea);
-            
+
             if (_iteracionesSinMejora >= _limiteSinMejora) {
-                
+
                 linea = "";
                 gestor.escribirArchivo("-----Iteración nº " + _iteracionesRealizadas + "-----");
                 ReinicializarBusqueda(aleatorioSemilla);
                 _iteracionesRealizadas++;
                 gestor.escribirArchivo(linea);
-                
+
             }
-
-                
-            
-
         }
-
-        System.out.println("COSTE: " + _costeSolucionElite);
-
     }
 
     /**
@@ -174,6 +207,16 @@ public class BusquedaTabu {
 
     }
 
+    /**
+     * @brief Genera un conjunto de candidatos aleatorios usados para crear el
+     * vecindario restringido
+     * @author Andrés Rojas Ortega
+     * @authot David Díaz Jiménez
+     * @date 02/11/2020
+     * @param tamanioVecindario int Número de candidatos que generar
+     * @param semilla Random_p Semilla aleatoria
+     * @return vecindario Set<Integer> El conjunto con los candidatos creados.
+     */
     Set<Integer> GeneraVecindarioRestringido(int tamanioVecindario, Random_p semilla) {
         int vecino = 0;
         Set<Integer> vecindario = new HashSet<>();
@@ -187,18 +230,31 @@ public class BusquedaTabu {
         return vecindario;
     }
 
-    Pair EvaluaVecindarioRestringido(Set<Integer> vecindario, int elementoMenor) {
+    /**
+     * @brief Evalua el vecindario generado al permutar los candidatos de
+     * vecindario con el elemento de la solucion pasado como parámetro.
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 02/11/2020
+     * @param vecindario Set<Integer> Conjunto con los candidatos a evaluar
+     * @param elementoMenor int Elemento de la solucion para permutar
+     * @param aleatorioSemilla Random_p Semilla aleatoria
+     * @return Par con el mejor candidato y su coste factorizado
+     */
+    Pair EvaluaVecindarioRestringido(Set<Integer> vecindario, int elementoMenor, Random_p aleatorioSemilla) {
         float costeMax = 0.0f;
         int mejorVecino = -1;
 
         Iterator<Integer> iterator = vecindario.iterator();
         while (iterator.hasNext()) {
             int elemento = iterator.next();
+
             float Coste = CosteFactorizado(elementoMenor, elemento);
             if (Coste > costeMax) {
                 costeMax = Coste;
                 mejorVecino = elemento;
             }
+
         }
         return new Pair(mejorVecino, costeMax);
     }
@@ -233,11 +289,19 @@ public class BusquedaTabu {
         return (_costeSolucionMomento - costeMenos + costeMas);
     }
 
+    /**
+     * @brief Calcula el aporte de cada integrante de la solución y devuelve el
+     * elemento que menos aporta al coste total de la solución.
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 02/11/2020
+     * @retun Devuelve el elemento que menos aporta a la solución
+     */
     int CalcularAportes() {
 
         float aporte = 0.0f;
         Iterator<Integer> iterator = _solucionMomento.iterator();
-        float menorAporte  = Float.MAX_VALUE;
+        float menorAporte = Float.MAX_VALUE;
         int elemenor = -1;
 
         while (iterator.hasNext()) {
@@ -252,27 +316,29 @@ public class BusquedaTabu {
 
             }
 
-            if(aporte < menorAporte){
+            if (aporte < menorAporte) {
                 menorAporte = aporte;
                 elemenor = i;
             }
-            
+
             aporte = 0.0f;
         }
 
         return elemenor;
     }
 
-    void EliminarMasAntiguo() {
-        if (_listaTabu.size() > _tenenciaTabu) {
-            _listaTabu.pop();
-        }
-    }
-
-    float CalcularCosteElite() {
+    /**
+     * @brief Calcula el coste de una solución.
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 02/11/2020
+     * @param solucion Set<Integer>
+     * @return coste float Coste de la solución
+     */
+    float CalcularCoste(Set<Integer> solucion) {
 
         float coste = 0.0f;
-        Object[] sol = _solucionElite.toArray();
+        Object[] sol = solucion.toArray();
 
         for (int i = 0; i < sol.length - 1; i++) {
             int a = (int) sol[i];
@@ -286,23 +352,14 @@ public class BusquedaTabu {
 
     }
 
-    float CalcularCosteMomento() {
-
-        float coste = 0.0f;
-        Object[] sol = _solucionMomento.toArray();
-
-        for (int i = 0; i < sol.length - 1; i++) {
-            int a = (int) sol[i];
-            for (int j = i + 1; j < sol.length; j++) {
-                int b = (int) sol[j];
-                coste += _archivoDatos.getMatriz()[a][b];
-            }
-        }
-
-        return coste;
-
-    }
-
+    /**
+     * @brief Calcula el número de candidatos que se generan en cada iteración
+     * dinámicamente.
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 02/11/2020
+     * @return tamanioVecindario int El número de candidatos que generar.
+     */
     int CalculaTamanioVecindario() {
         int tamanioVecindario = (int) Math.exp((_limiteIteraciones - _iteracionesRealizadas) / ((_limiteIteraciones / log(_archivoDatos.getTama_Solucion()))));
 
@@ -310,7 +367,7 @@ public class BusquedaTabu {
             tamanioVecindario = 10;
         }
 
-        linea+= "Tamaño del vecindario: " +tamanioVecindario+" ";
+        linea += "Tamaño del vecindario: " + tamanioVecindario + " ";
         return tamanioVecindario;
     }
 
@@ -348,6 +405,13 @@ public class BusquedaTabu {
         _listaTabu.pop();
     }
 
+    /**
+     * @brief Reinicia la búsqueda cuando esta se queda estancada
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 02/11/2020
+     * @param aleatorioSemilla Random_p Semilla aleatoria
+     */
     void ReinicializarBusqueda(Random_p aleatorioSemilla) {
         float limiteExploracion;
         float factorAleatorio;
@@ -356,7 +420,7 @@ public class BusquedaTabu {
         factorAleatorio = (float) aleatorioSemilla.Randfloat(0, 1);
 
         linea += "Oscilación estratégica:  ";
-        
+
         if (factorAleatorio < limiteExploracion) {
             Intensificacion();
         } else {
@@ -370,10 +434,24 @@ public class BusquedaTabu {
         ActualizarMemorias(-1);
     }
 
+    /**
+     * @brief Genera dinámicamente el limite de exploración exploracion/
+     * diversificación
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 02/11/2020
+     * @return Devuelve el límite de exploración
+     */
     float GeneraLimiteExploracion() {
-        return ((float)_iteracionesRealizadas) /((float) _limiteIteraciones);
+        return ((float) _iteracionesRealizadas) / ((float) _limiteIteraciones);
     }
 
+    /**
+     * @brief Reinicia la búsqueda en las zonas más prometedoras
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 02/11/2020
+     */
     void Intensificacion() {
         _solucionMomento.clear();
         _costeSolucionMomento = 0;
@@ -394,24 +472,29 @@ public class BusquedaTabu {
             aux.remove(aux.size() - 1);
         }
 
-        _costeSolucionMomento = CalcularCosteMomento();
-        
+        _costeSolucionMomento = CalcularCoste(_solucionMomento);
+
         linea += " Intensificación ";
-        
-        linea+=", coste actual: "  +_costeSolucionMomento +", mejor coste: "+ _costeSolucionElite;
+        linea += ", coste actual: " + _costeSolucionMomento + ", mejor coste: " + _costeSolucionElite;
 
         if (_costeSolucionMomento > _costeSolucionElite) {
             _solucionElite.clear();
             _solucionElite = new HashSet<>(_solucionMomento);
             _costeSolucionElite = _costeSolucionMomento;
-            
-            linea+=" nuevo mejor coste;";
+
+            linea += " nuevo mejor coste;";
         }
 
-        
         _numRestartMayor++;
     }
 
+    /**
+     * @brief Reinicia la búsqueda en las zonas menos exploradas hasta el
+     * momento
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 02/11/2020
+     */
     void Diversificacion() {
         _solucionMomento.clear();
         _costeSolucionMomento = 0;
@@ -431,23 +514,22 @@ public class BusquedaTabu {
 
             aux.remove(0);
         }
-        
-        _costeSolucionMomento = CalcularCosteMomento();
-        linea += " Intensificación ";
-        linea+=", coste actual: "  +_costeSolucionMomento +", mejor coste: "+ _costeSolucionElite;
+
+        _costeSolucionMomento = CalcularCoste(_solucionMomento);
+        linea += " Diversificación ";
+        linea += ", coste actual: " + _costeSolucionMomento + ", mejor coste: " + _costeSolucionElite;
 
         if (_costeSolucionMomento > _costeSolucionElite) {
             _solucionElite.clear();
             _solucionElite = new HashSet<>(_solucionMomento);
             _costeSolucionElite = _costeSolucionMomento;
-            
-            linea+=", nuevo mejor coste;";
+
+            linea += ", nuevo mejor coste;";
         }
 
-        
         _numRestartMenor++;
     }
-    
+
     /**
      * @brief Muestra por pantalla los datos de la solución
      * @author Andrés Rojas Ortega
@@ -455,12 +537,12 @@ public class BusquedaTabu {
      * @date 03/10/2020
      */
     void PresentarResultados() {
-        System.out.println("Intensificaciones: " + _numRestartMayor);
-        System.out.println("Diversificaciones: " + _numRestartMenor);
-        System.out.println("Vector Solución");
-        System.out.println(_solucionElite);
-        float _suma_Resultado = CalcularCosteElite();
-        System.out.println("Coste de la solución: " + _suma_Resultado);
+
+        float _suma_Resultado = CalcularCoste(_solucionElite);
+
+        Main.console.presentarSalida("Intensificaciones: " + _numRestartMayor);
+        Main.console.presentarSalida("Diversificaciones: " + _numRestartMenor);
+        Main.console.presentarSalida("Coste de la solución: " + _suma_Resultado + "\n");
 
         gestor.escribirArchivo("");
         gestor.escribirArchivo("Resultados");
