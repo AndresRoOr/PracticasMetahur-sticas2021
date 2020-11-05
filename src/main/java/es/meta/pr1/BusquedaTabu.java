@@ -34,13 +34,13 @@ public class BusquedaTabu {
     int _iteracionesSinMejora;///<Número de intentos de mejora actuales
     int _tenenciaTabu;///<Tamaño de la memoria de corto plazo
     ArrayList<ElementoSolucion> _memoriaLargoPlazo;///<Almacena la frecuencia de
-    // aparición de los elementos en la solución
+    ///aparición de los elementos en la solución
     LinkedList<Integer> _listaTabu;///<Almacena los últimos movimientos
-    //de intercambio
+    ///de intercambio
     int _numRestartMenor;///<Número de reinicializaciones de intensificación
     int _numRestartMayor;///<Número de reinicializaciones de exploración
-    GestorLog gestor;
-    String linea = "";
+    GestorLog gestor;///<Gestor encargado de la creación del Log
+    String linea = "";///<Almacena la información que se escribe en el Log.
 
     /**
      * @brief Constructor parametrizado de la clase BusquedaTabu
