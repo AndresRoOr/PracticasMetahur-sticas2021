@@ -823,7 +823,7 @@
 	
 			\paragraph{}Para la Búsqueda Tabú se ha utilizado un sistema de memorias, aplicando una lista Tabú con tenencia de 5 iteraciones y una memoria de frecuencias basada en un vector de \emph{N} elementos, siendo \emph{N} el tamaño del problema. Realizando pruebas en base a aumentar la tenencia Tabú, hemos obtenido unos resultados en media similares, por tanto aumentar la tenencia Tabú no produce resultados significativos. Sin embargo, el aumento del número de iteraciones incrementa los resultados obtenidos, esto puede deberse al hecho de que el algoritmo dispone de más intentos de mejora desde soluciones creadas por la diversificación, permitiendo encontrar en algunos casos los óptimos globales.
 			
-			\paragraph{}Como se puede observar en los resultados, Búsqueda Tabú mejora en resultados a Búsqueda Local, esto es debido a que tiene capacidad de salir de óptimos locales, sin embargo, el aumento de tiempos es más que notable, obteniendo tiempos mayores para las instancias más pequeñas, que los obtenidos por Búsqueda Local en las instancias más grandes.
+			\paragraph{}Como se puede observar en los resultados, Búsqueda Tabú mejora a Búsqueda Local, esto es debido a que tiene capacidad de salir de óptimos locales, sin embargo, el aumento de tiempos es más que notable, obteniendo tiempos mayores para las instancias más pequeñas, que los obtenidos por Búsqueda Local en las instancias más grandes.
 			
 			\begin{figure}[H]
 				
@@ -860,7 +860,7 @@
 			\end{figure}
 		
 		
-		\paragraph{}Como se puede observar en la gráfica, entre los diferentes algoritmos evaluados, el que ofrece mejores resultados respecto a coste es la Búsqueda Tabú, la cual es capaz de obtener los óptimos globales en varias instancias, seguido de la Búsqueda Local. Greedy al tener un comportamiento no estocástico( a excepción del primer elemento generado aleatoriamente), ofrecerá unos resultados constantes.
+		\paragraph{}Como se puede observar en la gráfica, entre los diferentes algoritmos evaluados, el que ofrece \textbf{mejores resultados respecto a coste} es la Búsqueda Tabú, la cual es capaz de obtener los óptimos globales en varias instancias gracias a la capacidad de reiniciar la búsqueda cuando esta se estanca, seguido de la Búsqueda Local. Greedy al tener un comportamiento no estocástico( a excepción del primer elemento generado aleatoriamente), ofrecerá unos resultados constantes.
 			
 			\begin{figure}[H]
 				
@@ -869,7 +869,7 @@
 				
 			\end{figure}
 			
-		\paragraph{}Si evaluamos los tiempos, el claro vencedor es el algoritmo Greedy. Es capaz de obtener soluciones razonablemente buenas en tiempos inferiores a los 50 milisegundos en todos los problemas. En el otro extremo, encontramos a la Búsqueda Tabú, la cual debido a su condición de parada basada en iteraciones, genera unos tiempos máximos para las instancias más grandes de 89000 milisegundos, a pesar de que puede encontrar el resultado final en las primeras iteraciones. Búsqueda Local estaría situada junto al algoritmo Greedy, siendo sus máximos inferiores a los 1000 milisegundos.
+		\paragraph{}Si evaluamos los \textbf{tiempos}, el claro vencedor es el algoritmo Greedy. Es capaz de obtener soluciones razonablemente buenas en tiempos inferiores a los 50 milisegundos en todos los problemas. En el otro extremo, encontramos a la Búsqueda Tabú, la cual debido a su condición de parada basada en iteraciones, genera unos tiempos máximos para las instancias más grandes de 89000 milisegundos, a pesar de que puede encontrar un óptimo en las primeras iteraciones. Búsqueda Local estaría situada junto al algoritmo Greedy, siendo sus máximos inferiores a los 1000 milisegundos.
 			
 			\begin{figure}[H]
 				
@@ -879,10 +879,9 @@
 				
 			\end{figure}
 			
-		\paragraph{}Si analizamos la relación coste-tiempo, la heurística que presenta un mejor comportamiento es la Búsqueda Local, seguida de Greedy, y por ultimo la Búsqueda Tabú.
+		\paragraph{}Si analizamos la \textbf{relación coste-tiempo}, la heurística que presenta un mejor comportamiento es la Búsqueda Local, seguida de Greedy, y por ultimo la Búsqueda Tabú.
 		
-		\paragraph{}Si se busca obtener los mejores resultados independiente del tiempo empleado, la mejor opción sería la Búsqueda Tabú.
-		
+		\paragraph{}Si prestamos atención a la \textbf{robustez de los resultados obtenidos}, podemos observar que el que proporciona mejores resultado en este caso es la Búsqueda Tabú, como se puede observar en la gráfica camparativa de las desviaciones típicas.
 
 	\begin{thebibliography}{0}
 		
