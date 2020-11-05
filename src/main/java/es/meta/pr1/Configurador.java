@@ -28,8 +28,9 @@ public class Configurador {
     Integer iteraciones;///<Número de iteraciones
     Integer intentosTabu;///<Número de intentos en la búsqueda tabú
     Integer iteracionesTabu;///<Número de iteraciones en la búsqueda tabú
-    Long recuperarSemilla;///<Alamcena el valor inicial de la semilla
-    Integer teneciaTabu;
+    Long recuperarSemilla;///<Almacena el valor inicial de la semilla
+    Integer teneciaTabu;///<Número de iteraciones que un elemento pertenece a la
+    ///lista tabu
 
     /**
      * @brief Constructor parametrizado de la clase Configurador
@@ -145,8 +146,15 @@ public class Configurador {
     public Integer getIteracionesTabu() {
         return iteracionesTabu;
     }
-    
-    public Integer getTenenciaTabu() {
+
+    /**
+     * @brief Funcion getter del atributo teneciaTabu
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 02/11/2020
+     * @return teneciaTabu Integer
+     */
+    public Integer getTeneciaTabu() {
         return teneciaTabu;
     }
 
@@ -157,17 +165,20 @@ public class Configurador {
      * @date 06/10/2020
      */
     void rotarSemilla() {
-        //-------------------------------------------------
-        long semillaAntigua = semilla;
-        //-------------------------------------------------
 
         char[] cadenaSemilla = semilla.toString().toCharArray();
-        char[] cadenaRotada = new char[8];
+        char[] cadenaRotada = new char[cadenaSemilla.length];
 
-        cadenaRotada[7] = cadenaSemilla[0];
+        cadenaRotada[cadenaSemilla.length - 1] = cadenaSemilla[0];
 
-        for (int i = 0; i < 7; i++) {
-            cadenaRotada[i] = cadenaSemilla[i + 1];
+        while (cadenaRotada[0] == '0') {
+            char[] cadenaAux = cadenaRotada;
+
+            cadenaRotada[cadenaSemilla.length - 1] = cadenaAux[0];
+
+            for (int i = 0; i < cadenaAux.length - 1; i++) {
+                cadenaRotada[i] = cadenaAux[i + 1];
+            }
         }
 
         semilla = Long.parseLong(String.valueOf(cadenaRotada));

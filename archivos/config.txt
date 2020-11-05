@@ -1,6 +1,10 @@
-Datos=archivos/Datos/SOM archivos/Datos/GKD archivos/Datos/MDG
+Datos=archivos/Datos
 Semilla=77356084
 Iteraciones=50000
 Intentos tabu=300
 Iteraciones tabu=50000
 Tenencia tabu=5
+
+
+//Notas:
+//La semilla no debe contener un 0

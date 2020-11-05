@@ -29,8 +29,8 @@ public class BusquedaLocal {
     Set<Integer> _integrantesNoMejoran;///<Elementos de la solución que no mejoran al intercambiarlos por sus vecinos
     Integer _evaluciones;///<Número de evaluaciones máximas
     long _numEvaluciones;///<Número de evaluaciones actuales
-    private GestorLog gestor;
-    String linea = "";
+    private GestorLog gestor;///<Gestor encargado de la creación del Log
+    String linea = "";///<Almacena la información que se escribe en el Log.
 
     /**
      * @brief Constructor parametrizado de la clase BusquedaLocal
@@ -39,6 +39,7 @@ public class BusquedaLocal {
      * @date 03/10/2020
      * @param archivoDatos Archivo
      * @param evaluaciones Integer
+     * @param g GestorLog
      */
     public BusquedaLocal(Archivo archivoDatos, Integer evaluaciones, GestorLog g) {
         _archivoDatos = archivoDatos;
@@ -48,9 +49,7 @@ public class BusquedaLocal {
         _numEvaluciones = 0;
         _costeActual = 0.0f;
         _listaAportes = new ArrayList<>();
-
         _integrantesNoMejoran = new HashSet<>();
-
         gestor = g;
     }
 
@@ -107,8 +106,6 @@ public class BusquedaLocal {
         _listaAportes = null;
         _integrantesNoMejoran.clear();
         _integrantesNoMejoran = null;
-
-        // System.out.println("COSTE: " + _costeActual);
     }
 
     /**
@@ -259,7 +256,7 @@ public class BusquedaLocal {
      * @param i int Elemento candidato.
      * @param costeSolucion float Coste de la solucion candidata
      * @param eleMenor int Elemento de la solucion que aporta menos
-     * @return
+     * @return True si hay mejora, false en caso contrario
      */
     boolean EvaluarSolucion(int i, float costeSolucion, int eleMenor) {
         boolean mejora = false;
@@ -300,10 +297,8 @@ public class BusquedaLocal {
      * @date 03/10/2020
      */
     void PresentarResultados() {
-        System.out.println("Vector Solución");
-        System.out.println(_solucion);
         _suma_Resultado = calcularCoste();
-        System.out.println("Coste de la solución: " + _suma_Resultado);
+        Main.console.presentarSalida("Coste de la solución: " + _suma_Resultado +"\n");
 
         gestor.escribirArchivo("");
         gestor.escribirArchivo("Vector Solución: " + _solucion);

@@ -24,7 +24,7 @@ public class Greedy {
     Archivo _archivoDatos;///<Contiene los datos sobre los que operar.
     Set<Integer> _solucionB;
     Float _suma_Resultado;///<Almacena la suma del valor heurístico.
-    GestorLog gestor;
+    GestorLog gestor;///<Gestor encargado de la creación del Log
 
     /**
      * @brief Constructor parametrizado de la clase Greedy
@@ -32,6 +32,7 @@ public class Greedy {
      * @author David Díaz Jiménez
      * @date 27/09/2020
      * @param archivoDatos Archivo Contiene los datos sobre los que operar
+     * @param g GestorLog Encargado de guardar los datos Log
      */
     public Greedy(Archivo archivoDatos, GestorLog g) {
         _archivoDatos = archivoDatos;
@@ -56,19 +57,26 @@ public class Greedy {
         ArrayList<Pair> candidatos = GenCandidatos();
 
         Pair candidato;
+        
+        int ite = 1;
 
         while (!FuncionSolucion()) {
 
+            gestor.escribirArchivo("----- Iteración nº "+ ite +" -----");
             candidato = FuncionSeleccion(candidatos, ultimo);
 
             if (FuncionFactible(candidato.getCandidato())) {
                 _solucionB.add(candidato.getCandidato());
                 _suma_Resultado = candidato.getCoste();
+                gestor.escribirArchivo(candidato.getCandidato() + " añadido a la solución");
+                gestor.escribirArchivo("Coste que aporta a la solución: " + _suma_Resultado);
+                gestor.escribirArchivo("");
                 ultimo = candidato.getCandidato();
             }
 
             candidatos.remove(candidato);
 
+            ite++;
         }
     }
 
@@ -172,15 +180,12 @@ public class Greedy {
      * @date 27/09/2020
      */
     void PresentarResultados() {
-        System.out.println("Vector Solución");
-        System.out.println(_solucionB);
         _suma_Resultado = calculoValorSolucion();
-        System.out.println("Coste de la solución: " + _suma_Resultado);
-        
+        Main.console.presentarSalida("Coste de la solución: " + _suma_Resultado +"\n");
+                
         gestor.escribirArchivo("");
         gestor.escribirArchivo("Vector Solución: " + _solucionB);
         gestor.escribirArchivo("Coste de la solución: " + _suma_Resultado);
-        
         
         _solucionB = null;
         _archivoDatos.setMatriz(null);

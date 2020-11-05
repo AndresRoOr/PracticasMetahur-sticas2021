@@ -56,7 +56,6 @@ public class Metaheuristicas {
     void lector_Archivos() throws FileNotFoundException, IOException {
         final File carpeta = new File(_ruta_Carpeta_Archivos);
         for (final File fichero_Entrada : carpeta.listFiles()) {
-            System.out.println(fichero_Entrada.getName());
             Archivo ar = new Archivo(fichero_Entrada.getName(),
                     _ruta_Carpeta_Archivos + "/"
                     + fichero_Entrada.getName());
@@ -87,8 +86,12 @@ public class Metaheuristicas {
         
         GestorLog gestor = new GestorLog("");
         
+        int aumento = (1000/Main.narchivos);
+        
         for (Archivo ar : _archivos) {
 
+            Main.console.setValue(aumento/2);
+            
             Timer t = new Timer();
             Greedy g = new Greedy(ar,gestor);
 
@@ -101,12 +104,14 @@ public class Metaheuristicas {
             g.greedy(sem);
             double tiempo = t.stopTimer();
             
-            System.out.println("Datos de la solución al problema: " + ar._nombre);
-            System.out.println("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
-
+            Main.console.presentarSalida("Datos de la solución al problema: " + ar._nombre);
+            Main.console.presentarSalida("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
+            
             g.PresentarResultados();
             
             gestor.cerrarArchivo();
+            
+            Main.console.setValue(aumento/2);
         }
     }
 
@@ -121,6 +126,8 @@ public class Metaheuristicas {
 
         GestorLog gestor = new GestorLog("");
         
+        int aumento = (1000/(Main.narchivos*5));
+        
         for (Archivo ar : _archivos) {
 
             int ite = 1;
@@ -128,9 +135,10 @@ public class Metaheuristicas {
 
             while (ite <= 5) {
                 
+                Main.console.setValue(aumento/2);
+                
                 gestor.cambiarNombre("blocal/Log_Sem_"+_config.getSemilla()+"_"+ar.getNombre());
                 gestor.abrirArchivo();
-                
                 
                 Timer t = new Timer();
                 BusquedaLocal b = new BusquedaLocal(ar, _config.getIteraciones(),gestor);
@@ -142,9 +150,9 @@ public class Metaheuristicas {
                 b.busquedaLocal(sem);
                 double tiempo = t.stopTimer();
 
-                System.out.println("Datos de la solución al problema: " + ar._nombre +" con la semilla: "+_config.getSemilla());
-                System.out.println("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
-
+                Main.console.presentarSalida("Datos de la solución al problema: " + ar._nombre+" con la semilla: "+_config.getSemilla());
+                Main.console.presentarSalida("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
+                
                 b.PresentarResultados();
 
                 ite++;
@@ -152,18 +160,25 @@ public class Metaheuristicas {
                 _config.rotarSemilla();
                 
                 gestor.cerrarArchivo();
-
+                
+                Main.console.setValue(aumento/2);
             }
-
             _config.RecuperarSemilla();
         }
-
     }
     
     
+    /**
+     * @brief Calcula la solución para todos los archivos utilizando el
+     * algoritmo de busqueda tabú y muestra el resultado por pantalla
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 02/11/2020
+     */
      void busquedaTabu() {
          
        GestorLog gestor = new GestorLog("");
+       int aumento = (1000/(Main.narchivos*5));
 
         for (Archivo ar : _archivos) {
 
@@ -171,12 +186,14 @@ public class Metaheuristicas {
 
             while (ite <= 5) {
                 
+                Main.console.setValue(aumento/2);
+                
                 gestor.cambiarNombre("btabu/Log_Sem_"+_config.getSemilla()+"_"+ar.getNombre());
                 gestor.abrirArchivo();
                 
                 Timer t = new Timer();
                 BusquedaTabu b = new BusquedaTabu(ar, _config.getIteracionesTabu(),
-                        _config.getIntentosTabu(),_config.getTenenciaTabu(),gestor);
+                        _config.getIntentosTabu(),_config.getTeneciaTabu(),gestor);
 
                 t.startTimer();
 
@@ -184,11 +201,10 @@ public class Metaheuristicas {
                 sem.Set_random(_config.getSemilla());
                 b.busquedaTabu(sem);
                 double tiempo = t.stopTimer();
-                
-
-                System.out.println("Datos de la solución al problema: " + ar._nombre +", con la semilla: " +_config.getSemilla());
-                System.out.println("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
-
+                      
+                Main.console.presentarSalida("Datos de la solución al problema: " + ar._nombre+" con la semilla: "+_config.getSemilla());
+                Main.console.presentarSalida("Tiempo de ejecución del algoritmo: " + tiempo + " milisegundos");
+                    
                 b.PresentarResultados();
 
                 ite++;
@@ -196,11 +212,10 @@ public class Metaheuristicas {
                 _config.rotarSemilla();
 
                 gestor.cerrarArchivo();
+                
+                Main.console.setValue(aumento/2);  
             }
-
             _config.RecuperarSemilla();
         }
-
     }
-
 }

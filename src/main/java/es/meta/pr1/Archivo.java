@@ -62,17 +62,11 @@ public class Archivo {
                         _tama_Matriz = Integer.parseInt(linea[0]);
                         _tama_Solucion = Integer.parseInt(linea[1]);
                         _matriz = new float[_tama_Matriz][_tama_Matriz];
-
-                        System.out.println("Tamanio de Matriz " + _tama_Matriz);
-                        System.out.println("Tamanio de la Solucion "
-                                + linea[1]);
                     } else {
-
                         Integer i = (Integer.parseInt(linea[0]));
                         Integer j = (Integer.parseInt(linea[1]));
                         _matriz[i][j] = (Float.parseFloat(linea[2]));
                         _matriz[j][i] = (Float.parseFloat(linea[2]));
-
                     }
                     num_linea++;
                 }
