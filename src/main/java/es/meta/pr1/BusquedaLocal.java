@@ -29,8 +29,8 @@ public class BusquedaLocal {
     Set<Integer> _integrantesNoMejoran;///<Elementos de la solución que no mejoran al intercambiarlos por sus vecinos
     Integer _evaluciones;///<Número de evaluaciones máximas
     long _numEvaluciones;///<Número de evaluaciones actuales
-    private GestorLog gestor;
-    String linea = "";
+    private GestorLog gestor;///<Gestor encargado de la creación del Log
+    String linea = "";///<Almacena la información que se escribe en el Log.
 
     /**
      * @brief Constructor parametrizado de la clase BusquedaLocal
@@ -49,9 +49,7 @@ public class BusquedaLocal {
         _numEvaluciones = 0;
         _costeActual = 0.0f;
         _listaAportes = new ArrayList<>();
-
         _integrantesNoMejoran = new HashSet<>();
-
         gestor = g;
     }
 
