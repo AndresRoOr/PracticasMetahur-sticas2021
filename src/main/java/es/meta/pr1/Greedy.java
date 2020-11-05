@@ -24,7 +24,7 @@ public class Greedy {
     Archivo _archivoDatos;///<Contiene los datos sobre los que operar.
     Set<Integer> _solucionB;
     Float _suma_Resultado;///<Almacena la suma del valor heurístico.
-    GestorLog gestor;
+    GestorLog gestor;///<Gestor encargado de la creación del Log
 
     /**
      * @brief Constructor parametrizado de la clase Greedy
