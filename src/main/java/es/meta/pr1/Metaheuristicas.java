@@ -168,6 +168,13 @@ public class Metaheuristicas {
     }
     
     
+    /**
+     * @brief Calcula la solución para todos los archivos utilizando el
+     * algoritmo de busqueda tabú y muestra el resultado por pantalla
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 02/11/2020
+     */
      void busquedaTabu() {
          
        GestorLog gestor = new GestorLog("");
