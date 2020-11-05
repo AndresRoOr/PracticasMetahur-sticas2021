@@ -298,7 +298,7 @@ public class BusquedaLocal {
      */
     void PresentarResultados() {
         _suma_Resultado = calcularCoste();
-        Main.console.presentarSalida("Coste de la solución: " + _suma_Resultado +"\n");
+        Main.console.presentarSalida("Coste de la solución: " + _suma_Resultado + "\n");
 
         gestor.escribirArchivo("");
         gestor.escribirArchivo("Vector Solución: " + _solucion);

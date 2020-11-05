@@ -15,23 +15,22 @@ public class Timer {
 
     private long _inicio;
     private long _fin;
-    
+
     public Timer() {
-        
-        this._fin =0;
-        this._inicio = 0;      
+
+        this._fin = 0;
+        this._inicio = 0;
     }
-    
-    void startTimer(){
+
+    void startTimer() {
         this._inicio = System.currentTimeMillis();
     }
-    
-    double stopTimer(){
+
+    double stopTimer() {
         this._fin = System.currentTimeMillis();
         double tiempo = (double) ((_fin - _inicio));
-        
+
         return tiempo;
     }
-    
-    
+
 }

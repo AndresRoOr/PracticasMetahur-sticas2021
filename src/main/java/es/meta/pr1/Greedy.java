@@ -57,12 +57,12 @@ public class Greedy {
         ArrayList<Pair> candidatos = GenCandidatos();
 
         Pair candidato;
-        
+
         int ite = 1;
 
         while (!FuncionSolucion()) {
 
-            gestor.escribirArchivo("----- Iteración nº "+ ite +" -----");
+            gestor.escribirArchivo("----- Iteración nº " + ite + " -----");
             candidato = FuncionSeleccion(candidatos, ultimo);
 
             if (FuncionFactible(candidato.getCandidato())) {
@@ -167,7 +167,7 @@ public class Greedy {
     Integer GenSolucionIni(Random_p aleatorioSemilla) {
         _solucionB.clear();
         Integer sol_Inicial
-                = aleatorioSemilla.Randint(0,_archivoDatos.getTama_Matriz());
+                = aleatorioSemilla.Randint(0, _archivoDatos.getTama_Matriz());
         _solucionB.add(sol_Inicial);
 
         return sol_Inicial;
@@ -181,12 +181,12 @@ public class Greedy {
      */
     void PresentarResultados() {
         _suma_Resultado = calculoValorSolucion();
-        Main.console.presentarSalida("Coste de la solución: " + _suma_Resultado +"\n");
-                
+        Main.console.presentarSalida("Coste de la solución: " + _suma_Resultado + "\n");
+
         gestor.escribirArchivo("");
         gestor.escribirArchivo("Vector Solución: " + _solucionB);
         gestor.escribirArchivo("Coste de la solución: " + _suma_Resultado);
-        
+
         _solucionB = null;
         _archivoDatos.setMatriz(null);
 
@@ -203,7 +203,7 @@ public class Greedy {
      */
     Float calculoValorSolucion() {
 
-         float coste = 0.0f;
+        float coste = 0.0f;
         Object[] sol = _solucionB.toArray();
 
         for (int i = 0; i < sol.length - 1; i++) {

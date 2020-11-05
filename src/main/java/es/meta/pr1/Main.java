@@ -15,7 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
 
-
 /**
  * @brief Clase Main del programa
  * @class Main
@@ -33,20 +32,19 @@ public class Main {
      * @param args
      * @throws IOException
      */
-    
     public static Consola console = new Consola();
-    public  static int narchivos;
-    
+    public static int narchivos;
+
     public static void main(String[] args) throws IOException {
-        
+
         try {
-            UIManager.setLookAndFeel( new FlatLightLaf() );
-        } catch( Exception ex ) {
-            System.err.println( "Failed to initialize LaF" );
+            UIManager.setLookAndFeel(new FlatLightLaf());
+        } catch (Exception ex) {
+            System.err.println("Failed to initialize LaF");
         }
-        
+
         Configurador config = new Configurador("./config.txt");
-        
+
         ArrayList<File> directorios = new ArrayList<>();
         directorios.add(new File("./archivos"));
         directorios.add(new File("./archivos/Datos"));
@@ -54,47 +52,46 @@ public class Main {
         directorios.add(new File("./archivos/Log/btabu"));
         directorios.add(new File("./archivos/Log/blocal"));
         directorios.add(new File("./archivos/Log/greedy"));
-        
+
         directorios.stream().filter(directorio -> (!directorio.exists())).forEachOrdered((File directorio) -> {
             if (directorio.mkdirs()) {
             }
         });
-        
-        for(String direc : config.getDirectoriosDatos()){
+
+        for (String direc : config.getDirectoriosDatos()) {
             File directory = new File(direc);
-            int fileCount=directory.list().length;
-            narchivos+=fileCount;
+            int fileCount = directory.list().length;
+            narchivos += fileCount;
         }
-        
+
         console.presentarSalida("");
 
-        while(console.getEleccion()!=4){
-                
-            while(console.getEleccion() == 0){
+        while (console.getEleccion() != 4) {
+
+            while (console.getEleccion() == 0) {
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            if(console.getEleccion() == 4){
+            if (console.getEleccion() == 4) {
                 System.exit(0);
             }
-            
+
             for (int i = 0; i < config.getDirectoriosDatos().size(); i++) {
                 Metaheuristicas M1 = new Metaheuristicas(config.getDirectoriosDatos().get(i),
                         config.getDirectoriosDatos().get(i), config);
                 M1.lector_Archivos();
 
-
-                switch(console.getEleccion()){
+                switch (console.getEleccion()) {
 
                     case 1:
 
                         M1.greedy();
                         break;
 
-                    case 2:  
+                    case 2:
                         M1.busquedaLocal();
                         break;
 
@@ -104,11 +101,10 @@ public class Main {
                     case 4:
                         System.exit(0);
 
-
                 }
 
-            } 
-            
+            }
+
             console.restaurarEleccion();
         }
     }
