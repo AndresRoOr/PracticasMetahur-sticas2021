@@ -1,105 +1,106 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @file    Main.java
+ * @author Andrés Rojas Ortega
+ * @author David Díaz Jiménez
+ * @version 1.0
+ * @date 27/09/2020
  */
 package es.meta.pr1;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UIManager;
 
 /**
- *
- * @author David
+ * @brief Clase Main del programa
+ * @class Main
+ * @author Andrés Rojas Ortega
+ * @author David Díaz Jiménez
+ * @date 27/09/2020
  */
 public class Main {
 
-    /*static ArrayList<String> listalineas = new ArrayList<>();
-    static ArrayList<String> archivos = new ArrayList<>();
+    /**
+     * @brief Función principal del programa
+     * @author Andrés Rojas Ortega
+     * @author David Díaz Jiménez
+     * @date 27/09/2020
+     * @param args
+     * @throws IOException
+     */
+    public static Consola console = new Consola();
+    public static int narchivos;
 
-    static int seedblocal;
-    static int intentosblocal;
-    static int iteracionesblocal;
-    static int seedtabu;
-    static int intentostabu;
-    static int iteracionestabu;
-
-    static void leeFichero(String ruta) {
-
-        listalineas.clear();
-        archivos.clear();
-
-        File file = new File(ruta);
-
-        try {
-            Scanner sc = new Scanner(file);
-            while (sc.hasNextLine()) {
-                listalineas.add(sc.nextLine());
-            }
-        } catch (Exception e) {
-            System.out.println(e.getClass());
-        }
-
-        for (int i = 0; i <= listalineas.size() - 1; i++) {
-            if (listalineas.get(i).equals("Datos")) {
-                while (!listalineas.get(i + 1).equals("Parametros")) {
-                    //System.out.print(listalineas.get(i+1));
-                    archivos.add(listalineas.get(i + 1));
-                    i++;
-                }
-            }
-            if (listalineas.get(i).equals("Parametros")) {
-                i++;
-            }
-            if (listalineas.get(i).equals("seedblocal")) {
-                //System.out.print(listalineas.get(i+1));
-                seedblocal = Integer.parseInt(listalineas.get(i + 1));
-                i++;
-            }
-            if (listalineas.get(i).equals("intentosblocal")) {
-                //System.out.print(listalineas.get(i+1));
-                intentosblocal = Integer.parseInt(listalineas.get(i + 1));
-                i++;
-            }
-            if (listalineas.get(i).equals("iteracionesblocal")) {
-                //System.out.print(listalineas.get(i+1));
-                iteracionesblocal = Integer.parseInt(listalineas.get(i + 1));
-                i++;
-            }
-
-            if (listalineas.get(i).equals("seedtabu")) {
-                //System.out.print(listalineas.get(i+1));
-                seedtabu = Integer.parseInt(listalineas.get(i + 1));
-                i++;
-            }
-            if (listalineas.get(i).equals("intentostabu")) {
-                //System.out.print(listalineas.get(i+1));
-                intentostabu = Integer.parseInt(listalineas.get(i + 1));
-                i++;
-            }
-            if (listalineas.get(i).equals("iteracionestabu")) {
-                //System.out.print(listalineas.get(i+1));
-                iteracionestabu = Integer.parseInt(listalineas.get(i + 1));
-                i++;
-            }
-        }
-    }
-    */
-    
     public static void main(String[] args) throws IOException {
 
-        Configurador config = new Configurador("archivos/config.txt");
-
-        for (int i = 0; i < config.getDirectoriosDatos().size(); i++) {
-            Metaheuristicas M1 = new Metaheuristicas("Ejemplo", config.getDirectoriosDatos().get(i),config);
-            M1.lector_Archivos();
-
-            M1.greedy();
+        try {
+            UIManager.setLookAndFeel(new FlatLightLaf());
+        } catch (Exception ex) {
+            System.err.println("Failed to initialize LaF");
         }
-        //M1.mostrar_Datos();
 
+        Configurador config = new Configurador("./config.txt");
+
+        ArrayList<File> directorios = new ArrayList<>();
+        directorios.add(new File("./archivos"));
+        directorios.add(new File("./archivos/Datos"));
+        directorios.add(new File("./archivos/Log"));
+        directorios.add(new File("./archivos/Log/btabu"));
+        directorios.add(new File("./archivos/Log/blocal"));
+        directorios.add(new File("./archivos/Log/greedy"));
+
+        directorios.stream().filter(directorio -> (!directorio.exists())).forEachOrdered((File directorio) -> {
+            if (directorio.mkdirs()) {
+            }
+        });
+
+        console.presentarSalida("");
+
+        while (console.getEleccion() != 4) {
+
+            while (console.getEleccion() == 0) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (console.getEleccion() == 4) {
+                System.exit(0);
+            }
+
+            for (int i = 0; i < config.getDirectoriosDatos().size(); i++) {
+                Metaheuristicas M1 = new Metaheuristicas(config.getDirectoriosDatos().get(i),
+                        config.getDirectoriosDatos().get(i), config);
+                M1.lector_Archivos();
+
+                switch (console.getEleccion()) {
+
+                    case 1:
+
+                        M1.greedy();
+                        break;
+
+                    case 2:
+                        M1.busquedaLocal();
+                        break;
+
+                    case 3:
+                        M1.busquedaTabu();
+                        break;
+                    case 4:
+                        System.exit(0);
+
+                }
+
+            }
+
+            console.restaurarEleccion();
+        }
+        System.exit(0);
     }
 }
